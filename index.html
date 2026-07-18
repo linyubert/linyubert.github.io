@@ -7,276 +7,316 @@
 <meta name="description" content="Dato｜國小音樂教師、教育遊戲開發者。奧福節奏、直笛教學、課堂互動遊戲。Elementary music teacher & edtech game maker.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Noto+Serif+TC:wght@500;600;700;900&family=DotGothic16&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#e2e5ea;
-  --bg-2:#eaecf0;
-  --ink:#22262d;
-  --ink-2:#5b626d;
-  --orange:#ff5028;
-  --orange-2:#e8441f;
-  --green:#37d67a;
-  --amber:#f5b52e;
-  --screen:#10141a;
-  --screen-line:#1d242e;
-  --screen-txt:#49e087;
-  --hi:rgba(255,255,255,.92);
-  --lo:rgba(158,168,184,.62);
-  --radius:18px;
-  --mono:'IBM Plex Mono',monospace;
-  --sans:'Archivo','Noto Sans TC',sans-serif;
+  --paper:#f3ead7;
+  --paper-2:#faf4e4;
+  --ink:#2b2620;
+  --ink-soft:#5c5344;
+  --red:#c8442e;
+  --red-deep:#a83323;
+  --mustard:#d9a62e;
+  --mustard-soft:#e8c46a;
+  --blue:#274a6d;
+  --blue-deep:#1d3a57;
+  --green:#4a6741;
+  --serif:'Shippori Mincho','Noto Serif TC',serif;
+  --dot:'DotGothic16','Noto Serif TC',monospace;
+  --maru:'Zen Maru Gothic','Noto Serif TC',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  font-family:var(--sans);
-  background:var(--bg);
+  font-family:var(--serif);
+  background:var(--paper);
   color:var(--ink);
-  background-image:radial-gradient(rgba(0,0,0,.045) 1px,transparent 1px);
-  background-size:22px 22px;
-  line-height:1.6;
+  line-height:1.75;
+  background-image:
+    radial-gradient(rgba(43,38,32,.055) 1px,transparent 1.4px),
+    linear-gradient(rgba(217,166,46,.05),rgba(200,68,46,.03));
+  background-size:8px 8px,100% 100%;
+  position:relative;
 }
-::selection{background:var(--orange);color:#fff}
+/* paper noise */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity:.14;mix-blend-mode:multiply;
+}
+::selection{background:var(--red);color:var(--paper)}
 
-/* ---------- shared hardware bits ---------- */
-.raised{
-  background:linear-gradient(145deg,#eceef2,#dde0e6);
-  border-radius:var(--radius);
-  box-shadow:7px 7px 16px var(--lo),-7px -7px 16px var(--hi),inset 0 0 0 1px rgba(255,255,255,.35);
+/* ---------- shared showa bits ---------- */
+.card{
+  background:var(--paper-2);
+  border:2.5px solid var(--ink);
+  border-radius:6px;
+  box-shadow:7px 7px 0 rgba(217,166,46,.85);
+  position:relative;
 }
-.inset{
-  background:linear-gradient(145deg,#d9dce2,#e8eaee);
-  border-radius:12px;
-  box-shadow:inset 4px 4px 9px var(--lo),inset -4px -4px 9px var(--hi);
+.card::before{
+  content:"";position:absolute;inset:5px;border:1px dashed rgba(43,38,32,.35);border-radius:3px;pointer-events:none;
 }
 .label{
-  font-family:var(--mono);
-  font-size:11px;
-  font-weight:600;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--ink-2);
+  font-family:var(--dot);
+  font-size:12.5px;
+  letter-spacing:.28em;
+  color:var(--ink-soft);
 }
-.led{
-  width:9px;height:9px;border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 6px var(--green),0 0 12px rgba(55,214,122,.5),inset 0 -1px 2px rgba(0,0,0,.3);
+.dotmark{
+  width:11px;height:11px;border-radius:50%;
+  background:var(--red);border:1.5px solid var(--ink);
   display:inline-block;
-  animation:blink 2.6s infinite;
 }
-.led.amber{background:var(--amber);box-shadow:0 0 6px var(--amber),inset 0 -1px 2px rgba(0,0,0,.3)}
-.led.red{background:var(--orange);box-shadow:0 0 6px var(--orange),inset 0 -1px 2px rgba(0,0,0,.3)}
-@keyframes blink{0%,92%{opacity:1}96%{opacity:.35}100%{opacity:1}}
-.screw{
-  width:14px;height:14px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#f4f5f7,#c6cbd3 60%,#aab1bc);
-  box-shadow:inset 0 1px 2px rgba(255,255,255,.9),inset 0 -1px 2px rgba(0,0,0,.25),0 1px 2px rgba(0,0,0,.15);
-  position:absolute;
-}
-.screw::after{
-  content:"";position:absolute;left:2px;right:2px;top:50%;height:1.6px;
-  background:rgba(60,66,76,.55);transform:translateY(-50%) rotate(var(--rot,45deg));border-radius:2px;
-}
-.vent{
-  height:26px;border-radius:8px;
-  background:repeating-linear-gradient(90deg,transparent 0 6px,rgba(90,98,110,.28) 6px 9px);
-}
+.dotmark.blue{background:var(--blue)}
+.dotmark.mustard{background:var(--mustard)}
 .chip{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:7px 16px;border-radius:999px;
-  background:linear-gradient(145deg,#eceef2,#dde0e6);
-  box-shadow:4px 4px 9px var(--lo),-4px -4px 9px var(--hi);
-  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 20px;
+  background:var(--paper-2);
+  border:2px solid var(--ink);
+  border-radius:3px;
+  box-shadow:4px 4px 0 rgba(200,68,46,.8);
+  font-family:var(--dot);font-size:12.5px;letter-spacing:.22em;color:var(--ink);
+}
+.awning{
+  height:16px;
+  background:repeating-linear-gradient(45deg,var(--red) 0 18px,var(--paper-2) 18px 36px);
+  border-bottom:2.5px solid var(--ink);
+}
+
+/* misregistration print effect */
+.misreg{
+  text-shadow:2.5px 2px 0 rgba(200,68,46,.55),-2.5px -2px 0 rgba(39,74,109,.45);
 }
 
 /* ---------- header ---------- */
-header{
-  position:sticky;top:0;z-index:50;
-  background:linear-gradient(180deg,rgba(226,229,234,.96),rgba(226,229,234,.88));
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid rgba(160,168,180,.35);
+header{position:sticky;top:0;z-index:50}
+.header-bar{
+  background:var(--paper-2);
+  border-bottom:2.5px solid var(--ink);
+  box-shadow:0 3px 0 rgba(217,166,46,.6);
 }
 .header-in{
-  max-width:1120px;margin:0 auto;padding:14px 24px;
+  max-width:1120px;margin:0 auto;padding:12px 24px;
   display:flex;align-items:center;justify-content:space-between;gap:16px;
 }
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
 .logo-badge{
-  width:42px;height:42px;border-radius:12px;position:relative;
-  background:linear-gradient(145deg,#eceef2,#d8dbe1);
-  box-shadow:5px 5px 10px var(--lo),-5px -5px 10px var(--hi);
+  width:46px;height:46px;border-radius:50%;
+  background:var(--red);
+  border:2.5px solid var(--ink);
   display:grid;place-items:center;
-  font-family:var(--mono);font-weight:600;color:var(--orange);font-size:16px;
+  color:var(--paper-2);
+  font-family:var(--serif);font-weight:800;font-size:22px;
+  box-shadow:inset 0 0 0 2px var(--paper-2), 3px 3px 0 rgba(43,38,32,.25);
+  transform:rotate(-6deg);
 }
-.logo-badge i{position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 4px var(--green)}
-.logo b{font-weight:900;font-size:17px;letter-spacing:.02em}
-.logo small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--ink-2);font-weight:500}
-nav{display:flex;gap:6px}
+.logo b{font-weight:800;font-size:19px;letter-spacing:.06em;display:block;line-height:1.2}
+.logo small{display:block;font-family:var(--dot);font-size:10px;letter-spacing:.3em;color:var(--ink-soft)}
+nav{display:flex;gap:2px}
 nav a{
-  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
-  color:var(--ink-2);text-decoration:none;padding:9px 14px;border-radius:10px;
-  transition:.18s;
-}
-nav a:hover{color:var(--orange);background:rgba(255,255,255,.5)}
-.btn{
-  display:inline-flex;align-items:center;gap:9px;
-  font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
-  color:#fff;text-decoration:none;
-  background:linear-gradient(145deg,#ff6a42,var(--orange-2));
-  padding:13px 24px;border-radius:14px;
-  box-shadow:5px 5px 12px var(--lo),-4px -4px 10px var(--hi),inset 0 1px 0 rgba(255,255,255,.4),inset 0 -2px 3px rgba(0,0,0,.2);
+  font-family:var(--dot);font-size:12.5px;letter-spacing:.16em;
+  color:var(--ink);text-decoration:none;padding:10px 13px;
+  border-bottom:2.5px solid transparent;
   transition:.15s;
 }
-.btn:active{transform:translateY(2px);box-shadow:2px 2px 6px var(--lo),inset 0 1px 3px rgba(0,0,0,.25)}
-.btn.ghost{
-  color:var(--ink);
-  background:linear-gradient(145deg,#eceef2,#dde0e6);
-  box-shadow:5px 5px 12px var(--lo),-5px -5px 12px var(--hi),inset 0 1px 0 rgba(255,255,255,.6);
+nav a:hover{color:var(--red);border-bottom-color:var(--red)}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--serif);font-weight:700;font-size:15px;letter-spacing:.14em;
+  color:var(--paper-2);text-decoration:none;
+  background:var(--red);
+  padding:12px 26px;
+  border:2.5px solid var(--ink);
+  border-radius:4px;
+  box-shadow:5px 5px 0 var(--ink);
+  transition:.12s;
 }
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--ink)}
+.btn.ghost{background:var(--paper-2);color:var(--ink);box-shadow:5px 5px 0 rgba(39,74,109,.75)}
+.btn.ghost:hover{box-shadow:3px 3px 0 rgba(39,74,109,.75)}
 
 /* ---------- hero ---------- */
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:48px;align-items:center;padding:72px 0 64px}
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:52px;align-items:center;padding:72px 0 60px}
 .hero h1{
-  font-size:clamp(38px,5.2vw,62px);font-weight:900;line-height:1.08;
-  letter-spacing:-.02em;margin:22px 0 10px;
-  text-shadow:1px 1px 0 rgba(255,255,255,.8);
+  font-size:clamp(38px,5vw,60px);font-weight:800;line-height:1.22;
+  letter-spacing:.04em;margin:26px 0 8px;
 }
-.hero h1 .en{display:block;font-size:.42em;font-weight:700;color:var(--ink-2);letter-spacing:.06em;margin-top:10px}
-.hero p.sub{color:var(--ink-2);font-size:16px;max-width:46ch;margin:14px 0 30px}
-.hero p.sub b{color:var(--ink)}
-.cta-row{display:flex;gap:16px;flex-wrap:wrap}
+.hero h1 .en{display:block;font-size:.4em;font-weight:600;color:var(--blue);letter-spacing:.12em;margin-top:14px;font-family:var(--dot)}
+.hero p.sub{color:var(--ink-soft);font-size:16px;max-width:46ch;margin:16px 0 34px}
+.hero p.sub b{color:var(--red);font-weight:700}
+.cta-row{display:flex;gap:18px;flex-wrap:wrap}
 
-/* device panel */
-.device{
-  position:relative;border-radius:26px;padding:18px;
-  background:linear-gradient(145deg,#3a4450,#232a33);
-  box-shadow:12px 12px 28px var(--lo),-8px -8px 20px var(--hi),inset 0 1px 0 rgba(255,255,255,.15);
+/* retro TV */
+.tv{
+  position:relative;border-radius:18px;padding:22px 22px 16px;
+  background:linear-gradient(160deg,#8a5a33,#6b421f 55%,#59361a);
+  border:3px solid var(--ink);
+  box-shadow:8px 8px 0 rgba(43,38,32,.8);
 }
-.device .screw{--rot:30deg}
-.device .s1{top:10px;left:10px}.device .s2{top:10px;right:10px;--rot:80deg}
-.device .s3{bottom:10px;left:10px;--rot:60deg}.device .s4{bottom:10px;right:10px;--rot:15deg}
+.tv::before{
+  content:"";position:absolute;inset:6px;border:1.5px solid rgba(243,234,215,.35);border-radius:12px;pointer-events:none;
+}
 .screen{
-  background:var(--screen);border-radius:14px;padding:20px 22px;
-  font-family:var(--mono);font-size:12.5px;color:var(--screen-txt);
-  box-shadow:inset 0 2px 10px rgba(0,0,0,.7);
-  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px);
+  background:#191713;border-radius:18px/26px;padding:22px 24px;
+  font-family:var(--dot);font-size:13.5px;color:#ffb64d;
+  border:2.5px solid #0d0c0a;
+  box-shadow:inset 0 0 32px rgba(0,0,0,.85);
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px);
   background-size:100% 3px;
+  position:relative;z-index:1;
 }
-.screen .bar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--screen-line);padding-bottom:10px;margin-bottom:14px}
-.dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px}
-.screen .ln{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--screen-line)}
-.screen .ln em{font-style:normal;color:#8b97a8}
-.eq{display:flex;align-items:flex-end;gap:5px;height:46px;margin-top:16px}
-.eq i{flex:1;background:linear-gradient(180deg,#49e087,#1d7a48);border-radius:2px;animation:eq 1.1s ease-in-out infinite}
+.screen .bar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #3a3227;padding-bottom:10px;margin-bottom:14px;letter-spacing:.1em}
+.screen .ln{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #3a3227;letter-spacing:.06em}
+.screen .ln em{font-style:normal;color:#8f7f63}
+.eq{display:flex;align-items:flex-end;gap:5px;height:44px;margin-top:16px}
+.eq i{flex:1;background:linear-gradient(180deg,#ffb64d,#b36e14);border-radius:1px;animation:eq 1.1s ease-in-out infinite}
 .eq i:nth-child(2n){animation-delay:.15s}.eq i:nth-child(3n){animation-delay:.32s}
 .eq i:nth-child(4n){animation-delay:.5s}.eq i:nth-child(5n){animation-delay:.72s}
 @keyframes eq{0%,100%{height:18%}50%{height:96%}}
-.device-foot{display:flex;justify-content:space-between;align-items:center;padding:14px 6px 2px}
+.tv-foot{display:flex;justify-content:space-between;align-items:center;padding:14px 8px 2px;position:relative;z-index:1}
+.tv-foot .label{color:#e8d9b8;font-size:11px}
 .knob{
-  width:34px;height:34px;border-radius:50%;
-  background:conic-gradient(from 210deg,#4d5866,#2b323c 60%,#4d5866);
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.25),0 2px 5px rgba(0,0,0,.4);
+  width:30px;height:30px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#e8d9b8,#a8946a 70%,#83704b);
+  border:2px solid var(--ink);
   position:relative;
 }
-.knob::after{content:"";position:absolute;top:4px;left:50%;width:2.5px;height:9px;background:var(--orange);border-radius:2px;transform:translateX(-50%)}
+.knob::after{content:"";position:absolute;top:3px;left:50%;width:3px;height:9px;background:var(--ink);border-radius:2px;transform:translateX(-50%)}
+.tv-badge{
+  position:absolute;top:-14px;right:22px;
+  background:var(--mustard);border:2.5px solid var(--ink);border-radius:3px;
+  font-family:var(--dot);font-size:11px;letter-spacing:.2em;padding:3px 12px;color:var(--ink);
+  box-shadow:3px 3px 0 rgba(43,38,32,.5);
+  transform:rotate(2deg);
+  z-index:2;
+}
 
 /* ---------- stats ---------- */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:8px 0 72px}
-.stat{padding:22px 20px;text-align:center;position:relative}
-.stat .screw{top:8px;right:8px;width:10px;height:10px}
-.stat b{font-size:30px;font-weight:900;display:block;letter-spacing:-.02em}
-.stat b i{font-style:normal;color:var(--orange)}
-.stat span{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.18em;color:var(--ink-2);text-transform:uppercase}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding:8px 0 72px}
+.stat{padding:24px 18px 20px;text-align:center}
+.stat b{font-size:34px;font-weight:800;display:block;letter-spacing:.02em;line-height:1.25;color:var(--blue)}
+.stat b i{font-style:normal;color:var(--red)}
+.stat span{font-family:var(--dot);font-size:11px;letter-spacing:.2em;color:var(--ink-soft);display:block;margin-top:4px}
 
 /* ---------- sections ---------- */
 section{padding:56px 0}
-.sec-head{display:flex;align-items:center;gap:16px;margin-bottom:8px}
-.sec-head .rule{flex:1;height:1px;background:repeating-linear-gradient(90deg,rgba(90,98,110,.4) 0 6px,transparent 6px 12px)}
-h2{font-size:clamp(26px,3.4vw,38px);font-weight:900;letter-spacing:-.01em;margin:10px 0 6px;text-shadow:1px 1px 0 rgba(255,255,255,.8)}
-.sec-sub{color:var(--ink-2);max-width:60ch;margin-bottom:36px}
+.sec-head{display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.sec-head .rule{flex:1;height:4px;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+h2{
+  font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:.06em;margin:10px 0 6px;
+}
+.sec-sub{color:var(--ink-soft);max-width:62ch;margin-bottom:38px;font-size:15px}
 
 /* about */
-.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
-.about-card{padding:30px;position:relative}
-.about-card .screw{top:10px;left:10px}
-.about-card .screw+.screw{left:auto;right:10px;--rot:75deg}
-.about-card p{margin-bottom:14px;color:#3a404a}
+.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:26px}
+.about-card{padding:34px 32px}
+.about-card p{margin-bottom:16px;color:#463e32;font-size:15px}
 .about-card p:last-child{margin-bottom:0}
-.spec{padding:26px;position:relative}
-.spec h3{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--ink-2);margin-bottom:16px;text-transform:uppercase}
-.spec .row{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;border-bottom:1px dashed rgba(90,98,110,.3);font-size:14px}
+.about-card p b{color:var(--red)}
+.spec{padding:28px 26px}
+.spec h3{font-family:var(--dot);font-size:13px;letter-spacing:.26em;color:var(--red);margin-bottom:16px;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.spec .row{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;border-bottom:1px dotted rgba(43,38,32,.4);font-size:14px}
 .spec .row:last-of-type{border-bottom:none}
-.spec .row b{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--orange)}
-.spec .vent{margin-top:18px}
+.spec .row b{font-family:var(--dot);font-size:12px;color:var(--blue);letter-spacing:.06em}
+.spec .stamp{
+  margin-top:18px;margin-left:auto;
+  width:64px;height:64px;border-radius:50%;
+  border:3px double var(--red);
+  color:var(--red);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-weight:800;font-size:20px;letter-spacing:0;
+  transform:rotate(-8deg);
+  opacity:.85;
+}
 
 /* projects */
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.proj{padding:14px 24px 26px;position:relative;display:flex;flex-direction:column;transition:.2s;text-decoration:none;color:var(--ink);overflow:hidden}
-.proj:hover{transform:translateY(-4px);box-shadow:10px 10px 22px var(--lo),-8px -8px 18px var(--hi),inset 0 0 0 1px rgba(255,255,255,.35)}
-.proj:hover .thumb img{transform:scale(1.06)}
-.proj:hover .thumb .play{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.thumb{
-  position:relative;margin:-14px -24px 16px;height:150px;overflow:hidden;
-  border-radius:0;box-shadow:inset 0 -14px 18px -14px rgba(0,0,0,.35);
-  background:#10141a;
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.proj{
+  padding:0 22px 24px;display:flex;flex-direction:column;
+  text-decoration:none;color:var(--ink);
+  transition:.15s;
+  overflow:hidden;
 }
-.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;filter:saturate(1.05)}
+.proj:hover{transform:translate(2px,2px);box-shadow:5px 5px 0 rgba(200,68,46,.85)}
+.proj:hover .thumb img{transform:scale(1.05)}
+.proj:hover .thumb .play{opacity:1;transform:translate(-50%,-50%) rotate(-4deg) scale(1)}
+.thumb{
+  position:relative;margin:0 -22px 18px;height:150px;overflow:hidden;
+  border-bottom:2.5px solid var(--ink);
+  background:#191713;
+}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;filter:sepia(.14) saturate(1.05) contrast(1.02)}
 .thumb::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(0deg,rgba(16,20,26,.55),transparent 55%);
-  pointer-events:none;
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(0deg,rgba(43,38,32,.34),transparent 45%);
 }
 .thumb .play{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.85);
-  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;color:#fff;
-  background:rgba(255,80,40,.92);padding:9px 18px;border-radius:999px;
-  opacity:0;transition:.2s;box-shadow:0 4px 12px rgba(0,0,0,.35);
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-4deg) scale(.8);
+  font-family:var(--serif);font-weight:700;font-size:14px;letter-spacing:.18em;color:var(--paper-2);
+  background:var(--red);padding:8px 20px;border:2px solid var(--paper-2);border-radius:3px;
+  opacity:0;transition:.18s;box-shadow:3px 3px 0 rgba(0,0,0,.4);
   white-space:nowrap;
 }
-.proj .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.proj .id{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink-2)}
-.proj h3{font-size:19px;font-weight:900;margin-bottom:2px}
-.proj .en{font-family:var(--mono);font-size:11px;color:var(--orange);letter-spacing:.06em;margin-bottom:10px;display:block}
-.proj p{font-size:13.5px;color:var(--ink-2);flex:1}
+.proj .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.proj .id{font-family:var(--dot);font-size:11px;letter-spacing:.24em;color:var(--ink-soft)}
+.proj h3{font-size:21px;font-weight:800;margin-bottom:2px;letter-spacing:.05em}
+.proj .en{font-family:var(--dot);font-size:11px;color:var(--red);letter-spacing:.14em;margin-bottom:10px;display:block}
+.proj p{font-size:13.5px;color:var(--ink-soft);flex:1}
 .proj .foot{margin-top:18px;display:flex;justify-content:space-between;align-items:center}
-.proj .tag{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:6px;letter-spacing:.1em}
-.proj .arrow{font-family:var(--mono);font-size:12px;color:var(--orange);font-weight:600}
+.proj .tag{
+  font-family:var(--dot);font-size:10.5px;letter-spacing:.14em;
+  padding:4px 12px;background:var(--mustard-soft);border:1.5px solid var(--ink);border-radius:2px;color:var(--ink);
+}
+.proj .arrow{font-family:var(--serif);font-weight:700;font-size:13.5px;color:var(--red);letter-spacing:.1em}
+.proj.notop{padding-top:22px}
 
 /* channels */
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.chan{padding:26px 22px;text-align:left;position:relative;text-decoration:none;color:var(--ink);transition:.2s;display:block}
-.chan:hover{transform:translateY(-4px)}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.chan{padding:26px 22px;text-decoration:none;color:var(--ink);transition:.15s;display:block}
+.chan:hover{transform:translate(2px,2px);box-shadow:5px 5px 0 rgba(39,74,109,.8)}
 .chan .icon{
-  width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin-bottom:16px;
-  background:linear-gradient(145deg,#3a4450,#232a33);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),4px 4px 9px var(--lo);
+  width:52px;height:52px;border-radius:50%;display:grid;place-items:center;margin-bottom:16px;
+  background:var(--blue);border:2.5px solid var(--ink);
+  box-shadow:3px 3px 0 rgba(43,38,32,.3);
 }
-.chan .icon svg{width:24px;height:24px;fill:#e8ebef}
-.chan h3{font-size:16px;font-weight:900}
-.chan .handle{font-family:var(--mono);font-size:11px;color:var(--orange);letter-spacing:.04em;display:block;margin:2px 0 10px}
-.chan p{font-size:12.5px;color:var(--ink-2)}
-.chan .meta{margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+.chan .icon svg{width:24px;height:24px;fill:var(--paper-2)}
+.chan h3{font-size:18px;font-weight:800;letter-spacing:.06em}
+.chan .handle{font-family:var(--dot);font-size:11.5px;color:var(--red);letter-spacing:.08em;display:block;margin:2px 0 10px}
+.chan p{font-size:13px;color:var(--ink-soft)}
+.chan .meta{margin-top:14px;font-family:var(--dot);font-size:10.5px;letter-spacing:.16em;color:var(--ink-soft);display:flex;align-items:center;gap:9px}
 
 /* method */
-.method .grid3 .proj h3{font-size:17px}
 .badge-num{
-  width:40px;height:40px;border-radius:50%;display:grid;place-items:center;margin-bottom:14px;
-  font-family:var(--mono);font-weight:600;color:#fff;font-size:14px;
-  background:linear-gradient(145deg,#ff6a42,var(--orange-2));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),3px 3px 7px var(--lo);
+  width:44px;height:44px;border-radius:50%;display:grid;place-items:center;margin-bottom:14px;
+  font-family:var(--serif);font-weight:800;color:var(--paper-2);font-size:17px;
+  background:var(--red);border:2.5px solid var(--ink);
+  box-shadow:3px 3px 0 rgba(43,38,32,.3);
 }
 
 /* cta + footer */
-.cta-panel{padding:52px 40px;text-align:center;position:relative;margin-bottom:72px}
-.cta-panel .screw{top:12px;left:12px}.cta-panel .screw:nth-child(2){left:auto;right:12px;--rot:70deg}
-.cta-panel h2{margin-bottom:8px}
-.cta-panel p{color:var(--ink-2);margin-bottom:26px}
-footer{border-top:1px solid rgba(160,168,180,.35);padding:30px 0 40px}
-.foot-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.foot-in .label a{color:var(--ink-2);text-decoration:none;margin-left:18px}
-.foot-in .label a:hover{color:var(--orange)}
+.cta-panel{
+  padding:54px 40px;text-align:center;margin-bottom:80px;
+  background:var(--mustard-soft);
+}
+.cta-panel h2{margin:16px 0 8px}
+.cta-panel p{color:#5c5138;margin-bottom:28px;font-size:15px}
+footer{
+  background:var(--blue);
+  border-top:3px solid var(--ink);
+  color:var(--paper);
+}
+footer .awning{border-bottom-color:rgba(43,38,32,.6)}
+.foot-in{
+  max-width:1120px;margin:0 auto;padding:26px 24px 34px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.foot-in .label{color:rgba(243,234,215,.85)}
+.foot-in .label a{color:rgba(243,234,215,.85);text-decoration:none;margin-left:18px;border-bottom:1px dotted rgba(243,234,215,.5)}
+.foot-in .label a:hover{color:var(--mustard-soft)}
 
 @media (max-width:900px){
   .hero{grid-template-columns:1fr;padding:48px 0 40px}
@@ -292,19 +332,22 @@ footer{border-top:1px solid rgba(160,168,180,.35);padding:30px 0 40px}
 <body>
 
 <header>
-  <div class="header-in">
-    <a class="logo" href="#top">
-      <span class="logo-badge">D<i></i></span>
-      <span><b>DATO</b> MUSIC LAB<small>MUSIC · CODE · CLASSROOM</small></span>
-    </a>
-    <nav>
-      <a href="#about">ABOUT</a>
-      <a href="#projects">PROJECTS</a>
-      <a href="#channels">CHANNELS</a>
-      <a href="#series">SERIES</a>
-      <a href="#method">METHOD</a>
-    </nav>
-    <a class="btn" href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">▶ SUBSCRIBE</a>
+  <div class="awning"></div>
+  <div class="header-bar">
+    <div class="header-in">
+      <a class="logo" href="#top">
+        <span class="logo-badge">音</span>
+        <span><b>DATO MUSIC LAB</b><small>音樂 ・ 程式 ・ 教室</small></span>
+      </a>
+      <nav>
+        <a href="#about">關於</a>
+        <a href="#projects">遊戲</a>
+        <a href="#channels">頻道</a>
+        <a href="#series">影片系列</a>
+        <a href="#method">教學法</a>
+      </nav>
+      <a class="btn" href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">▶ 訂閱頻道</a>
+    </div>
   </div>
 </header>
 
@@ -313,266 +356,265 @@ footer{border-top:1px solid rgba(160,168,180,.35);padding:30px 0 40px}
   <!-- HERO -->
   <div class="hero">
     <div>
-      <span class="chip"><span class="led"></span> SYSTEM OPERATIONAL — 開課中</span>
-      <h1>音樂 × 程式 ×<br>課堂實驗室
-        <span class="en">Music Teacher / EdTech Game Maker</span>
+      <span class="chip"><span class="dotmark"></span> 本日も営業中 — 開課中</span>
+      <h1 class="misreg">音樂 × 程式 ×<br>課堂實驗室
+        <span class="en">MUSIC TEACHER / EDTECH GAME MAKER</span>
       </h1>
       <p class="sub">我是 <b>Dato</b>，國小音樂教師。用<b>互動遊戲</b>和<b>雙語教學</b>讓孩子玩音樂：奧福節奏、直笛闖關、自己寫的課堂小遊戲。<br>Elementary music teacher building games that make music learning fun — Orff rhythm, recorder challenges, and classroom web games I code myself.</p>
       <div class="cta-row">
-        <a class="btn" href="#projects">🎮 玩遊戲 PLAY</a>
-        <a class="btn ghost" href="#channels">FOLLOW CHANNELS</a>
+        <a class="btn" href="#projects">🎮 玩遊戲</a>
+        <a class="btn ghost" href="#channels">追蹤頻道</a>
       </div>
     </div>
-    <div class="device">
-      <span class="screw s1"></span><span class="screw s2"></span><span class="screw s3"></span><span class="screw s4"></span>
+    <div class="tv">
+      <span class="tv-badge">昭和型 音樂受像機</span>
       <div class="screen">
         <div class="bar">
-          <span class="dots"><span style="background:#ff5f57"></span><span style="background:#febc2e"></span><span style="background:#28c840"></span></span>
-          <span>DATO_LAB.SYS // ONLINE</span>
+          <span>♪ ch.8</span>
+          <span>DATO_LAB // 放送中</span>
         </div>
-        <div class="ln"><em>MODE</em><span>MUSIC_CLASS.EXE</span></div>
-        <div class="ln"><em>METHOD</em><span>ORFF / KODÁLY / CLIL</span></div>
-        <div class="ln"><em>INPUT</em><span>RECORDER · CLAP · VOICE</span></div>
-        <div class="ln"><em>STATUS</em><span>LET'S PLAY MUSIC ♪</span></div>
+        <div class="ln"><em>番組</em><span>MUSIC_CLASS.EXE</span></div>
+        <div class="ln"><em>教學法</em><span>ORFF / KODÁLY / CLIL</span></div>
+        <div class="ln"><em>輸入</em><span>RECORDER・CLAP・VOICE</span></div>
+        <div class="ln"><em>狀態</em><span>LET'S PLAY MUSIC ♪</span></div>
         <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       </div>
-      <div class="device-foot">
-        <span class="label" style="color:#8b97a8">VOL</span>
+      <div class="tv-foot">
+        <span class="label">音量</span>
         <span style="display:flex;gap:14px"><span class="knob"></span><span class="knob" style="transform:rotate(120deg)"></span></span>
-        <span style="display:flex;gap:8px;align-items:center"><span class="led"></span><span class="led amber"></span><span class="led red"></span></span>
+        <span style="display:flex;gap:8px;align-items:center"><span class="dotmark"></span><span class="dotmark mustard"></span><span class="dotmark blue"></span></span>
       </div>
     </div>
   </div>
 
   <!-- STATS -->
   <div class="stats">
-    <div class="stat raised"><span class="screw"></span><b>36<i>+</i></b><span>YouTube Videos</span></div>
-    <div class="stat raised"><span class="screw" style="--rot:70deg"></span><b>11</b><span>Open-Source Repos</span></div>
-    <div class="stat raised"><span class="screw" style="--rot:20deg"></span><b>1.4K<i>+</i></b><span>Threads Followers</span></div>
-    <div class="stat raised"><span class="screw" style="--rot:55deg"></span><b>150K<i>+</i></b><span>Monthly Views</span></div>
+    <div class="stat card"><b>36<i>+</i></b><span>YOUTUBE 影片</span></div>
+    <div class="stat card"><b>11</b><span>開源 REPO</span></div>
+    <div class="stat card"><b>1.4K<i>+</i></b><span>THREADS 粉絲</span></div>
+    <div class="stat card"><b>150K<i>+</i></b><span>月瀏覽數</span></div>
   </div>
 
   <!-- ABOUT -->
   <section id="about">
-    <div class="sec-head"><span class="label">FIG 1.0 / ABOUT — 關於我</span><span class="rule"></span><span class="led"></span></div>
-    <h2>會寫程式的音樂老師</h2>
+    <div class="sec-head"><span class="label">其の一 ／ 關於我</span><span class="rule"></span><span class="dotmark"></span></div>
+    <h2 class="misreg">會寫程式的音樂老師</h2>
     <p class="sec-sub">The music teacher who ships code.</p>
     <div class="about-grid">
-      <div class="about-card raised">
-        <span class="screw"></span><span class="screw"></span>
+      <div class="about-card card">
         <p>音樂是人類共通的語言。我從小念音樂班，現在在國小教音樂，白天上課、放學寫程式——把課堂上「小孩卡住的地方」變成一個個網頁小遊戲：用直笛吹奏來切水果、拍打節奏闖關、電報解密聽音訓練。</p>
         <p>Music is the universal language of mankind. By day I teach elementary music; by night I turn classroom pain points into web games — fruit-slicing triggered by recorder notes, rhythm battles, and telegraph decoding for ear training.</p>
         <p>所有遊戲與教學影片<b>開放教師與家長免費在課堂使用</b>。如果你用了，歡迎告訴我孩子們的反應——那是我持續開發最大的動力。</p>
       </div>
-      <div class="spec raised">
-        <h3>// SPEC SHEET 規格表</h3>
+      <div class="spec card">
+        <h3>規格表 SPEC SHEET</h3>
         <div class="row">職業 Role<b>MUSIC TEACHER</b></div>
         <div class="row">場域 Field<b>ELEMENTARY</b></div>
         <div class="row">教學法 Methods<b>ORFF · KODÁLY</b></div>
         <div class="row">雙語 Bilingual<b>CLIL ZH/EN</b></div>
         <div class="row">技能 Stack<b>HTML · JS · QML</b></div>
         <div class="row">授權 License<b>FREE FOR CLASS</b></div>
-        <div class="vent"></div>
+        <div class="stamp">禹</div>
       </div>
     </div>
   </section>
 
   <!-- PROJECTS -->
   <section id="projects">
-    <div class="sec-head"><span class="label">FIG 2.0 / MODULES — 課堂遊戲模組（全部 9 款）</span><span class="rule"></span><span class="led"></span></div>
-    <h2>教室裡直接開的遊戲</h2>
+    <div class="sec-head"><span class="label">其の二 ／ 課堂遊戲（全九款）</span><span class="rule"></span><span class="dotmark"></span></div>
+    <h2 class="misreg">教室裡直接開的遊戲</h2>
     <p class="sec-sub">瀏覽器打開就能玩，平板、手機、電子白板都相容。All 9 games playable in the browser — built for classrooms.</p>
     <div class="grid3">
-      <a class="proj raised" href="https://linyubert.github.io/Wind-Blade/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-windblade.jpg" alt="直笛水果忍者遊戲畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-01</span><span class="led"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/Wind-Blade/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-windblade.jpg" alt="直笛水果忍者遊戲畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第一號</span><span class="dotmark"></span></div>
         <h3>直笛水果忍者</h3><span class="en">WIND-BLADE</span>
         <p>吹對音高就能切水果！訓練直笛音準、氣息穩定，內建長音機制、Fever 連擊與調音輔助介面。</p>
-        <div class="foot"><span class="tag inset">RECORDER</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">直笛</span><span class="arrow">出発 →</span></div>
       </a>
-      <a class="proj raised" href="https://linyubert.github.io/rhythm-ocean/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-rhythmocean.jpg" alt="節奏航海記遊戲畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-02</span><span class="led"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/rhythm-ocean/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-rhythmocean.jpg" alt="節奏航海記遊戲畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第二號</span><span class="dotmark"></span></div>
         <h3>節奏海洋</h3><span class="en">RHYTHM OCEAN</span>
         <p>課堂節奏拍打測驗遊戲。老師出題、全班應戰，把 Ta、Ti-ti 的節奏練習變成海洋大冒險。</p>
-        <div class="foot"><span class="tag inset">RHYTHM</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">節奏</span><span class="arrow">出発 →</span></div>
       </a>
-      <a class="proj raised" href="https://linyubert.github.io/espionage-telegraph/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-telegraph.jpg" alt="諜報電報解密遊戲畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-03</span><span class="led amber"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/espionage-telegraph/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-telegraph.jpg" alt="諜報電報解密遊戲畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第三號</span><span class="dotmark mustard"></span></div>
         <h3>諜報電報</h3><span class="en">ESPIONAGE TELEGRAPH</span>
         <p>化身情報員解密電報！在遊戲中體驗長短音訊號與聽力解碼，聽音訓練不知不覺完成。</p>
-        <div class="foot"><span class="tag inset">EAR TRAINING</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">聽力</span><span class="arrow">出発 →</span></div>
       </a>
-      <a class="proj raised" href="https://linyubert.github.io/catchuper/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-catchuper.jpg" alt="番茄醬節奏大師遊戲畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-04</span><span class="led"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/catchuper/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-catchuper.jpg" alt="番茄醬節奏大師遊戲畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第四號</span><span class="dotmark"></span></div>
         <h3>番茄醬節奏大師</h3><span class="en">CATCHUPER</span>
         <p>第一拍準確出發、按住持續對齊長音！專為節奏聽覺與時值感知設計的網頁街機特訓遊戲。</p>
-        <div class="foot"><span class="tag inset">RHYTHM</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">節奏</span><span class="arrow">出発 →</span></div>
       </a>
-      <a class="proj raised" href="https://linyubert.github.io/dadabeard/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-dadabeard.jpg" alt="節奏幫爸爸拔鬍子遊戲畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-05</span><span class="led"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/dadabeard/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-dadabeard.jpg" alt="節奏幫爸爸拔鬍子遊戲畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第五號</span><span class="dotmark"></span></div>
         <h3>節奏幫爸爸拔鬍子</h3><span class="en">DADABEARD</span>
         <p>看示範長鬍子，照節奏拔鬍子！聽節奏、抓拍點，練耳朵也練反應。</p>
-        <div class="foot"><span class="tag inset">RHYTHM</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">節奏</span><span class="arrow">出発 →</span></div>
       </a>
-      <a class="proj raised" href="https://linyubert.github.io/timesmath/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-timesmath.jpg" alt="倍數守門員遊戲畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-06</span><span class="led"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/timesmath/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-timesmath.jpg" alt="倍數守門員遊戲畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第六號</span><span class="dotmark"></span></div>
         <h3>倍數守門員</h3><span class="en">TIMESMATH</span>
         <p>舉手當守門員，接住指定倍數、躲開其他球！鏡頭體感 + 心算反應的跨科遊戲。</p>
-        <div class="foot"><span class="tag inset">MATH · MOTION</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">數學・體感</span><span class="arrow">出発 →</span></div>
       </a>
-      <a class="proj raised" href="https://linyubert.github.io/recorderplane/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-recorderplane.jpg" alt="直笛動力飛行任務遊戲畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-07</span><span class="led"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/recorderplane/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-recorderplane.jpg" alt="直笛動力飛行任務遊戲畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第七號</span><span class="dotmark"></span></div>
         <h3>直笛動力飛行任務</h3><span class="en">RECORDERPLANE</span>
         <p>吹 Sol La Si Do 操控飛機在五線譜上飛行，3 關 30 題，邊玩邊練音高辨識。</p>
-        <div class="foot"><span class="tag inset">RECORDER</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">直笛</span><span class="arrow">出発 →</span></div>
       </a>
-      <a class="proj raised" href="https://linyubert.github.io/music3grade/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-music3grade.jpg" alt="三年級音樂大進擊遊戲畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-08</span><span class="led"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/music3grade/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-music3grade.jpg" alt="三年級音樂大進擊遊戲畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第八號</span><span class="dotmark"></span></div>
         <h3>三年級音樂大進擊</h3><span class="en">MUSIC3GRADE</span>
         <p>RPG 風格期末複習：5 大地圖、18 道題目、道具系統，把考試變成一場冒險。</p>
-        <div class="foot"><span class="tag inset">QUIZ · RPG</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">測驗・RPG</span><span class="arrow">出発 →</span></div>
       </a>
-      <a class="proj raised" href="https://linyubert.github.io/xmasmission/" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-xmasmission.jpg" alt="魔法聖誕樹任務畫面" loading="lazy"><span class="play">▶ PLAY</span></div>
-        <div class="top"><span class="id">MOD-09</span><span class="led amber"></span></div>
+      <a class="proj card" href="https://linyubert.github.io/xmasmission/" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-xmasmission.jpg" alt="魔法聖誕樹任務畫面" loading="lazy"><span class="play">▶ 遊玩</span></div>
+        <div class="top"><span class="id">第九號</span><span class="dotmark mustard"></span></div>
         <h3>魔法聖誕樹</h3><span class="en">XMAS MISSION</span>
         <p>永順國小 2025 聖誕限定任務頁，節慶活動的沉浸式互動教室。</p>
-        <div class="foot"><span class="tag inset">SEASONAL</span><span class="arrow">LAUNCH →</span></div>
+        <div class="foot"><span class="tag">季節限定</span><span class="arrow">出発 →</span></div>
       </a>
     </div>
 
-    <div class="sec-head" style="margin-top:52px"><span class="label">FIG 2.1 / TOOLS — 教學外掛工具</span><span class="rule"></span><span class="led amber"></span></div>
+    <div class="sec-head" style="margin-top:56px"><span class="label">其の二・五 ／ 教學外掛工具</span><span class="rule"></span><span class="dotmark mustard"></span></div>
     <p class="sec-sub">給用 MuseScore 備課的音樂老師，開源免費。Free open-source plugins for MuseScore.</p>
     <div class="grid3">
-      <a class="proj raised" href="https://github.com/linyubert/musescore-recorder-fingering-plugin" target="_blank" rel="noopener">
-        <div class="top"><span class="id">TOOL-01</span><span class="led"></span></div>
+      <a class="proj card notop" href="https://github.com/linyubert/musescore-recorder-fingering-plugin" target="_blank" rel="noopener">
+        <div class="top"><span class="id">道具一</span><span class="dotmark"></span></div>
         <h3>直笛指法外掛</h3><span class="en">MUSESCORE PLUGIN</span>
         <p>自動在 MuseScore 樂譜上產生英式直笛指法編號，備課出譜一鍵完成。</p>
-        <div class="foot"><span class="tag inset">QML</span><span class="arrow">SOURCE →</span></div>
+        <div class="foot"><span class="tag">QML</span><span class="arrow">原始碼 →</span></div>
       </a>
-      <a class="proj raised" href="https://github.com/linyubert/musescore-zhuyin-plugin" target="_blank" rel="noopener">
-        <div class="top"><span class="id">TOOL-02</span><span class="led"></span></div>
+      <a class="proj card notop" href="https://github.com/linyubert/musescore-zhuyin-plugin" target="_blank" rel="noopener">
+        <div class="top"><span class="id">道具二</span><span class="dotmark"></span></div>
         <h3>注音唱名外掛</h3><span class="en">MUSESCORE PLUGIN</span>
         <p>自動在 MuseScore 產生注音音符唱名，幫助初學的孩子看譜就會唱。</p>
-        <div class="foot"><span class="tag inset">QML</span><span class="arrow">SOURCE →</span></div>
+        <div class="foot"><span class="tag">QML</span><span class="arrow">原始碼 →</span></div>
       </a>
-      <a class="proj raised" href="https://github.com/linyubert?tab=repositories" target="_blank" rel="noopener">
-        <div class="top"><span class="id">ALL</span><span class="led red"></span></div>
+      <a class="proj card notop" href="https://github.com/linyubert?tab=repositories" target="_blank" rel="noopener">
+        <div class="top"><span class="id">全部</span><span class="dotmark blue"></span></div>
         <h3>看全部原始碼</h3><span class="en">ALL 11 REPOS ON GITHUB</span>
         <p>所有遊戲與外掛的原始碼都在這裡，開源給所有需要的音樂老師。歡迎留言給我開發回饋。</p>
-        <div class="foot"><span class="tag inset">GITHUB</span><span class="arrow">VIEW ALL →</span></div>
+        <div class="foot"><span class="tag">GITHUB</span><span class="arrow">全覧 →</span></div>
       </a>
     </div>
   </section>
 
   <!-- CHANNELS -->
   <section id="channels">
-    <div class="sec-head"><span class="label">FIG 3.0 / OUTPUT — 頻道連結</span><span class="rule"></span><span class="led"></span></div>
-    <h2>追蹤我的實驗室</h2>
+    <div class="sec-head"><span class="label">其の三 ／ 頻道連結</span><span class="rule"></span><span class="dotmark"></span></div>
+    <h2 class="misreg">追蹤我的實驗室</h2>
     <p class="sec-sub">教學影片、開發日誌、原始碼與教學筆記，各在它們該在的地方。</p>
     <div class="grid4">
-      <a class="chan raised" href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">
+      <a class="chan card" href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">
         <span class="icon"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12z"/></svg></span>
         <h3>YouTube</h3><span class="handle">@datoemusic</span>
         <p>1 分鐘奧福節奏挑戰、直笛教學與原創教材影片，課堂直接投影使用。</p>
-        <span class="meta"><span class="led"></span>DATO MUSIC LAB</span>
+        <span class="meta"><span class="dotmark"></span>DATO MUSIC LAB</span>
       </a>
-      <a class="chan raised" href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">
+      <a class="chan card" href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">
         <span class="icon"><svg viewBox="0 0 24 24"><path d="M12.7 11.1c1.2.1 2.3.4 3.2.9.1-.6.1-1.3-.1-1.9-.5-2-2-3-4-3-1.5 0-2.8.6-3.6 1.7l1.7 1.2c.5-.6 1.1-.9 1.9-.9 1.1 0 1.9.6 2.1 1.6-.6-.1-1.3-.2-2-.2-2.8 0-4.6 1.4-4.6 3.5 0 2 1.6 3.4 3.9 3.4 1.7 0 3-.7 3.8-2 .6-1 .8-2.2.8-3.7.9.6 1.5 1.4 1.7 2.4.4 1.8-.4 4.7-4.1 4.7-3.6 0-6.2-2.5-6.2-6.8S9.7 5.2 13.3 5.2c2 0 3.7.7 4.9 2l1.5-1.5C18.1 4 16 3.1 13.4 3.1 8.5 3.1 5.2 6.4 5.2 12s3.3 8.9 8.2 8.9c4.5 0 6.7-3 6.3-6.5-.3-2-1.5-3.5-3.2-4.4l-.1 0zM12 15.4c-1.2 0-1.9-.5-1.9-1.4 0-.9.9-1.5 2.5-1.5.6 0 1.2.1 1.8.2-.1 1.7-1 2.7-2.4 2.7z"/></svg></span>
         <h3>Threads</h3><span class="handle">@lycbert</span>
         <p>開發日誌與教學靈感現場——新遊戲測試、課堂實況都先在這裡發生。</p>
-        <span class="meta"><span class="led"></span>DEV LOG · 國小音樂課</span>
+        <span class="meta"><span class="dotmark"></span>開發日誌・國小音樂課</span>
       </a>
-      <a class="chan raised" href="https://github.com/linyubert" target="_blank" rel="noopener">
+      <a class="chan card" href="https://github.com/linyubert" target="_blank" rel="noopener">
         <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 .5C5.6.5.5 5.7.5 12.1c0 5.1 3.3 9.5 7.9 11 .6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.6-3.9-1.6-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.2 4.7 18.2 5 18.2 5c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.9 7.9-11C23.5 5.7 18.4.5 12 .5z"/></svg></span>
         <h3>GitHub</h3><span class="handle">linyubert</span>
         <p>全部遊戲與外掛的原始碼，開源給所有需要的音樂老師。</p>
-        <span class="meta"><span class="led"></span>11 PUBLIC REPOS</span>
+        <span class="meta"><span class="dotmark"></span>11 個公開 REPO</span>
       </a>
-      <a class="chan raised" href="https://dtamusicnote.wordpress.com" target="_blank" rel="noopener">
+      <a class="chan card" href="https://dtamusicnote.wordpress.com" target="_blank" rel="noopener">
         <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 4h18v2H3zm0 5h12v2H3zm0 5h18v2H3zm0 5h12v2H3z"/></svg></span>
         <h3>教學筆記</h3><span class="handle">dtamusicnote</span>
         <p>音樂教學的長文筆記與教材整理，適合想深入的老師與家長。</p>
-        <span class="meta"><span class="led"></span>WORDPRESS BLOG</span>
+        <span class="meta"><span class="dotmark"></span>WORDPRESS 部落格</span>
       </a>
     </div>
   </section>
 
   <!-- YOUTUBE SERIES -->
   <section id="series">
-    <div class="sec-head"><span class="label">FIG 3.1 / BROADCAST — YouTube 影片系列</span><span class="rule"></span><span class="led red"></span></div>
-    <h2>頻道裡的五個系列</h2>
+    <div class="sec-head"><span class="label">其の四 ／ YouTube 影片系列</span><span class="rule"></span><span class="dotmark blue"></span></div>
+    <h2 class="misreg">頻道裡的五個系列</h2>
     <p class="sec-sub">每個系列都是一種課堂遊戲玩法，點縮圖直接到 YouTube 播放清單。5 running series on the channel — click a thumbnail to open the full playlist.</p>
     <div class="grid3">
-      <a class="proj raised" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncUQrUfw6t8VNbp337VVr4_" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-yt-kpop.jpg" alt="Kpop Highlight melody sheet music 系列縮圖" loading="lazy"><span class="play">▶ WATCH</span></div>
-        <div class="top"><span class="id">SERIES-01</span><span class="led red"></span></div>
+      <a class="proj card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncUQrUfw6t8VNbp337VVr4_" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-yt-kpop.jpg" alt="Kpop Highlight melody sheet music 系列縮圖" loading="lazy"><span class="play">▶ 收看</span></div>
+        <div class="top"><span class="id">系列一</span><span class="dotmark blue"></span></div>
         <h3>Kpop 旋律鋼琴貼紙</h3><span class="en">KPOP HIGHLIGHT MELODY SHEET MUSIC</span>
         <p>把當紅 K-pop 副歌變成鋼琴 A/B/C 音名貼紙，邊聽神曲邊練認譜。目前 15 部影片，更新最勤的系列。</p>
-        <div class="foot"><span class="tag inset">15 部影片</span><span class="arrow">WATCH →</span></div>
+        <div class="foot"><span class="tag">15 部影片</span><span class="arrow">收看 →</span></div>
       </a>
-      <a class="proj raised" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncP1C77-SmHoLK6amkAspkB" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-yt-spotreal.jpg" alt="Can You Spot the Real One 系列縮圖" loading="lazy"><span class="play">▶ WATCH</span></div>
-        <div class="top"><span class="id">SERIES-02</span><span class="led red"></span></div>
+      <a class="proj card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncP1C77-SmHoLK6amkAspkB" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-yt-spotreal.jpg" alt="Can You Spot the Real One 系列縮圖" loading="lazy"><span class="play">▶ 收看</span></div>
+        <div class="top"><span class="id">系列二</span><span class="dotmark blue"></span></div>
         <h3>找出真正的旋律</h3><span class="en">CAN YOU SPOT THE REAL ONE?</span>
         <p>同一句歌詞配上真假兩種旋律線，考驗孩子的聽力辨識力，AB 兩版你選得出來嗎？</p>
-        <div class="foot"><span class="tag inset">6 部影片</span><span class="arrow">WATCH →</span></div>
+        <div class="foot"><span class="tag">6 部影片</span><span class="arrow">收看 →</span></div>
       </a>
-      <a class="proj raised" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnfE75srwY2arqZLeWoqsPKQ" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-yt-clapsay.jpg" alt="Clap and Say it 系列縮圖" loading="lazy"><span class="play">▶ WATCH</span></div>
-        <div class="top"><span class="id">SERIES-03</span><span class="led red"></span></div>
+      <a class="proj card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnfE75srwY2arqZLeWoqsPKQ" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-yt-clapsay.jpg" alt="Clap and Say it 系列縮圖" loading="lazy"><span class="play">▶ 收看</span></div>
+        <div class="top"><span class="id">系列三</span><span class="dotmark blue"></span></div>
         <h3>拍手說節奏</h3><span class="en">CLAP AND SAY IT!</span>
         <p>1 分鐘奧福節奏挑戰，拍手、開口、跟著做。從入門慢速版到十六分音符進階版，循序漸進。</p>
-        <div class="foot"><span class="tag inset">5 部影片</span><span class="arrow">WATCH →</span></div>
+        <div class="foot"><span class="tag">5 部影片</span><span class="arrow">收看 →</span></div>
       </a>
-      <a class="proj raised" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncwm990sh00oEcSU4zs7TAJ" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-yt-rightleft.jpg" alt="Right or Left 系列縮圖" loading="lazy"><span class="play">▶ WATCH</span></div>
-        <div class="top"><span class="id">SERIES-04</span><span class="led red"></span></div>
+      <a class="proj card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncwm990sh00oEcSU4zs7TAJ" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-yt-rightleft.jpg" alt="Right or Left 系列縮圖" loading="lazy"><span class="play">▶ 收看</span></div>
+        <div class="top"><span class="id">系列四</span><span class="dotmark blue"></span></div>
         <h3>左右挑戰遊戲</h3><span class="en">RIGHT OR LEFT</span>
         <p>邊聽音樂邊分辨左右手，訓練大腦與肢體協調的節奏遊戲，適合課堂律動暖身。</p>
-        <div class="foot"><span class="tag inset">2 部影片</span><span class="arrow">WATCH →</span></div>
+        <div class="foot"><span class="tag">2 部影片</span><span class="arrow">收看 →</span></div>
       </a>
-      <a class="proj raised" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnc9LiiFtxY-F7fL5vLadV8S" target="_blank" rel="noopener">
-        <div class="thumb"><img src="assets/thumb-yt-tracingmap.jpg" alt="Musical Tracing Map 系列縮圖" loading="lazy"><span class="play">▶ WATCH</span></div>
-        <div class="top"><span class="id">SERIES-05</span><span class="led red"></span></div>
+      <a class="proj card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnc9LiiFtxY-F7fL5vLadV8S" target="_blank" rel="noopener">
+        <div class="thumb"><img src="assets/thumb-yt-tracingmap.jpg" alt="Musical Tracing Map 系列縮圖" loading="lazy"><span class="play">▶ 收看</span></div>
+        <div class="top"><span class="id">系列五</span><span class="dotmark blue"></span></div>
         <h3>音樂路線地圖</h3><span class="en">MUSICAL TRACING MAP</span>
         <p>跟著旋律線描繪地圖路線，把聽音與視覺路徑結合的最新實驗系列。</p>
-        <div class="foot"><span class="tag inset">2 部影片</span><span class="arrow">WATCH →</span></div>
+        <div class="foot"><span class="tag">2 部影片</span><span class="arrow">收看 →</span></div>
       </a>
-      <a class="proj raised" href="https://www.youtube.com/@datoemusic/videos" target="_blank" rel="noopener">
-        <div class="top"><span class="id">ALL</span><span class="led"></span></div>
+      <a class="proj card notop" href="https://www.youtube.com/@datoemusic/videos" target="_blank" rel="noopener">
+        <div class="top"><span class="id">全部</span><span class="dotmark"></span></div>
         <h3>看全部影片</h3><span class="en">36+ VIDEOS ON YOUTUBE</span>
         <p>訂閱頻道追蹤最新上傳，所有 1 分鐘節奏挑戰、直笛教學都在這裡。</p>
-        <div class="foot"><span class="tag inset">YOUTUBE</span><span class="arrow">SUBSCRIBE →</span></div>
+        <div class="foot"><span class="tag">YOUTUBE</span><span class="arrow">訂閱 →</span></div>
       </a>
     </div>
   </section>
 
   <!-- METHOD -->
-  <section id="method" class="method">
-    <div class="sec-head"><span class="label">FIG 4.0 / PROTOCOL — 教學方法</span><span class="rule"></span><span class="led"></span></div>
-    <h2>怎麼讓孩子玩音樂</h2>
+  <section id="method">
+    <div class="sec-head"><span class="label">其の五 ／ 教學方法</span><span class="rule"></span><span class="dotmark"></span></div>
+    <h2 class="misreg">怎麼讓孩子玩音樂</h2>
     <p class="sec-sub">How the lab runs: play first, theory later.</p>
     <div class="grid3">
-      <div class="proj raised">
-        <span class="badge-num">01</span>
+      <div class="proj card notop">
+        <span class="badge-num">壱</span>
         <h3>先玩再說 Play First</h3>
         <p>奧福（Orff）取向：從身體打擊、遊戲與律動出發，孩子先「做到」音樂，再認識音樂。</p>
       </div>
-      <div class="proj raised">
-        <span class="badge-num">02</span>
+      <div class="proj card notop">
+        <span class="badge-num">弐</span>
         <h3>雙語滲透 CLIL</h3>
         <p>音樂課同時是語言課。Ta、Ti-ti 的節奏語言配上英語指令，雙語自然發生。</p>
       </div>
-      <div class="proj raised">
-        <span class="badge-num">03</span>
+      <div class="proj card notop">
+        <span class="badge-num">参</span>
         <h3>科技補位 Tech Assist</h3>
         <p>孩子卡住的地方，就是下一個遊戲的規格書。用即時回饋讓每個孩子都有自己的練習節奏。</p>
       </div>
@@ -580,19 +622,19 @@ footer{border-top:1px solid rgba(160,168,180,.35);padding:30px 0 40px}
   </section>
 
   <!-- CTA -->
-  <div class="cta-panel raised">
-    <span class="screw"></span><span class="screw"></span>
-    <span class="chip" style="margin-bottom:18px"><span class="led"></span> OPEN FOR COLLABORATION</span>
-    <h2>課堂用了我的遊戲嗎？</h2>
-    <p>歡迎分享孩子們的實作反應、提供開發回饋，或洽談教學合作與授權。<br>Teachers & parents: free for classroom use. For business inquiries, drop me a line.</p>
-    <a class="btn" href="mailto:yucheng720@gmail.com">✉ CONTACT ME</a>
+  <div class="cta-panel card">
+    <span class="chip"><span class="dotmark"></span> 合作歓迎 — OPEN FOR COLLABORATION</span>
+    <h2 class="misreg">課堂用了我的遊戲嗎？</h2>
+    <p>歡迎分享孩子們的實作反應、提供開發回饋，或洽談教學合作與授權。<br>Teachers &amp; parents: free for classroom use. For business inquiries, drop me a line.</p>
+    <a class="btn" href="mailto:yucheng720@gmail.com">✉ 來信聯絡</a>
   </div>
 
 </main>
 
 <footer>
+  <div class="awning"></div>
   <div class="foot-in">
-    <span class="label">© 2026 DATO MUSIC LAB — LET'S PLAY MUSIC ♪</span>
+    <span class="label">© 2026 DATO MUSIC LAB — 音樂と遊びの実験室 ♪</span>
     <span class="label">
       <a href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">YOUTUBE</a>
       <a href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">THREADS</a>
