@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開發日誌 — Dato Music Lab</title>
+<meta name="description" content="Dato Music Lab 開發日誌：課堂遊戲的開發紀錄、版本更新與教學筆記。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Noto+Serif+TC:wght@500;600;700;900&family=DotGothic16&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3ead7;
+  --paper-2:#faf4e4;
+  --ink:#2b2620;
+  --ink-soft:#5c5344;
+  --red:#c8442e;
+  --red-deep:#a83323;
+  --mustard:#d9a62e;
+  --mustard-soft:#e8c46a;
+  --blue:#274a6d;
+  --blue-deep:#1d3a57;
+  --serif:'Shippori Mincho','Noto Serif TC',serif;
+  --dot:'DotGothic16','Noto Serif TC',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.75;
+  background-image:
+    radial-gradient(rgba(43,38,32,.055) 1px,transparent 1.4px),
+    linear-gradient(rgba(217,166,46,.05),rgba(200,68,46,.03));
+  background-size:8px 8px,100% 100%;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity:.14;mix-blend-mode:multiply;
+}
+::selection{background:var(--red);color:var(--paper)}
+
+.card{
+  background:var(--paper-2);
+  border:2.5px solid var(--ink);
+  border-radius:6px;
+  box-shadow:7px 7px 0 rgba(217,166,46,.85);
+  position:relative;
+}
+.card::before{
+  content:"";position:absolute;inset:5px;border:1px dashed rgba(43,38,32,.35);border-radius:3px;pointer-events:none;
+}
+.label{font-family:var(--dot);font-size:12.5px;letter-spacing:.28em;color:var(--ink-soft)}
+.dotmark{width:11px;height:11px;border-radius:50%;background:var(--red);border:1.5px solid var(--ink);display:inline-block}
+.dotmark.blue{background:var(--blue)}
+.dotmark.mustard{background:var(--mustard)}
+.chip{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 20px;background:var(--paper-2);
+  border:2px solid var(--ink);border-radius:3px;
+  box-shadow:4px 4px 0 rgba(200,68,46,.8);
+  font-family:var(--dot);font-size:12.5px;letter-spacing:.22em;color:var(--ink);
+}
+.awning{
+  height:16px;
+  background:repeating-linear-gradient(45deg,var(--red) 0 18px,var(--paper-2) 18px 36px);
+  border-bottom:2.5px solid var(--ink);
+}
+.misreg{text-shadow:2.5px 2px 0 rgba(200,68,46,.55),-2.5px -2px 0 rgba(39,74,109,.45)}
+
+/* header */
+header{position:sticky;top:0;z-index:50}
+.header-bar{background:var(--paper-2);border-bottom:2.5px solid var(--ink);box-shadow:0 3px 0 rgba(217,166,46,.6)}
+.header-in{max-width:1120px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+.logo-badge{
+  width:46px;height:46px;border-radius:50%;background:var(--red);border:2.5px solid var(--ink);
+  display:grid;place-items:center;color:var(--paper-2);
+  font-family:var(--serif);font-weight:800;font-size:22px;
+  box-shadow:inset 0 0 0 2px var(--paper-2),3px 3px 0 rgba(43,38,32,.25);
+  transform:rotate(-6deg);
+}
+.logo b{font-weight:800;font-size:19px;letter-spacing:.06em;display:block;line-height:1.2}
+.logo small{display:block;font-family:var(--dot);font-size:10px;letter-spacing:.3em;color:var(--ink-soft)}
+nav{display:flex;gap:2px}
+nav a{
+  font-family:var(--dot);font-size:12.5px;letter-spacing:.16em;
+  color:var(--ink);text-decoration:none;padding:10px 13px;
+  border-bottom:2.5px solid transparent;transition:.15s;
+}
+nav a:hover{color:var(--red);border-bottom-color:var(--red)}
+nav a.active{color:var(--red);border-bottom-color:var(--red)}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--serif);font-weight:700;font-size:15px;letter-spacing:.14em;
+  color:var(--paper-2);text-decoration:none;background:var(--red);
+  padding:12px 26px;border:2.5px solid var(--ink);border-radius:4px;
+  box-shadow:5px 5px 0 var(--ink);transition:.12s;
+}
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--ink)}
+.btn.ghost{background:var(--paper-2);color:var(--ink);box-shadow:5px 5px 0 rgba(39,74,109,.75)}
+
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+.page-head{padding:64px 0 20px;text-align:center}
+.page-head h1{font-size:clamp(34px,4.6vw,52px);font-weight:800;letter-spacing:.08em;margin:22px 0 10px}
+.page-head p{color:var(--ink-soft);max-width:56ch;margin:0 auto;font-size:15px}
+.page-head p a{color:var(--red);font-weight:700}
+
+/* timeline */
+.timeline{position:relative;padding:48px 0 40px}
+.timeline::before{
+  content:"";position:absolute;left:19px;top:0;bottom:0;width:0;
+  border-left:2.5px dashed rgba(43,38,32,.45);
+}
+.entry{position:relative;padding-left:64px;margin-bottom:40px}
+.entry .node{
+  position:absolute;left:8px;top:6px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--red);border:2.5px solid var(--ink);
+  box-shadow:inset 0 0 0 3px var(--paper-2);
+}
+.entry.blue .node{background:var(--blue)}
+.entry.mustard .node{background:var(--mustard)}
+.entry-card{padding:26px 28px}
+.entry .date{
+  display:inline-block;font-family:var(--dot);font-size:12px;letter-spacing:.2em;
+  background:var(--ink);color:var(--paper);padding:3px 14px;border-radius:2px;margin-bottom:12px;
+  transform:rotate(-1deg);
+}
+.entry h2{font-size:22px;font-weight:800;letter-spacing:.05em;margin-bottom:4px}
+.entry .en{font-family:var(--dot);font-size:11px;color:var(--red);letter-spacing:.14em;display:block;margin-bottom:12px}
+.entry p{font-size:14.5px;color:#463e32;margin-bottom:10px}
+.entry ul{margin:0 0 10px 1.4em;font-size:14.5px;color:#463e32}
+.entry ul li{margin-bottom:4px}
+.entry .links{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.entry .links a{
+  font-family:var(--dot);font-size:11.5px;letter-spacing:.14em;
+  color:var(--ink);text-decoration:none;
+  padding:5px 14px;background:var(--mustard-soft);
+  border:1.5px solid var(--ink);border-radius:2px;
+  transition:.12s;
+}
+.entry .links a:hover{background:var(--red);color:var(--paper-2)}
+.entry .tag{
+  font-family:var(--dot);font-size:10.5px;letter-spacing:.14em;
+  padding:3px 12px;background:transparent;border:1.5px dotted var(--ink-soft);border-radius:2px;color:var(--ink-soft);
+  display:inline-block;margin-bottom:12px;margin-right:6px;
+}
+
+/* cta + footer */
+.cta-panel{padding:44px 36px;text-align:center;margin:24px 0 80px;background:var(--mustard-soft)}
+.cta-panel h2{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:.06em;margin:14px 0 8px}
+.cta-panel p{color:#5c5138;margin-bottom:26px;font-size:15px}
+footer{background:var(--blue);border-top:3px solid var(--ink);color:var(--paper)}
+.foot-in{
+  max-width:1120px;margin:0 auto;padding:26px 24px 34px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.foot-in .label{color:rgba(243,234,215,.85)}
+.foot-in .label a{color:rgba(243,234,215,.85);text-decoration:none;margin-left:18px;border-bottom:1px dotted rgba(243,234,215,.5)}
+.foot-in .label a:hover{color:var(--mustard-soft)}
+
+@media (max-width:700px){
+  nav{display:none}
+  .entry{padding-left:52px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="awning"></div>
+  <div class="header-bar">
+    <div class="header-in">
+      <a class="logo" href="index.html">
+        <span class="logo-badge">音</span>
+        <span><b>DATO MUSIC LAB</b><small>音樂 ・ 程式 ・ 教室</small></span>
+      </a>
+      <nav>
+        <a href="index.html#about">關於</a>
+        <a href="index.html#projects">遊戲</a>
+        <a href="index.html#channels">頻道</a>
+        <a href="index.html#series">影片系列</a>
+        <a href="index.html#method">教學法</a>
+        <a href="devlog.html" class="active">開發日誌</a>
+      </nav>
+      <a class="btn" href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">▶ 訂閱頻道</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="page-head">
+    <span class="chip"><span class="dotmark"></span> 実験室通信 — DEV LOG</span>
+    <h1 class="misreg">開發日誌</h1>
+    <p>課堂遊戲的開發紀錄、版本更新與教學筆記。<br>最即時的開發動態都先發生在 <a href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">Threads @lycbert</a>，這裡是整理後的正式紀錄。</p>
+  </div>
+
+  <div class="timeline">
+
+    <div class="entry">
+      <span class="node"></span>
+      <div class="entry-card card">
+        <span class="date">2026．07</span>
+        <span class="tag">徵測試</span><span class="tag">節奏・時值</span>
+        <h2>番茄醬節奏大師 — 徵求測試回饋</h2>
+        <span class="en">CATCHUPER / PLAYTEST WANTED</span>
+        <p>音樂是時間的藝術，每個音符在空間中實際停留的長度是一件重要的事。拔鬍子遊戲讓小孩找到拍點，這個新遊戲則是為了補足「時值」而發想開發的。</p>
+        <p>放暑假沒有小孩當測試員，自己做總是會有盲點——有興趣幫忙測試的老師歡迎跟我聯絡！（我知道概念很荒謬，誰吃香腸在擠番茄醬的。不過我好不容易學會怎麼寫游標改變的方法，換掉概念我會不甘心。）</p>
+        <div class="links">
+          <a href="https://linyubert.github.io/catchuper/" target="_blank" rel="noopener">▶ 遊玩</a>
+          <a href="https://github.com/linyubert/catchuper" target="_blank" rel="noopener">原始碼</a>
+          <a href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">THREADS 原文</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry blue">
+      <span class="node"></span>
+      <div class="entry-card card">
+        <span class="date">2026．07</span>
+        <span class="tag">教學筆記</span><span class="tag">音畫</span>
+        <h2>「音畫」怎麼教？— 讀 Knight-Hill《Sound and Image》</h2>
+        <span class="en">TEACHING NOTES / SOUND &amp; IMAGE</span>
+        <p>從小念音樂班，「音畫」卻是靠聽音辨位的童子功練出來的，到國小教書後一直在想怎麼把它更好地放進孩子腦袋。找到一本不錯的讀物：Knight-Hill《Sound and Image: Aesthetics and Practices》。</p>
+        <ul>
+          <li>第 1 章：聲音與影像的物理參數對應（視覺化對應）</li>
+          <li>第 2 章：「同步結合」（Synchresis）現象</li>
+          <li>第 6 章：以塑膠梳子為模型的多感官與觸覺體驗，很讚</li>
+        </ul>
+        <div class="links">
+          <a href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">THREADS 原文</a>
+          <a href="https://dtamusicnote.wordpress.com" target="_blank" rel="noopener">教學筆記</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="node"></span>
+      <div class="entry-card card">
+        <span class="date">2026．06</span>
+        <span class="tag">版本更新</span><span class="tag">直笛</span>
+        <h2>直笛水果忍者 v2 — 長音、Fever、調音介面</h2>
+        <span class="en">WIND-BLADE / MAJOR UPDATE</span>
+        <p>週一教師晨會，有同事突然走過來說他有在看脆，想把【直笛大師：水果切切切】給班上小孩假期玩——本來要停止開發的我就一鼓作氣做完並部署上線。新版本更新：</p>
+        <ul>
+          <li>長音機制：訓練小孩的氣息穩定</li>
+          <li>Fever 模式：連續觸及的加分機制</li>
+          <li>調音輔助介面：提示音太高或太低</li>
+        </ul>
+        <p>平板手機都相容，但主要是針對大螢幕開發。有課堂實作畫面或開發回饋歡迎跟我分享，我會很開心的～</p>
+        <div class="links">
+          <a href="https://linyubert.github.io/Wind-Blade/" target="_blank" rel="noopener">▶ 遊玩</a>
+          <a href="https://github.com/linyubert/Wind-Blade" target="_blank" rel="noopener">原始碼</a>
+          <a href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">THREADS 原文</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry mustard">
+      <span class="node"></span>
+      <div class="entry-card card">
+        <span class="date">2026．06</span>
+        <span class="tag">期末企劃</span><span class="tag">RPG</span>
+        <h2>三年級音樂大進擊 — 讓考試變成冒險</h2>
+        <span class="en">MUSIC3GRADE / FINAL EXAM RPG</span>
+        <p>RO 仙境傳說風格的期末複習 RPG：5 大地圖、18 道題目、道具系統、通關盲盒。目標是讓三年級的孩子帶著笑容考完期末測驗。</p>
+        <div class="links">
+          <a href="https://linyubert.github.io/music3grade/" target="_blank" rel="noopener">▶ 遊玩</a>
+          <a href="https://github.com/linyubert/music3grade" target="_blank" rel="noopener">原始碼</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="node"></span>
+      <div class="entry-card card">
+        <span class="date">2026．春</span>
+        <span class="tag">節奏・仿奏</span>
+        <h2>節奏幫爸爸拔鬍子 — 仿奏練習遊戲</h2>
+        <span class="en">DADABEARD / RHYTHM IMITATION</span>
+        <p>看示範長鬍子、照節奏拔鬍子！讓學生在拔鬍子的動作中練好仿奏，先聽再做，抓拍點的直覺就這樣長出來。這個遊戲也成為後來「番茄醬節奏大師」的時值練習前傳。</p>
+        <div class="links">
+          <a href="https://linyubert.github.io/dadabeard/" target="_blank" rel="noopener">▶ 遊玩</a>
+          <a href="https://github.com/linyubert/dadabeard" target="_blank" rel="noopener">原始碼</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry blue">
+      <span class="node"></span>
+      <div class="entry-card card">
+        <span class="date">2026．春</span>
+        <span class="tag">直笛・體感</span>
+        <h2>直笛動力飛行任務／倍數守門員</h2>
+        <span class="en">RECORDERPLANE &amp; TIMESMATH</span>
+        <p>兩個「用身體玩」的實驗：用高音直笛的 Sol La Si Do 控制飛機在五線譜上飛行（3 關 30 題練音高辨識）；以及開鏡頭當守門員、接住指定倍數的心算體感遊戲——音樂課的技術也能借給數學課用。</p>
+        <div class="links">
+          <a href="https://linyubert.github.io/recorderplane/" target="_blank" rel="noopener">▶ 飛行任務</a>
+          <a href="https://linyubert.github.io/timesmath/" target="_blank" rel="noopener">▶ 倍數守門員</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry mustard">
+      <span class="node"></span>
+      <div class="entry-card card">
+        <span class="date">2025．12</span>
+        <span class="tag">季節限定</span>
+        <h2>魔法聖誕樹 — 永順國小聖誕任務</h2>
+        <span class="en">XMAS MISSION</span>
+        <p>為永順國小做的 2025 聖誕限定沉浸式互動教室，孩子們在魔法教室裡完成聖誕任務。季節限定企劃，之後的節慶還會有新的。</p>
+        <div class="links">
+          <a href="https://linyubert.github.io/xmasmission/" target="_blank" rel="noopener">▶ 進入教室</a>
+          <a href="https://github.com/linyubert/xmasmission" target="_blank" rel="noopener">原始碼</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="node"></span>
+      <div class="entry-card card">
+        <span class="date">起点</span>
+        <span class="tag">實驗室由來</span>
+        <h2>為什麼開始寫遊戲？</h2>
+        <span class="en">WHY THIS LAB EXISTS</span>
+        <p>白天上課、放學寫程式。課堂上「小孩卡住的地方」就是下一個遊戲的規格書：音準不穩 → 直笛水果忍者；拍點抓不到 → 拔鬍子；時值沒感覺 → 番茄醬。所有遊戲開放教師與家長免費在課堂使用。</p>
+        <div class="links">
+          <a href="index.html#projects">全部遊戲</a>
+          <a href="index.html#method">教學方法</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-panel card">
+    <span class="chip"><span class="dotmark"></span> 最新情報は THREADS で</span>
+    <h2 class="misreg">想追最即時的開發動態？</h2>
+    <p>新遊戲測試、課堂實況、開發中的失敗與靈感，都先發生在 Threads。</p>
+    <a class="btn" href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">追蹤 @lycbert</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="awning"></div>
+  <div class="foot-in">
+    <span class="label">© 2026 DATO MUSIC LAB — 音樂と遊びの実験室 ♪</span>
+    <span class="label">
+      <a href="index.html">首頁</a>
+      <a href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">YOUTUBE</a>
+      <a href="https://www.threads.com/@lycbert" target="_blank" rel="noopener">THREADS</a>
+      <a href="https://github.com/linyubert" target="_blank" rel="noopener">GITHUB</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
