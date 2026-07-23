@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>og</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700;800&family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3ead7;
+  --paper-2:#faf4e4;
+  --ink:#2b2620;
+  --ink-soft:#5c5344;
+  --red:#c8442e;
+  --mustard:#d9a62e;
+  --mustard-soft:#e8c46a;
+  --blue:#274a6d;
+  --serif:'Shippori Mincho',serif;
+  --dot:'DotGothic16',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{
+  font-family:var(--serif);
+  background:var(--paper);
+  color:var(--ink);
+  position:relative;
+  background-image:
+    radial-gradient(rgba(43,38,32,.06) 1px,transparent 1.4px),
+    linear-gradient(rgba(217,166,46,.06),rgba(200,68,46,.04));
+  background-size:8px 8px,100% 100%;
+}
+.awning{
+  height:20px;
+  background:repeating-linear-gradient(45deg,var(--red) 0 18px,var(--paper-2) 18px 36px);
+  border-bottom:3px solid var(--ink);
+}
+.awning.bottom{border-bottom:none;border-top:3px solid var(--ink)}
+.stage{
+  position:absolute;top:20px;left:0;right:0;bottom:20px;
+  display:flex;align-items:center;padding:0 70px;gap:56px;
+}
+.left{flex:1.1}
+.logo-row{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.logo-badge{
+  width:56px;height:56px;border-radius:50%;background:var(--red);
+  border:3px solid var(--ink);display:grid;place-items:center;color:var(--paper-2);
+  font-family:var(--serif);font-weight:800;font-size:26px;
+  box-shadow:inset 0 0 0 2px var(--paper-2),4px 4px 0 rgba(43,38,32,.25);
+  transform:rotate(-6deg);
+}
+.logo-row b{font-size:24px;font-weight:800;letter-spacing:.06em;display:block;line-height:1.2}
+.logo-row small{display:block;font-family:var(--dot);font-size:12px;letter-spacing:.3em;color:var(--ink-soft)}
+.chip{
+  display:inline-flex;align-items:center;gap:10px;padding:7px 18px;
+  background:var(--paper-2);border:2px solid var(--ink);border-radius:3px;
+  box-shadow:4px 4px 0 rgba(200,68,46,.8);
+  font-family:var(--dot);font-size:13px;letter-spacing:.2em;color:var(--ink);
+  margin-bottom:22px;
+}
+.dotmark{width:11px;height:11px;border-radius:50%;background:var(--red);border:1.5px solid var(--ink);display:inline-block}
+h1{
+  font-size:56px;font-weight:800;line-height:1.24;letter-spacing:.04em;
+  text-shadow:3px 2.5px 0 rgba(200,68,46,.55),-3px -2.5px 0 rgba(39,74,109,.45);
+  margin-bottom:14px;
+}
+.sub{font-family:var(--dot);font-size:16px;letter-spacing:.14em;color:var(--blue);margin-bottom:16px}
+.tagline{font-size:17px;color:var(--ink-soft);line-height:1.6}
+.tagline b{color:var(--red)}
+.right{
+  width:400px;height:340px;border-radius:20px;position:relative;
+  background:linear-gradient(160deg,#8a5a33,#6b421f 55%,#59361a);
+  border:3px solid var(--ink);
+  box-shadow:10px 10px 0 rgba(43,38,32,.8);
+  padding:22px;
+}
+.right::before{content:"";position:absolute;inset:6px;border:1.5px solid rgba(243,234,215,.35);border-radius:14px;pointer-events:none}
+.screen{
+  background:#191713;border-radius:16px;padding:22px;height:100%;
+  font-family:var(--dot);font-size:15px;color:#ffb64d;
+  border:2.5px solid #0d0c0a;box-shadow:inset 0 0 32px rgba(0,0,0,.85);
+  display:flex;flex-direction:column;justify-content:center;gap:14px;
+}
+.screen div{display:flex;justify-content:space-between;letter-spacing:.06em}
+.screen div em{font-style:normal;color:#8f7f63}
+.eq{display:flex;align-items:flex-end;gap:5px;height:44px}
+.eq i{flex:1;background:linear-gradient(180deg,#ffb64d,#b36e14);border-radius:1px}
+.url{
+  position:absolute;bottom:36px;right:70px;
+  font-family:var(--dot);font-size:15px;letter-spacing:.12em;color:var(--ink-soft);
+}
+</style>
+</head>
+<body>
+<div class="awning"></div>
+<div class="stage">
+  <div class="left">
+    <div class="logo-row">
+      <span class="logo-badge">音</span>
+      <span><b>DATO MUSIC LAB</b><small>音樂 ・ 程式 ・ 教室</small></span>
+    </div>
+    <span class="chip"><span class="dotmark"></span> 本日も営業中 — 開課中</span>
+    <h1>音樂 × 程式 ×<br>課堂實驗室</h1>
+    <div class="sub">MUSIC TEACHER / EDTECH GAME MAKER</div>
+    <div class="tagline">國小音樂教師的<b>互動遊戲</b>與<b>雙語教學</b>實驗室</div>
+  </div>
+  <div class="right">
+    <div class="screen">
+      <div><span>♪ ch.8</span><span>DATO_LAB // 放送中</span></div>
+      <div><em>教學法</em><span>ORFF / KODÁLY / CLIL</span></div>
+      <div><em>狀態</em><span>LET'S PLAY MUSIC ♪</span></div>
+      <div class="eq"><i style="height:50%"></i><i style="height:80%"></i><i style="height:35%"></i><i style="height:95%"></i><i style="height:60%"></i><i style="height:40%"></i><i style="height:75%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:45%"></i></div>
+    </div>
+  </div>
+</div>
+<div class="url">linyubert.github.io</div>
+<div class="awning bottom" style="position:absolute;bottom:0;left:0;right:0"></div>
+</body>
+</html>
