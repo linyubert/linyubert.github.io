@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dato Music Lab — 音樂 × 遊戲 × 教育</title>
+<meta name="description" content="國小音樂教師、教育遊戲開發者。奧福節奏、直笛教學、課堂互動遊戲,全部開放教師與家長免費使用。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dato Music Lab — 音樂 × 遊戲 × 教育">
+<meta property="og:description" content="奧福節奏、直笛教學、課堂互動遊戲,全部開放教師與家長免費使用。">
+<meta property="og:image" content="https://linyubert.github.io/assets/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:   '#5C7D52',
+        vibrant: '#74b72e',
+        brandDark: '#4a6541',
+      },
+      fontFamily: {
+        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #F4F4F4; }
+  .dots-bg {
+    background-image: radial-gradient(#5C7D52 2px, transparent 2px);
+    background-size: 40px 40px;
+    opacity: .15;
+  }
+  .card-lift { transition: all .3s ease-in-out; }
+  .card-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgb(0 0 0 / 0.08); }
+  .card-lift:hover .float-icon { transform: translateY(-6px); }
+  .float-icon { transition: transform .3s ease-in-out; }
+</style>
+</head>
+<body class="font-sans text-gray-600 antialiased">
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="fixed top-0 inset-x-0 z-50 bg-white/70 backdrop-blur-md border-b border-gray-200/60">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 h-[72px] flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-3">
+      <span class="w-10 h-10 rounded-full bg-brand text-white grid place-items-center font-black text-lg shadow-md shadow-green-900/20">音</span>
+      <span class="font-extrabold tracking-tight text-[#111827] text-lg">Dato Music Lab</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+      <a href="#services" class="hover:text-brand transition-all duration-300">教學服務</a>
+      <a href="#projects" class="hover:text-brand transition-all duration-300">精選作品</a>
+      <a href="#about" class="hover:text-brand transition-all duration-300">關於我</a>
+      <a href="#contact" class="hover:text-brand transition-all duration-300">聯絡</a>
+    </nav>
+    <a href="#projects" class="inline-flex items-center gap-2 bg-brand hover:bg-brandDark text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-lg shadow-green-900/20 transition-all duration-300 hover:shadow-xl">
+      來玩遊戲 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+    </a>
+  </div>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<main id="top">
+<section class="relative overflow-hidden pt-[72px]" style="min-height: calc(100vh - 0px);">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-[55%_45%] items-center gap-10" style="min-height: calc(100vh - 72px);">
+    <!-- Left -->
+    <div class="relative z-10 py-16 lg:py-0">
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-widest text-brand mb-5">Music × Game × Education</p>
+      <h1 class="text-4xl sm:text-[4rem] font-extrabold tracking-tight leading-[1.1] text-[#0F172A] mb-6">
+        讓音樂課<br>好玩得像闖關
+      </h1>
+      <p class="text-lg text-gray-500 leading-relaxed max-w-xl mb-9">
+        我是 Dato,國小音樂教師 × 教育遊戲開發者。奧福節奏、直笛教學、課堂互動遊戲,
+        全部開放給老師與家長免費使用,讓每個孩子都能在遊戲裡愛上音樂。
+      </p>
+      <div class="flex flex-wrap items-center gap-4 mb-16">
+        <a href="#projects" class="inline-flex items-center gap-2 bg-brand hover:bg-brandDark text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-green-900/20 transition-all duration-300 hover:shadow-xl">
+          立即開始探索 <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </a>
+        <a href="https://linyubert.github.io/devlog.html" class="inline-flex items-center gap-2 text-brand font-semibold px-6 py-4 rounded-xl border border-brand/30 hover:bg-brand/5 transition-all duration-300">
+          看開發日誌
+        </a>
+      </div>
+      <!-- Trusted by -->
+      <div>
+        <p class="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-4">教學方法基礎</p>
+        <div class="flex flex-wrap items-center gap-x-8 gap-y-3 text-gray-400">
+          <span class="flex items-center gap-2 font-semibold"><i data-lucide="music" class="w-5 h-5"></i>奧福 Orff</span>
+          <span class="flex items-center gap-2 font-semibold"><i data-lucide="hand" class="w-5 h-5"></i>柯大宜 Kodály</span>
+          <span class="flex items-center gap-2 font-semibold"><i data-lucide="globe" class="w-5 h-5"></i>CLIL 雙語</span>
+          <span class="flex items-center gap-2 font-semibold"><i data-lucide="gamepad-2" class="w-5 h-5"></i>遊戲化課堂</span>
+        </div>
+      </div>
+    </div>
+    <!-- Right visual -->
+    <div class="relative h-[320px] lg:h-full pointer-events-none">
+      <video autoplay muted loop playsinline
+        class="absolute right-[-120px] top-1/2 -translate-y-1/2 w-[700px] h-[700px] max-w-none object-contain mix-blend-multiply opacity-30 md:opacity-100"
+        src="https://strvid.nyc3.cdn.digitaloceanspaces.com/motionsite/floating_island_bg_hero.mp4"></video>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SERVICES ══════════ -->
+<section id="services" class="relative overflow-hidden bg-[#FAFAFA] py-24 lg:py-28">
+  <div class="absolute inset-0 dots-bg"></div>
+  <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full border-[24px] border-brand/10"></div>
+  <div class="absolute -bottom-40 -right-40 w-[28rem] h-[28rem] rounded-full border-[28px] border-vibrant/10"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-20">
+      <div class="flex items-center justify-center gap-4 mb-5">
+        <span class="h-px w-12 bg-brand/40"></span>
+        <span class="text-xs sm:text-sm font-bold uppercase tracking-widest text-brand flex items-center gap-2">
+          教學服<i data-lucide="music" class="w-4 h-4 text-vibrant"></i>務
+        </span>
+        <span class="h-px w-12 bg-brand/40"></span>
+      </div>
+      <h2 class="text-3xl sm:text-[2.75rem] font-extrabold tracking-tight leading-tight text-[#111827]">
+        音樂教育 × 遊戲科技
+      </h2>
+      <p class="mt-4 text-gray-500 max-w-2xl mx-auto">從節奏訓練到跨域素養,每一款工具都在真實課堂磨出來,拿去用就對了。</p>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 pt-7">
+
+      <!-- Card 1 -->
+      <div class="card-lift relative bg-white rounded-[2rem] border-b-[6px] border-brand shadow-[0_10px_30px_rgb(0,0,0,0.06)] overflow-visible">
+        <div class="float-icon absolute -top-7 left-8 w-16 h-16 rounded-2xl bg-brand grid place-items-center shadow-lg shadow-green-900/25 z-10">
+          <i data-lucide="drum" class="w-8 h-8 text-white"></i>
+        </div>
+        <div class="relative h-52 rounded-t-[2rem] overflow-hidden">
+          <img src="https://linyubert.github.io/assets/thumb-rhythmocean.jpg" alt="節奏海洋遊戲畫面" class="w-full h-full object-cover" loading="lazy">
+          <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0,40 C120,0 280,0 400,40 L400,40 L0,40 Z" fill="#ffffff"/></svg>
+        </div>
+        <div class="px-8 pt-8 pb-10">
+          <h3 class="font-bold text-lg text-[#111827] mb-2">節奏訓練遊戲</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">節奏海洋、幫爸爸拔鬍子——用身體與反應力打節奏,低年級也能玩出穩定拍感。</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card-lift relative bg-white rounded-[2rem] border-b-[6px] border-brand shadow-[0_10px_30px_rgb(0,0,0,0.06)] overflow-visible">
+        <div class="float-icon absolute -top-7 left-8 w-16 h-16 rounded-2xl bg-brand grid place-items-center shadow-lg shadow-green-900/25 z-10">
+          <i data-lucide="music-2" class="w-8 h-8 text-white"></i>
+        </div>
+        <div class="relative h-52 rounded-t-[2rem] overflow-hidden">
+          <img src="https://linyubert.github.io/assets/thumb-windblade.jpg" alt="直笛水果忍者遊戲畫面" class="w-full h-full object-cover" loading="lazy">
+          <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0,40 C120,0 280,0 400,40 L400,40 L0,40 Z" fill="#ffffff"/></svg>
+        </div>
+        <div class="px-8 pt-8 pb-10">
+          <h3 class="font-bold text-lg text-[#111827] mb-2">直笛互動教學</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">直笛水果忍者、動力飛行任務——吹對音才能過關,指法練習從此不無聊。</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card-lift relative bg-white rounded-[2rem] border-b-[6px] border-brand shadow-[0_10px_30px_rgb(0,0,0,0.06)] overflow-visible">
+        <div class="float-icon absolute -top-7 left-8 w-16 h-16 rounded-2xl bg-brand grid place-items-center shadow-lg shadow-green-900/25 z-10">
+          <i data-lucide="gamepad-2" class="w-8 h-8 text-white"></i>
+        </div>
+        <div class="relative h-52 rounded-t-[2rem] overflow-hidden">
+          <img src="https://linyubert.github.io/assets/thumb-catchuper.jpg" alt="番茄醬節奏大師遊戲畫面" class="w-full h-full object-cover" loading="lazy">
+          <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0,40 C120,0 280,0 400,40 L400,40 L0,40 Z" fill="#ffffff"/></svg>
+        </div>
+        <div class="px-8 pt-8 pb-10">
+          <h3 class="font-bold text-lg text-[#111827] mb-2">課堂遊戲化設計</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">番茄醬節奏大師、諜報電報——把課堂常規與聽力訓練包進遊戲,班級經營更輕鬆。</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card-lift relative bg-white rounded-[2rem] border-b-[6px] border-brand shadow-[0_10px_30px_rgb(0,0,0,0.06)] overflow-visible">
+        <div class="float-icon absolute -top-7 left-8 w-16 h-16 rounded-2xl bg-brand grid place-items-center shadow-lg shadow-green-900/25 z-10">
+          <i data-lucide="graduation-cap" class="w-8 h-8 text-white"></i>
+        </div>
+        <div class="relative h-52 rounded-t-[2rem] overflow-hidden">
+          <img src="https://linyubert.github.io/assets/thumb-music3grade.jpg" alt="三年級音樂大進擊遊戲畫面" class="w-full h-full object-cover" loading="lazy">
+          <svg class="absolute bottom-0 left-0 w-full" viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0,40 C120,0 280,0 400,40 L400,40 L0,40 Z" fill="#ffffff"/></svg>
+        </div>
+        <div class="px-8 pt-8 pb-10">
+          <h3 class="font-bold text-lg text-[#111827] mb-2">跨域素養課程</h3>
+          <p class="text-sm text-gray-500 leading-relaxed">三年級音樂大進擊、倍數守門員——音樂結合數學與語文,素養導向評量也能玩著考。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FEATURED PROJECTS ══════════ -->
+<section id="projects" class="py-24 lg:py-28">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-6 mb-14">
+      <div>
+        <p class="text-xs sm:text-sm font-bold uppercase tracking-widest text-brand mb-3">Case Studies</p>
+        <h2 class="text-3xl sm:text-[2.75rem] font-extrabold tracking-tight leading-tight text-[#111827]">精選作品</h2>
+      </div>
+      <a href="https://linyubert.github.io/#projects" class="inline-flex items-center gap-2 text-brand font-semibold hover:gap-3 transition-all duration-300">
+        看全部 9 款遊戲 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- P1 -->
+      <a href="https://linyubert.github.io/Wind-Blade/" target="_blank" rel="noopener" class="group relative aspect-[4/5] rounded-2xl overflow-hidden block shadow-lg">
+        <img src="https://linyubert.github.io/assets/thumb-windblade.jpg" alt="直笛水果忍者遊戲畫面" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+          <p class="text-vibrant text-sm font-bold uppercase tracking-widest mb-2">直笛教學</p>
+          <h3 class="text-white text-2xl font-bold tracking-tight">直笛水果忍者<br>Wind-Blade</h3>
+        </div>
+      </a>
+      <!-- P2 -->
+      <a href="https://linyubert.github.io/rhythm-ocean/" target="_blank" rel="noopener" class="group relative aspect-[4/5] rounded-2xl overflow-hidden block shadow-lg">
+        <img src="https://linyubert.github.io/assets/thumb-rhythmocean.jpg" alt="節奏海洋遊戲畫面" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+          <p class="text-vibrant text-sm font-bold uppercase tracking-widest mb-2">節奏訓練</p>
+          <h3 class="text-white text-2xl font-bold tracking-tight">節奏海洋<br>Rhythm Ocean</h3>
+        </div>
+      </a>
+      <!-- P3 -->
+      <a href="https://linyubert.github.io/espionage-telegraph/" target="_blank" rel="noopener" class="group relative aspect-[4/5] rounded-2xl overflow-hidden block shadow-lg">
+        <img src="https://linyubert.github.io/assets/thumb-telegraph.jpg" alt="諜報電報遊戲畫面" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+          <p class="text-vibrant text-sm font-bold uppercase tracking-widest mb-2">聽力 × 解碼</p>
+          <h3 class="text-white text-2xl font-bold tracking-tight">諜報電報<br>Espionage Telegraph</h3>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT & IMPACT ══════════ -->
+<section id="about" class="bg-[#FAFAFA] py-24 lg:py-28">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+    <div class="relative">
+      <img src="https://linyubert.github.io/assets/og-image.jpg" alt="Dato Music Lab 形象圖" class="rounded-[2rem] shadow-xl w-full object-cover" loading="lazy">
+      <span class="absolute -bottom-4 -right-4 w-32 h-32 rounded-[2rem] border-[10px] border-vibrant/20 -z-0"></span>
+    </div>
+    <div>
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-widest text-brand mb-3">About Dato</p>
+      <h2 class="text-3xl sm:text-[2.75rem] font-extrabold tracking-tight leading-tight text-[#111827] mb-6">教室是我的實驗室</h2>
+      <p class="text-gray-500 leading-relaxed mb-4">
+        白天在國小教音樂,晚上寫程式做遊戲。每一款作品都先在自己的課堂上實測,
+        修到孩子搶著舉手才上線。所有遊戲與工具開放原始碼,老師可以直接拿去用,
+        也歡迎回饋課堂使用心得。
+      </p>
+      <p class="text-gray-500 leading-relaxed mb-10">
+        同時在 YouTube 經營音樂教學頻道、在 Threads 記錄開發歷程,
+        希望讓更多老師相信:音樂課可以又扎實、又好玩。
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+        <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
+          <p class="text-3xl font-extrabold text-brand tracking-tight">36+</p>
+          <p class="text-xs text-gray-400 font-semibold mt-1">教學影片</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
+          <p class="text-3xl font-extrabold text-brand tracking-tight">9</p>
+          <p class="text-xs text-gray-400 font-semibold mt-1">開放遊戲</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
+          <p class="text-3xl font-extrabold text-brand tracking-tight">1.4K+</p>
+          <p class="text-xs text-gray-400 font-semibold mt-1">Threads 追蹤</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 text-center shadow-sm">
+          <p class="text-3xl font-extrabold text-brand tracking-tight">150K+</p>
+          <p class="text-xs text-gray-400 font-semibold mt-1">月瀏覽次數</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact" class="py-24 lg:py-28">
+  <div class="max-w-3xl mx-auto px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <p class="text-xs sm:text-sm font-bold uppercase tracking-widest text-brand mb-3">Contact</p>
+      <h2 class="text-3xl sm:text-[2.75rem] font-extrabold tracking-tight leading-tight text-[#111827]">一起讓音樂課更好玩</h2>
+      <p class="mt-4 text-gray-500">教學合作、遊戲回饋、演講邀約,都歡迎留言給我。</p>
+    </div>
+    <form class="bg-white rounded-[2rem] shadow-[0_10px_30px_rgb(0,0,0,0.06)] p-8 sm:p-10 grid gap-6" onsubmit="event.preventDefault(); const f=this; location.href='mailto:yucheng720@gmail.com?subject='+encodeURIComponent('[Dato Music Lab] '+f.name.value)+'&body='+encodeURIComponent(f.message.value+'\n\n— '+f.name.value+' <'+f.email.value+'>');">
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div>
+          <label for="name" class="block text-sm font-semibold text-[#111827] mb-2">姓名</label>
+          <input id="name" name="name" type="text" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all duration-300" placeholder="您的稱呼">
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-semibold text-[#111827] mb-2">Email</label>
+          <input id="email" name="email" type="email" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all duration-300" placeholder="you@example.com">
+        </div>
+      </div>
+      <div>
+        <label for="message" class="block text-sm font-semibold text-[#111827] mb-2">訊息</label>
+        <textarea id="message" name="message" rows="5" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all duration-300" placeholder="想聊聊什麼呢?"></textarea>
+      </div>
+      <button type="submit" class="justify-self-start inline-flex items-center gap-2 bg-brand hover:bg-brandDark text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-green-900/20 transition-all duration-300 hover:shadow-xl">
+        送出訊息 <i data-lucide="send" class="w-4 h-4"></i>
+      </button>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="bg-[#0F172A] text-gray-400 py-16">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 grid gap-12 md:grid-cols-4">
+    <div class="md:col-span-2">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-10 h-10 rounded-full bg-brand text-white grid place-items-center font-black text-lg">音</span>
+        <span class="font-extrabold tracking-tight text-white text-lg">Dato Music Lab</span>
+      </div>
+      <p class="text-sm leading-relaxed max-w-sm">音樂 × 程式 × 教室。所有教學遊戲與工具開放免費使用,歡迎老師與家長帶進課堂與家庭。</p>
+    </div>
+    <div>
+      <p class="text-white font-bold text-sm uppercase tracking-widest mb-4">頻道</p>
+      <ul class="space-y-3 text-sm">
+        <li><a href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener" class="hover:text-white transition-all duration-300">YouTube</a></li>
+        <li><a href="https://www.threads.com/@lycbert" target="_blank" rel="noopener" class="hover:text-white transition-all duration-300">Threads</a></li>
+        <li><a href="https://github.com/linyubert" target="_blank" rel="noopener" class="hover:text-white transition-all duration-300">GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="text-white font-bold text-sm uppercase tracking-widest mb-4">網站</p>
+      <ul class="space-y-3 text-sm">
+        <li><a href="https://linyubert.github.io/" class="hover:text-white transition-all duration-300">現行首頁</a></li>
+        <li><a href="https://linyubert.github.io/devlog.html" class="hover:text-white transition-all duration-300">開發日誌</a></li>
+        <li><a href="https://github.com/linyubert?tab=repositories" target="_blank" rel="noopener" class="hover:text-white transition-all duration-300">全部原始碼</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 mt-12 pt-8 border-t border-white/10 text-xs text-gray-500">
+    © 2026 Dato Music Lab. Made with ♪ in the classroom.
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
