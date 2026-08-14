@@ -267,6 +267,22 @@
     .video-card:hover .video-thumb img{transform:scale(1.045);filter:saturate(1.05)}.video-card:hover .video-thumb::after{transform:rotate(-12deg) scale(1.08)}
     .video-card .series{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--yellow);margin-top:24px}.video-card h3{font-family:var(--serif);font-size:clamp(23px,2.3vw,34px);line-height:1.22;margin:13px 0 8px}.video-card p{font-size:11px;color:rgba(255,255,255,.62);margin:0}
     .video-card.channel-card{background:var(--yellow);color:var(--ink);justify-content:center;align-items:flex-start;gap:24px}.video-card.channel-card:hover{background:var(--pink)}.channel-card .channel-mark{font-family:var(--serif);font-size:clamp(58px,7vw,104px);font-weight:900;line-height:.8}.channel-card p{color:var(--ink);max-width:28ch}.channel-card .pill-cta{background:var(--paper-light)}
+    .youtube-feature{display:grid;grid-template-columns:minmax(0,1.62fr) minmax(360px,.88fr);min-height:720px;border-bottom:1px solid rgba(255,255,255,.2)}
+    .datoe-story{position:relative;min-width:0;min-height:720px;overflow:hidden;border-right:1px solid rgba(255,255,255,.2);color:white;text-decoration:none;isolation:isolate}
+    .datoe-story-media{position:absolute;inset:0}.datoe-story-media img{width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:saturate(.82) contrast(1.08);transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .4s ease}.datoe-story-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 18%,rgba(0,0,0,.86) 92%),linear-gradient(90deg,rgba(0,0,0,.42),transparent 58%)}
+    .datoe-story:hover .datoe-story-media img{transform:scale(1.025);filter:saturate(1) contrast(1.05)}
+    .datoe-story-copy{position:absolute;z-index:2;inset:0;padding:32px 34px;display:flex;flex-direction:column;justify-content:space-between}
+    .datoe-story-top{display:flex;justify-content:space-between;gap:18px;font-size:8px;letter-spacing:.17em;text-transform:uppercase}.datoe-story-top span:first-child{color:var(--yellow)}
+    .datoe-story h3{font-family:var(--sans);font-size:clamp(76px,10vw,160px);font-weight:900;line-height:.72;letter-spacing:-.075em;margin:0 0 28px;text-transform:uppercase}
+    .datoe-story p{max-width:48ch;margin:0 0 24px;font-size:12px;line-height:1.7;color:rgba(255,255,255,.76)}
+    .datoe-story-open{display:inline-flex;align-items:center;gap:15px;width:max-content;padding:12px 16px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:var(--yellow);color:var(--ink);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.datoe-story-open b{font-family:var(--serif);font-size:12px}
+    .youtube-programs{min-width:0;display:flex;flex-direction:column;background:#30312f}
+    .programs-head{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.2);display:flex;justify-content:space-between;gap:16px;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55)}.programs-head strong{color:var(--yellow);font-weight:600}
+    .program-list{min-height:0;flex:1;display:flex;flex-direction:column}
+    .program-row{min-width:0;flex:1;display:grid;grid-template-columns:112px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.16);text-decoration:none;transition:background .22s,color .22s}.program-row:last-child{border-bottom:0}.program-row:hover{background:var(--paper-light);color:var(--ink)}
+    .program-thumb{width:112px;aspect-ratio:16/10;overflow:hidden;border:1px solid rgba(255,255,255,.42);border-radius:5px;background:var(--ink)}.program-thumb img{width:100%;height:100%;object-fit:cover;filter:saturate(.76);transition:transform .35s ease,filter .25s ease}.program-row:hover .program-thumb img{transform:scale(1.04);filter:saturate(1)}
+    .program-copy{min-width:0}.program-code{display:block;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow)}.program-row:hover .program-code{color:var(--blue)}.program-copy h3{font-family:var(--serif);font-size:clamp(16px,1.5vw,22px);line-height:1.08;margin:7px 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.program-copy p{margin:0;font-size:8px;line-height:1.45;color:rgba(255,255,255,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.program-row:hover .program-copy p{color:var(--muted)}.program-arrow{font-size:17px}
+    .youtube-channel-bar{min-height:86px;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;background:var(--yellow);color:var(--ink)}.youtube-channel-bar p{margin:0;font-family:var(--serif);font-size:clamp(18px,2.2vw,28px);font-weight:700}.youtube-channel-bar a{display:inline-flex;align-items:center;gap:12px;padding:11px 16px;border:1px solid var(--line);border-radius:999px;background:var(--paper-light);color:var(--ink);text-decoration:none;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
 
     .educator-visual{position:relative;height:430px;overflow:hidden;border-bottom:1px solid var(--line);background:var(--paper-light)}.educator-visual img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .55s ease}.educator-visual:hover img{transform:scale(1.018)}.educator-visual span{position:absolute;right:24px;bottom:22px;background:var(--paper-light);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:9px;letter-spacing:.15em;text-transform:uppercase}
     .educator-grid{display:grid;grid-template-columns:repeat(3,1fr)}
@@ -347,6 +363,31 @@
     }
     @media (max-width:480px){
       .hero-side{display:flex;flex-direction:column}.brand-orbit{min-height:240px;border-right:0;border-bottom:1px solid var(--line)}.info-card{min-height:250px}
+    }
+    /* Final mobile cover: illustration-led hero. Desktop presentation stays unchanged. */
+    @media (max-width:760px){
+      .hero{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(620px,78svh);min-height:0;background:var(--paper-light)}
+      .art-panel{grid-column:1;grid-row:1;min-height:0;height:100%;border-bottom:1px solid var(--line)}
+      .art-panel>img{object-position:79% center;transform:scale(1.16);transform-origin:76% center}
+      .art-panel::after{border-width:8px}
+      .hero-copy{grid-column:1;grid-row:1;position:relative;z-index:8;align-self:end;justify-self:start;width:min(76vw,330px);min-height:350px;margin:0 0 18px 18px;padding:76px 23px 22px;border:1.5px solid var(--line);border-radius:999px 999px 28px 28px;background:rgba(255,250,240,.94);box-shadow:7px 8px 0 rgba(23,24,21,.82);backdrop-filter:blur(7px);overflow:hidden}
+      .hero-copy::before{content:"DATO MUSIC LAB / MOBILE EDITION";position:absolute;left:50%;top:38px;transform:translateX(-50%);font-size:7px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;opacity:.58;white-space:nowrap}
+      .hero-copy>div:first-child{display:flex;flex-direction:column;justify-content:flex-end;flex:1}
+      .hero .kicker{font-size:8px;letter-spacing:.16em}.hero h1{font-size:clamp(42px,12.4vw,57px);line-height:.86;letter-spacing:-.075em;margin:12px 0 17px}.identity{gap:8px}.identity strong{font-size:11px;line-height:1.25}.identity p{max-width:27ch;font-size:10px;line-height:1.5}.hero-index{display:none}.hero-side{display:none}
+      .art-label.one{left:auto;right:14px;top:16px;bottom:auto;transform:rotate(2deg);background:rgba(255,250,240,.9)}.art-label.two{left:14px;right:auto;top:61px;bottom:auto;transform:rotate(-2deg);font-size:7px;padding:7px 10px}#soundParticles{mix-blend-mode:multiply}
+      .youtube-feature{display:flex;flex-direction:column;min-height:0}
+      .datoe-story{min-height:610px;border-right:0;border-bottom:1px solid rgba(255,255,255,.2)}
+      .datoe-story-media img{object-position:55% 28%}
+      .datoe-story-copy{padding:24px 20px 27px}.datoe-story-top{font-size:7px}.datoe-story-top span:last-child{display:none}.datoe-story h3{font-size:clamp(78px,25vw,104px);margin-bottom:22px}.datoe-story p{font-size:11px;line-height:1.62;max-width:34ch}.datoe-story-open{padding:11px 14px;font-size:8px}
+      .youtube-programs{display:block;padding-bottom:18px}.programs-head{padding:19px 16px 14px}.programs-head span{display:none}
+      .program-list{display:grid;grid-template-columns:none;grid-template-rows:none;grid-auto-flow:column;grid-auto-columns:82%;gap:11px;overflow-x:auto;overflow-y:hidden;padding:0 16px 8px;scroll-snap-type:x mandatory;scroll-padding-inline:16px;scrollbar-width:thin}
+      .program-row,.program-row:last-child{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1fr;gap:12px;min-height:285px;padding:12px;border:1px solid rgba(255,255,255,.2);border-radius:7px;background:rgba(255,255,255,.035);scroll-snap-align:start}
+      .program-thumb{grid-column:1/-1;width:100%;aspect-ratio:16/9}.program-copy h3{font-size:20px;margin-top:8px}.program-copy p{font-size:8px}.program-arrow{align-self:end}
+      .youtube-channel-bar{padding:22px 18px;align-items:flex-start;flex-direction:column}.youtube-channel-bar p{font-size:21px;line-height:1.3;max-width:19ch}.youtube-channel-bar a{font-size:8px}
+    }
+    @media (max-width:390px){
+      .hero{grid-template-rows:minmax(590px,76svh)}.hero-copy{width:min(79vw,310px);min-height:326px;margin:0 0 15px 14px;padding:68px 20px 19px}.hero h1{font-size:clamp(39px,12.2vw,49px)}.identity p{display:none}.art-panel>img{object-position:80% center;transform:scale(1.2)}
+      .datoe-story{min-height:570px}.datoe-story h3{font-size:76px}.datoe-story p{max-width:31ch}.program-list{grid-auto-columns:86%}
     }
     @media (prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}.marquee-track{animation:none}.status::before{animation:none}.feature-card img,.tab,.file-folder,.folder-sheet,.folder-panel{transition:none}
@@ -493,31 +534,26 @@
           <h2 class="section-title" id="watch-title">YOU<span class="outline">TUBE</span></h2>
           <p class="section-intro">不只是頻道連結：每個系列都是一種可以直接投影、跟著玩，或帶回課堂改造的音樂活動。</p>
         </div>
-        <div class="youtube-grid">
-          <a class="video-card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncUQrUfw6t8VNbp337VVr4_" target="_blank" rel="noopener">
-            <div class="video-thumb"><img src="assets/thumb-yt-kpop.jpg" alt="K-pop Highlight Melody Sheet Music 系列縮圖" loading="lazy"></div>
-            <div><div class="series">Series 01 / Melody</div><h3>K-pop 旋律鋼琴貼紙</h3><p>把熟悉的副歌變成音名與鍵盤的第一個入口。</p></div>
+        <div class="youtube-feature">
+          <a class="datoe-story" href="datoe/" aria-label="閱讀 DATOE. YouTube 頻道品牌故事">
+            <div class="datoe-story-media"><img src="datoe/assets/datoe/hero-cast.jpg" alt="DATOE. 旗下 AI 兒童演員團隊合照" loading="lazy"></div>
+            <div class="datoe-story-copy">
+              <div class="datoe-story-top"><span>Behind the channel</span><span>A virtual talent agency / Taipei</span></div>
+              <div><h3>DATOE.</h3><p>一個人類的玩心，加上一支永遠連戲的 AI 兒童演員軍團。從角色設定、視覺連戲到音樂教學影集，這是 Dato eMusic 頻道背後的內容世界。</p><span class="datoe-story-open"><b>Meet the cast</b> 進入品牌故事 →</span></div>
+            </div>
           </a>
-          <a class="video-card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncP1C77-SmHoLK6amkAspkB" target="_blank" rel="noopener">
-            <div class="video-thumb"><img src="assets/thumb-yt-spotreal.jpg" alt="Can You Spot the Real One 系列縮圖" loading="lazy"></div>
-            <div><div class="series">Series 02 / Ear Training</div><h3>找出真正的旋律</h3><p>真假旋律二選一，把聽力辨識做成快速挑戰。</p></div>
-          </a>
-          <a class="video-card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnfE75srwY2arqZLeWoqsPKQ" target="_blank" rel="noopener">
-            <div class="video-thumb"><img src="assets/thumb-yt-clapsay.jpg" alt="Clap and Say It 系列縮圖" loading="lazy"></div>
-            <div><div class="series">Series 03 / Rhythm</div><h3>拍手說節奏</h3><p>一分鐘跟著拍、跟著說，從身體建立節奏語彙。</p></div>
-          </a>
-          <a class="video-card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncwm990sh00oEcSU4zs7TAJ" target="_blank" rel="noopener">
-            <div class="video-thumb"><img src="assets/thumb-yt-rightleft.jpg" alt="Right or Left 系列縮圖" loading="lazy"></div>
-            <div><div class="series">Series 04 / Movement</div><h3>左右挑戰遊戲</h3><p>讓耳朵、左右手與節拍一起工作。</p></div>
-          </a>
-          <a class="video-card" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnc9LiiFtxY-F7fL5vLadV8S" target="_blank" rel="noopener">
-            <div class="video-thumb"><img src="assets/thumb-yt-tracingmap.jpg" alt="Musical Tracing Map 系列縮圖" loading="lazy"></div>
-            <div><div class="series">Series 05 / Listening Map</div><h3>音樂路線地圖</h3><p>跟著旋律描出路徑，把聽見的結構變成視覺。</p></div>
-          </a>
-          <a class="video-card channel-card" href="https://www.youtube.com/@datoemusic/videos" target="_blank" rel="noopener">
-            <div class="channel-mark">36+<br>VIDEOS</div><p>節奏挑戰、直笛教學與原創課堂素材持續更新。</p><span class="pill-cta">Open channel <span>↗</span></span>
-          </a>
+          <div class="youtube-programs">
+            <div class="programs-head"><strong>Produced by DATOE.</strong><span>Five series / Select to watch</span></div>
+            <div class="program-list">
+              <a class="program-row" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncUQrUfw6t8VNbp337VVr4_" target="_blank" rel="noopener"><div class="program-thumb"><img src="assets/thumb-yt-kpop.jpg" alt="K-pop 旋律鋼琴貼紙系列縮圖" loading="lazy"></div><div class="program-copy"><span class="program-code">01 / Melody</span><h3>K-pop 旋律鋼琴貼紙</h3><p>把熟悉的副歌變成音名與鍵盤的第一個入口。</p></div><span class="program-arrow">↗</span></a>
+              <a class="program-row" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncP1C77-SmHoLK6amkAspkB" target="_blank" rel="noopener"><div class="program-thumb"><img src="assets/thumb-yt-spotreal.jpg" alt="找出真正的旋律系列縮圖" loading="lazy"></div><div class="program-copy"><span class="program-code">02 / Ear Training</span><h3>找出真正的旋律</h3><p>真假旋律二選一，把聽力辨識做成快速挑戰。</p></div><span class="program-arrow">↗</span></a>
+              <a class="program-row" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnfE75srwY2arqZLeWoqsPKQ" target="_blank" rel="noopener"><div class="program-thumb"><img src="assets/thumb-yt-clapsay.jpg" alt="拍手說節奏系列縮圖" loading="lazy"></div><div class="program-copy"><span class="program-code">03 / Rhythm</span><h3>拍手說節奏</h3><p>一分鐘跟著拍、跟著說，從身體建立節奏語彙。</p></div><span class="program-arrow">↗</span></a>
+              <a class="program-row" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncwm990sh00oEcSU4zs7TAJ" target="_blank" rel="noopener"><div class="program-thumb"><img src="assets/thumb-yt-rightleft.jpg" alt="左右挑戰遊戲系列縮圖" loading="lazy"></div><div class="program-copy"><span class="program-code">04 / Movement</span><h3>左右挑戰遊戲</h3><p>讓耳朵、左右手與節拍一起工作。</p></div><span class="program-arrow">↗</span></a>
+              <a class="program-row" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnc9LiiFtxY-F7fL5vLadV8S" target="_blank" rel="noopener"><div class="program-thumb"><img src="assets/thumb-yt-tracingmap.jpg" alt="音樂路線地圖系列縮圖" loading="lazy"></div><div class="program-copy"><span class="program-code">05 / Listening Map</span><h3>音樂路線地圖</h3><p>跟著旋律描出路徑，把聽見的結構變成視覺。</p></div><span class="program-arrow">↗</span></a>
+            </div>
+          </div>
         </div>
+        <div class="youtube-channel-bar"><p>36+ 支音樂挑戰與課堂影片，持續開拍中。</p><a href="https://www.youtube.com/@datoemusic/videos" target="_blank" rel="noopener">Open YouTube channel ↗</a></div>
       </section>
 
       <section class="section with-rail" id="educators" data-rail="FOR EDUCATORS" aria-labelledby="educators-title">
