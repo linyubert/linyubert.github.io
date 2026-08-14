@@ -337,9 +337,9 @@
       .project-list{grid-template-columns:repeat(2,1fr)}.project-item:nth-child(3n){border-right:1px solid var(--line)}.project-item:nth-child(2n){border-right:0}
     }
     @media (max-width:760px){
-      html{scroll-padding-top:88px}
-      .top-rail{height:30px;padding:0 10px 0 14px}.rail-copy{display:none}.rail-actions{gap:8px}.top-social{width:23px;height:23px}
-      .tab-nav{grid-template-columns:repeat(7,auto)}
+      html{scroll-padding-top:104px}
+      .top-rail{position:sticky;top:0;z-index:42;height:30px;padding:0 10px 0 14px}.rail-copy{display:none}.rail-actions{gap:8px}.top-social{width:23px;height:23px}
+      .tab-nav{top:30px;z-index:41;grid-template-columns:repeat(7,auto)}
       .tab{height:62px;min-width:120px;border-radius:25px 25px 0 0;font-size:10px}.tab:hover,.tab[aria-current="page"]{height:68px}
       .masthead{height:58px;padding-inline:16px;grid-template-columns:1fr auto}.masthead .wordmark{font-size:16px}.masthead .place{display:none}
       .hero{display:flex;flex-direction:column;min-height:0}
