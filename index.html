@@ -227,6 +227,23 @@
     .playground-caption h3{font-family:var(--serif);font-size:clamp(34px,4.2vw,62px);line-height:1.08;letter-spacing:-.045em;margin:24px 0}.playground-caption p{font-size:12px;max-width:34ch}
     .playground-art{position:relative;overflow:hidden;min-height:430px}.playground-art img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .55s ease}.playground-visual:hover .playground-art img{transform:scale(1.025)}
     .playground-art::after{content:attr(data-caption);position:absolute;right:18px;bottom:18px;background:var(--paper-light);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+    .files-lab{position:relative;padding:38px clamp(22px,5vw,72px) 0;background:#deddd8;border-bottom:1px solid var(--line);overflow:hidden}
+    .files-lab::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,.07) .55px,transparent .7px);background-size:5px 5px;pointer-events:none}
+    .files-toolbar{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:end;gap:24px;max-width:1000px;margin:0 auto 44px}.files-toolbar h3{font-family:var(--serif);font-size:clamp(34px,4vw,56px);line-height:1;margin:10px 0 0;letter-spacing:-.045em}.files-toolbar p{max-width:38ch;margin:0;color:var(--muted);font-size:11px;line-height:1.7}
+    .file-cabinet{position:relative;z-index:2;max-width:1000px;margin:auto;padding:0 5%}
+    .files-stack{position:relative;padding:26px 18px 0}
+    .file-folder{--tab-left:0%;position:relative;margin-top:-17px;transition:transform .34s ease,margin .34s ease;filter:drop-shadow(0 7px 8px rgba(0,0,0,.06))}
+    .file-folder:first-child{margin-top:0}.file-folder:hover:not(.is-open){transform:translateY(-5px)}.file-folder.is-open{margin:24px 0 34px;transform:translateY(-14px);z-index:10}
+    .folder-tab{position:relative;z-index:2;width:43%;height:45px;margin-left:var(--tab-left);padding:0 18px;border:1px solid var(--line);border-bottom:0;border-radius:14px 14px 0 0;background:var(--paper-light);color:var(--ink);font:inherit;display:flex;align-items:center;justify-content:space-between;gap:14px;cursor:pointer;text-align:left;transition:background .22s,color .22s}
+    .folder-tab span{font-size:9px;letter-spacing:.14em}.folder-tab strong{font-family:var(--serif);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.folder-tab::after{content:"＋";font-size:17px;font-weight:400}.is-open .folder-tab{background:var(--yellow)}.is-open .folder-tab::after{content:"−"}
+    .folder-sheet{position:relative;z-index:1;margin-top:-1px;max-height:43px;overflow:hidden;border:1px solid var(--line);border-radius:6px 6px 0 0;background:var(--paper-light);transition:max-height .58s cubic-bezier(.22,.8,.22,1),box-shadow .35s ease}
+    .file-folder:nth-child(3n+2) .folder-sheet{background:#e7ece9}.file-folder:nth-child(3n) .folder-sheet{background:#e8e4ed}.file-folder.is-open .folder-sheet{max-height:520px;box-shadow:10px 12px 0 rgba(20,84,173,.22)}
+    .folder-sheet::before{content:"DATO MUSIC LAB / PROJECT FILE";position:absolute;left:18px;top:14px;font-size:8px;letter-spacing:.14em;color:var(--muted)}
+    .folder-panel{min-height:405px;padding:55px 28px 28px;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(250px,.88fr);gap:28px;align-items:stretch;opacity:0;transform:translateY(16px);transition:opacity .3s ease .08s,transform .38s ease .08s}.is-open .folder-panel{opacity:1;transform:none}
+    .folder-image{position:relative;overflow:hidden;border:1px solid var(--line);min-height:315px;background:#cfcfc8}.folder-image img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9);transition:transform .5s ease}.file-folder.is-open:hover .folder-image img{transform:scale(1.025)}
+    .folder-copy{display:flex;flex-direction:column;justify-content:space-between;min-width:0}.folder-copy .meta{font-size:8px;letter-spacing:.15em;text-transform:uppercase}.folder-copy h4{font-family:var(--serif);font-size:clamp(28px,3.2vw,47px);line-height:1.08;letter-spacing:-.045em;margin:22px 0 14px}.folder-copy p{font-size:12px;line-height:1.72;color:var(--muted);margin:0}.folder-open{align-self:flex-start;margin-top:24px;padding:12px 16px;border:1px solid var(--line);border-radius:999px;background:var(--ink);color:white;text-decoration:none;font-size:9px;letter-spacing:.13em;text-transform:uppercase;transition:background .2s,color .2s}.folder-open:hover{background:var(--blue)}
+    .drawer-front{position:relative;z-index:12;margin-top:-2px;min-height:118px;border:1px solid var(--line);border-bottom:0;background:#d0cfca;display:flex;align-items:center;justify-content:center;box-shadow:0 -8px 18px rgba(0,0,0,.08)}.drawer-front::before,.drawer-front::after{content:"";position:absolute;top:0;width:54px;height:100%;border-top:1px solid var(--line)}.drawer-front::before{left:-34px;transform:skewX(15deg);border-left:1px solid var(--line)}.drawer-front::after{right:-34px;transform:skewX(-15deg);border-right:1px solid var(--line)}
+    .drawer-all{position:relative;z-index:2;display:flex;gap:12px;align-items:center;padding:12px 18px;border:1px solid var(--line);background:var(--yellow);color:var(--ink);text-decoration:none;border-radius:7px;box-shadow:4px 4px 0 var(--blue);font-size:9px;letter-spacing:.14em;text-transform:uppercase;transition:transform .2s,box-shadow .2s}.drawer-all:hover{transform:translateY(-3px);box-shadow:7px 7px 0 var(--blue)}
     .project-list{display:grid;grid-template-columns:repeat(3,1fr)}
     .project-item{min-height:178px;padding:22px 22px 18px;text-decoration:none;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;transition:background .2s,color .2s}
     .project-item:nth-child(3n){border-right:0}
@@ -321,6 +338,7 @@
       .featured-grid{display:flex;flex-direction:column}.feature-card{min-height:470px;border-right:0;border-bottom:1px solid var(--line)}.feature-stack{display:flex;flex-direction:column}.mini-feature{min-height:280px}
       .archive-head{padding:24px 20px;align-items:start;flex-direction:column}.project-list{grid-template-columns:1fr}.project-item,.project-item:nth-child(3n),.project-item:nth-child(2n){border-right:0;min-height:160px}
       .playground-visual{display:flex;flex-direction:column}.playground-caption{min-height:340px;padding:34px 22px;border-right:0;border-bottom:1px solid var(--line)}.playground-art{min-height:360px}.playground-art img{object-position:52% center}
+      .files-lab{padding:32px 8px 0}.files-toolbar{padding:0 12px;margin-bottom:34px;align-items:start;flex-direction:column}.file-cabinet{padding:0 16px}.files-stack{padding-inline:0}.folder-tab{width:65%;padding-inline:12px}.folder-tab strong{font-size:12px}.file-folder.is-open{margin-block:20px 30px}.file-folder.is-open .folder-sheet{max-height:700px;box-shadow:6px 8px 0 rgba(20,84,173,.22)}.folder-panel{min-height:0;padding:51px 16px 20px;display:flex;flex-direction:column;gap:20px}.folder-image{min-height:240px}.folder-copy h4{font-size:32px;margin-top:17px}.drawer-front{min-height:104px}.drawer-front::before{left:-16px}.drawer-front::after{right:-16px}
       .youtube-grid{display:flex;flex-direction:column}.video-card,.video-card:nth-child(3n),.video-card:nth-child(n+4){min-height:420px;border-right:0;border-bottom:1px solid rgba(255,255,255,.2);padding:30px 22px}.video-card:last-child{border-bottom:0}.video-thumb{max-width:360px;margin:0 auto}.video-card.channel-card{min-height:360px;align-items:flex-start}
       .educator-visual{height:390px}.educator-visual img{object-position:63% center}.educator-grid{display:flex;flex-direction:column}.educator-card{min-height:330px;border-right:0;border-bottom:1px solid var(--line)}.educator-card:last-child{border-bottom:0}
       .notes-layout{display:flex;flex-direction:column}.dev-story{min-height:700px;border-right:0;border-bottom:1px solid var(--line);padding:34px 22px}.notes-illustration{aspect-ratio:4/3;border-radius:28px}.note-card{min-height:300px}
@@ -331,7 +349,7 @@
       .hero-side{display:flex;flex-direction:column}.brand-orbit{min-height:240px;border-right:0;border-bottom:1px solid var(--line)}.info-card{min-height:250px}
     }
     @media (prefers-reduced-motion:reduce){
-      html{scroll-behavior:auto}.marquee-track{animation:none}.status::before{animation:none}.feature-card img,.tab{transition:none}
+      html{scroll-behavior:auto}.marquee-track{animation:none}.status::before{animation:none}.feature-card img,.tab,.file-folder,.folder-sheet,.folder-panel{transition:none}
     }
   </style>
 </head>
@@ -453,28 +471,19 @@
           <h2 class="section-title" id="playground-title">PLAY<span class="outline">GROUND</span></h2>
           <p class="section-intro">不是整齊的作品櫥窗，而是一座持續長大的音樂遊樂場。點開就能玩。</p>
         </div>
-        <div class="playground-visual">
-          <div class="playground-caption"><span class="eyebrow">Sound Atlas / 聲音圖譜</span><div><h3>每一件樂器，都是一條可以走進去的路。</h3><p>聽、吹、拍、錄、畫：Playground 收集的不是同一種遊戲，而是孩子進入音樂的不同入口。</p></div></div>
-          <div class="playground-art" data-caption="Sound Atlas / Instruments"><img src="assets/dato-instrument-collage.png" alt="由鍵盤、直笛、耳朵、聲波與錄音機組成的 Dato Music Lab 樂器拼貼" loading="lazy"></div>
-        </div>
-        <div class="archive-head"><h3>Dato Catalogue / 遊戲與實驗</h3><p>Classroom games, learning tools and side experiments — open in a new tab.</p></div>
-        <div class="project-list">
-          <a class="project-item" href="https://datomusiclab.dpdns.org/goldenyes/" target="_blank" rel="noopener"><div class="top"><span>DAT—001 / Soundscape</span><span>Featured</span></div><div><h4>聽見永順｜聲景島大冒險</h4><p>採集校園聲音，策展一張送往世界的聲音作品。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/recorderplane/" target="_blank" rel="noopener"><div class="top"><span>DAT—002 / Recorder</span><span>Featured</span></div><div><h4>直笛動力飛行任務</h4><p>吹進麥克風，用 Sol La Si Do 推動飛行。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/music-tug-of-war/" target="_blank" rel="noopener"><div class="top"><span>DAT—003 / Sight Reading</span><span>Featured</span></div><div><h4>五線譜拔河賽</h4><p>把多人讀譜變成看得見的音符拉力。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/rhythm-ocean/" target="_blank" rel="noopener"><div class="top"><span>ARCHIVE / Rhythm</span><span>Playable</span></div><div><h4>節奏海洋 Rhythm Ocean</h4><p>用身體節奏，讓全班一起航行。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/Wind-Blade/" target="_blank" rel="noopener"><div class="top"><span>DAT—004 / Recorder</span><span>Playable</span></div><div><h4>直笛水果忍者</h4><p>吹奏音高切開飛來的水果。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/espionage-telegraph/" target="_blank" rel="noopener"><div class="top"><span>DAT—005 / Ear Training</span><span>Playable</span></div><div><h4>諜報電報</h4><p>用長短音與摩斯密碼訓練聽力。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/catchuper/" target="_blank" rel="noopener"><div class="top"><span>DAT—006 / Rhythm</span><span>Playable</span></div><div><h4>番茄醬節奏大師</h4><p>用按壓長短感受不同節奏時值。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://datomusiclab.dpdns.org/dadabeard/" target="_blank" rel="noopener"><div class="top"><span>DAT—007 / Imitation</span><span>Playable</span></div><div><h4>節奏幫爸爸拔鬍子</h4><p>聽、記、仿奏，把節奏拔出來。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/timesmath/" target="_blank" rel="noopener"><div class="top"><span>DAT—008 / Motion</span><span>Playable</span></div><div><h4>倍數守門員</h4><p>用身體接球，跨域練習數學倍數。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/music3grade/" target="_blank" rel="noopener"><div class="top"><span>DAT—009 / RPG Quiz</span><span>Playable</span></div><div><h4>三年級音樂大進擊</h4><p>把期末複習變成五張地圖的冒險。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/xmasmission/" target="_blank" rel="noopener"><div class="top"><span>DAT—010 / Seasonal</span><span>Playable</span></div><div><h4>魔法聖誕樹</h4><p>手勢、光影與節慶任務的沉浸互動。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/recorder-elf-village/" target="_blank" rel="noopener"><div class="top"><span>DAT—011 / Class Tool</span><span>Open</span></div><div><h4>直笛精靈村</h4><p>一生一精靈的 3D 學習紀錄。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/linyubert-you-yu-yi-aquarium/" target="_blank" rel="noopener"><div class="top"><span>DAT—012 / Class Tool</span><span>Open</span></div><div><h4>游於藝學習水族館</h4><p>把每次進步養成一尾專屬的魚。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/good-good-flower/" target="_blank" rel="noopener"><div class="top"><span>DAT—013 / Class Tool</span><span>Open</span></div><div><h4>種花趣</h4><p>學生的努力成為花園裡的綻放。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/sound-sampler/" target="_blank" rel="noopener"><div class="top"><span>DAT—014 / Sound Tool</span><span>Open</span></div><div><h4>聲音採樣機</h4><p>上傳、錄音、演奏，再混成自己的片段。</p></div><span class="go">↗</span></a>
-          <a class="project-item" href="https://linyubert.github.io/irontrack/" target="_blank" rel="noopener"><div class="top"><span>DAT—015 / Side Project</span><span>Open</span></div><div><h4>IronTrack</h4><p>終端機風格的循環訓練追蹤器。</p></div><span class="go">↗</span></a>
+        <div class="files-lab">
+          <div class="files-toolbar"><div><span class="eyebrow">Six Selected Files / Pull to Discover</span><h3>抽一份音樂檔案。</h3></div><p>首頁收錄六件精選課堂實驗。點擊頁籤抽出資料夾，或從抽屜底部進入完整作品宇宙。</p></div>
+          <div class="file-cabinet">
+            <div class="files-stack">
+              <article class="file-folder is-open" style="--tab-left:26%"><button class="folder-tab" type="button" aria-expanded="true" aria-controls="file-01"><span>001</span><strong>聽見永順</strong></button><div class="folder-sheet" id="file-01"><div class="folder-panel"><div class="folder-image"><img src="assets/golden-record-preview.png" alt="聽見永順聲景島大冒險預覽"></div><div class="folder-copy"><div><span class="meta">Soundscape / Featured</span><h4>聽見永順｜聲景島大冒險</h4><p>採集校園聲音，策展一張送往世界的聲音作品。</p></div><a class="folder-open" href="https://datomusiclab.dpdns.org/goldenyes/" target="_blank" rel="noopener">Open project ↗</a></div></div></div></article>
+              <article class="file-folder" style="--tab-left:53%"><button class="folder-tab" type="button" aria-expanded="false" aria-controls="file-02"><span>002</span><strong>直笛動力飛行</strong></button><div class="folder-sheet" id="file-02"><div class="folder-panel"><div class="folder-image"><img src="assets/thumb-recorderplane.jpg" alt="直笛動力飛行任務預覽"></div><div class="folder-copy"><div><span class="meta">Recorder / Featured</span><h4>直笛動力飛行任務</h4><p>吹進麥克風，用 Sol La Si Do 推動飛行。</p></div><a class="folder-open" href="https://linyubert.github.io/recorderplane/" target="_blank" rel="noopener">Open project ↗</a></div></div></div></article>
+              <article class="file-folder" style="--tab-left:8%"><button class="folder-tab" type="button" aria-expanded="false" aria-controls="file-03"><span>003</span><strong>五線譜拔河賽</strong></button><div class="folder-sheet" id="file-03"><div class="folder-panel"><div class="folder-image"><img src="assets/dato-classroom-rhythm.jpg" alt="五線譜拔河賽預覽"></div><div class="folder-copy"><div><span class="meta">Sight Reading / Featured</span><h4>五線譜拔河賽</h4><p>把多人讀譜變成看得見的音符拉力。</p></div><a class="folder-open" href="https://linyubert.github.io/music-tug-of-war/" target="_blank" rel="noopener">Open project ↗</a></div></div></div></article>
+              <article class="file-folder" style="--tab-left:42%"><button class="folder-tab" type="button" aria-expanded="false" aria-controls="file-04"><span>004</span><strong>節奏海洋</strong></button><div class="folder-sheet" id="file-04"><div class="folder-panel"><div class="folder-image"><img src="assets/thumb-rhythmocean.jpg" alt="節奏海洋預覽"></div><div class="folder-copy"><div><span class="meta">Rhythm / Playable</span><h4>節奏海洋 Rhythm Ocean</h4><p>用身體節奏，讓全班一起航行。</p></div><a class="folder-open" href="https://linyubert.github.io/rhythm-ocean/" target="_blank" rel="noopener">Open project ↗</a></div></div></div></article>
+              <article class="file-folder" style="--tab-left:0%"><button class="folder-tab" type="button" aria-expanded="false" aria-controls="file-05"><span>017</span><strong>走音偵探</strong></button><div class="folder-sheet" id="file-05"><div class="folder-panel"><div class="folder-image"><img src="assets/thumb-pitch-detective.jpg" alt="走音偵探遊戲預覽"></div><div class="folder-copy"><div><span class="meta">Pitch / Ear Training</span><h4>走音偵探 Pitch Detective</h4><p>比對旋律線索，找出藏在樂句裡的走音。</p></div><a class="folder-open" href="https://datomusiclab.dpdns.org/picthmission/" target="_blank" rel="noopener">Open project ↗</a></div></div></div></article>
+              <article class="file-folder" style="--tab-left:55%"><button class="folder-tab" type="button" aria-expanded="false" aria-controls="file-06"><span>018</span><strong>聽聲音・找樂器</strong></button><div class="folder-sheet" id="file-06"><div class="folder-panel"><div class="folder-image"><img src="assets/thumb-aorbins.jpg" alt="什麼樂器在唱歌遊戲預覽"></div><div class="folder-copy"><div><span class="meta">Listening / Instrument ID</span><h4>什麼樂器在唱歌？</h4><p>先聽、再討論，和全班一起辨認樂器音色。</p></div><a class="folder-open" href="https://datomusiclab.dpdns.org/aorbins/" target="_blank" rel="noopener">Open project ↗</a></div></div></div></article>
+            </div>
+            <div class="drawer-front"><a class="drawer-all" href="playground.html"><span>Enter the Playground</span><strong>進入作品宇宙</strong><span>→</span></a></div>
+          </div>
         </div>
       </section>
 
@@ -629,6 +638,23 @@
         requestAnimationFrame(() => {updateCurrent();scrollTicking=false});
       }, {passive:true});
       updateCurrent();
+
+      const fileFolders = [...document.querySelectorAll('.file-folder')];
+      fileFolders.forEach(folder => {
+        const button = folder.querySelector('.folder-tab');
+        button?.addEventListener('click', () => {
+          if(folder.classList.contains('is-open')) return;
+          fileFolders.forEach(item => {
+            item.classList.remove('is-open');
+            item.querySelector('.folder-tab')?.setAttribute('aria-expanded','false');
+          });
+          folder.classList.add('is-open');
+          button.setAttribute('aria-expanded','true');
+          if(window.innerWidth <= 760){
+            setTimeout(() => folder.scrollIntoView({behavior:'smooth',block:'center'}),220);
+          }
+        });
+      });
     })();
   </script>
 </body>

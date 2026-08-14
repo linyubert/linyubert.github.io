@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dato Playground Universe — Complete Catalogue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#171815;--space:#0d0f12;--paper:#f3efe3;--blue:#1454ad;--yellow:#f2c827;--muted:rgba(243,239,227,.52);--sans:"DM Sans","Noto Sans TC",sans-serif;--serif:"Noto Serif TC",serif}
+    *{box-sizing:border-box}html{height:100%;overflow:hidden;background:var(--space);color:var(--paper)}body{height:100%;margin:0;min-width:320px;background:var(--space);color:var(--paper);font-family:var(--sans);overflow:hidden;overscroll-behavior:none}a{color:inherit}
+    .cosmos-header{position:fixed;z-index:100;left:0;right:0;top:0;height:68px;padding:0 22px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;background:rgba(13,15,18,.82);border-bottom:1px solid rgba(243,239,227,.16);backdrop-filter:blur(14px)}
+    .back-link{justify-self:start;text-decoration:none;font-size:9px;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(243,239,227,.38);border-radius:999px;padding:10px 14px;transition:background .2s,color .2s}.back-link:hover{background:var(--yellow);color:var(--ink)}
+    .view-toggle{display:flex;align-items:center;padding:4px;border:1px solid rgba(243,239,227,.35);border-radius:999px;background:rgba(255,255,255,.05)}.view-toggle button{border:0;border-radius:999px;padding:8px 15px;background:transparent;color:var(--muted);font:inherit;font-size:9px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}.view-toggle button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+    .project-total{justify-self:end;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+    .orbit-view{position:relative;height:100vh;min-height:0;overflow:hidden;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;background:radial-gradient(circle at 50% 48%,rgba(20,84,173,.25),transparent 42%),radial-gradient(circle at 88% 12%,rgba(242,200,39,.07),transparent 21%),var(--space)}.orbit-view.is-dragging{cursor:grabbing}.orbit-view::before{content:"";position:absolute;left:50%;top:50%;width:min(78vw,1050px);aspect-ratio:1;border:1px solid rgba(243,239,227,.08);border-radius:50%;transform:translate(-50%,-50%) rotateX(69deg);box-shadow:0 0 0 86px rgba(20,84,173,.025),0 0 0 174px rgba(243,239,227,.014);pointer-events:none}
+    #starfield{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.orbit-scene{position:absolute;inset:68px 0 0;perspective:1250px;transform-style:preserve-3d}
+    .orbit-card{position:absolute;left:50%;top:46%;width:clamp(160px,16vw,250px);aspect-ratio:1.5;border:1px solid rgba(243,239,227,.48);border-radius:9px;overflow:hidden;background:#292b30;color:white;text-decoration:none;box-shadow:0 30px 70px rgba(0,0,0,.62),5px 5px 0 rgba(20,84,173,.42);transform-style:preserve-3d;will-change:transform,opacity;transition:border-color .2s,box-shadow .2s,filter .2s;user-select:none;-webkit-user-drag:none}
+    .orbit-card::before{content:attr(data-code);position:absolute;z-index:4;left:11px;top:10px;min-width:28px;height:28px;padding:0 6px;border-radius:50%;display:grid;place-items:center;background:rgba(13,15,18,.78);border:1px solid rgba(243,239,227,.4);font-size:8px;letter-spacing:.08em}.orbit-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.87));pointer-events:none}.orbit-card img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.86) contrast(1.03);transition:transform .42s ease,filter .25s;pointer-events:none;user-select:none;-webkit-user-drag:none}.orbit-card span{position:absolute;z-index:3;left:14px;right:14px;bottom:12px;font-family:var(--serif);font-size:clamp(16px,1.8vw,24px);line-height:1.08;text-shadow:0 3px 12px rgba(0,0,0,.82);pointer-events:none}.orbit-card:hover,.orbit-card.is-front{border-color:var(--yellow);box-shadow:0 38px 86px rgba(0,0,0,.76),7px 7px 0 var(--yellow)}.orbit-card:hover img{transform:scale(1.05);filter:saturate(1.08)}
+    .focus-panel{position:absolute;z-index:60;left:28px;bottom:28px;max-width:min(520px,70vw);pointer-events:none}.focus-code{font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow)}.focus-panel h1{font-family:var(--serif);font-size:clamp(34px,5vw,70px);line-height:.95;letter-spacing:-.055em;margin:12px 0 15px}.focus-meta{display:flex;gap:14px;align-items:center;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}.focus-open{pointer-events:auto;display:inline-flex;margin-top:18px;padding:11px 15px;border:1px solid rgba(243,239,227,.5);border-radius:999px;background:var(--yellow);color:var(--ink);text-decoration:none;font-size:9px;letter-spacing:.13em;text-transform:uppercase}.orbit-controls{position:absolute;z-index:70;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px}.orbit-control{width:52px;height:52px;border:1px solid rgba(243,239,227,.55);border-radius:50%;background:rgba(13,15,18,.7);color:var(--paper);font:inherit;font-size:19px;cursor:pointer;backdrop-filter:blur(8px);transition:background .2s,color .2s,transform .2s}.orbit-control:hover,.orbit-control:focus-visible{background:var(--yellow);color:var(--ink);transform:scale(1.06);outline:none}.orbit-help{position:absolute;z-index:50;right:24px;bottom:24px;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:right}
+    .list-view{display:none;height:100vh;overflow:hidden;padding:86px 20px 18px;background:var(--space);background-image:radial-gradient(rgba(243,239,227,.065) .55px,transparent .7px);background-size:6px 6px}.list-mode .orbit-view{display:none}.list-mode .list-view{display:flex;flex-direction:column}.list-intro{width:100%;max-width:1500px;min-height:94px;margin:0 auto 14px;display:flex;justify-content:space-between;gap:30px;align-items:end}.list-intro h1{font-family:var(--serif);font-size:clamp(38px,4.6vw,70px);line-height:.82;letter-spacing:-.06em;margin:11px 0 0}.list-intro h1 br{display:none}.list-intro h1 span{color:transparent;-webkit-text-stroke:1px var(--paper)}.list-intro p{color:var(--muted);font-size:10px;line-height:1.65;max-width:40ch;margin:0}.list-grid{width:100%;max-width:1500px;min-height:0;flex:1;margin:auto;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));border-top:1px solid rgba(243,239,227,.25);border-left:1px solid rgba(243,239,227,.25)}
+    .list-card{min-width:0;min-height:0;display:grid;grid-template-columns:68px minmax(0,1fr) auto;gap:11px;align-items:center;padding:9px 11px;border-right:1px solid rgba(243,239,227,.25);border-bottom:1px solid rgba(243,239,227,.25);text-decoration:none;transition:background .22s,color .22s}.list-card:hover{background:var(--paper);color:var(--ink)}.list-thumb{width:68px;aspect-ratio:1.08;overflow:hidden;border-radius:50%;border:1px solid currentColor}.list-thumb img{width:100%;height:100%;object-fit:cover;display:block}.list-copy{min-width:0}.list-code{display:block;font-size:7px;letter-spacing:.13em;text-transform:uppercase;opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.list-card h2{font-family:var(--serif);font-size:clamp(14px,1.35vw,20px);line-height:1.08;margin:7px 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.list-kind{display:block;font-size:7px;letter-spacing:.1em;text-transform:uppercase;opacity:.62;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.list-arrow{font-size:17px}
+    @media(max-width:1100px){.list-intro{min-height:86px}.list-grid{grid-template-columns:none;grid-template-rows:repeat(4,minmax(0,1fr));grid-auto-flow:column;grid-auto-columns:calc(50% - 5px);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:thin}.list-card{scroll-snap-align:start}.list-thumb{width:62px}.list-card h2{font-size:17px}}
+    @media(max-width:760px){.cosmos-header{height:62px;padding:0 10px;grid-template-columns:auto 1fr auto}.back-link{width:39px;height:39px;padding:0;display:grid;place-items:center;font-size:0}.back-link::before{content:"←";font-size:18px}.project-total{display:none}.view-toggle{justify-self:center}.view-toggle button{padding:7px 12px}.orbit-view{height:100vh;min-height:0}.orbit-scene{top:62px}.orbit-card{width:210px;top:43%}.focus-panel{left:18px;right:18px;bottom:26px;max-width:none}.focus-panel h1{font-size:34px;max-width:75%}.focus-meta{max-width:75%}.focus-open{margin-top:12px}.orbit-controls{right:12px;top:43%;gap:8px}.orbit-control{width:43px;height:43px;font-size:16px}.orbit-help{display:none}.list-view{height:100vh;padding:76px 10px 10px}.list-intro{min-height:92px;margin-bottom:10px;display:block}.list-intro h1{font-size:36px;margin-top:9px}.list-intro h1 br{display:none}.list-intro p{display:none}.list-grid{grid-template-columns:none;grid-template-rows:repeat(4,minmax(0,1fr));grid-auto-flow:column;grid-auto-columns:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory}.list-card{grid-template-columns:72px minmax(0,1fr) auto;gap:12px;padding:10px}.list-thumb{width:72px}.list-card h2{font-size:19px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.orbit-card,.orbit-card img{transition:none}}
+  </style>
+</head>
+<body>
+  <header class="cosmos-header"><a class="back-link" href="index.html#playground">← Dato Music Lab</a><div class="view-toggle" role="group" aria-label="作品瀏覽模式"><button type="button" data-view="orbit" aria-pressed="true">Orbit</button><button type="button" data-view="list" aria-pressed="false">List</button></div><span class="project-total">Complete Catalogue / 18 Projects</span></header>
+  <main>
+    <section class="orbit-view" id="orbitView" aria-label="Dato Playground 作品宇宙">
+      <canvas id="starfield" aria-hidden="true"></canvas>
+      <div class="orbit-scene" id="orbitScene">
+        <a class="orbit-card" href="https://datomusiclab.dpdns.org/goldenyes/" target="_blank" rel="noopener" data-code="001" data-kind="Soundscape / Featured" data-title="聽見永順｜聲景島大冒險"><img src="assets/golden-record-preview.png" alt="聽見永順預覽"><span>聽見永順</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/recorderplane/" target="_blank" rel="noopener" data-code="002" data-kind="Recorder / Featured" data-title="直笛動力飛行任務"><img src="assets/thumb-recorderplane.jpg" alt="直笛動力飛行預覽"><span>直笛動力飛行</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/music-tug-of-war/" target="_blank" rel="noopener" data-code="003" data-kind="Sight Reading / Featured" data-title="五線譜拔河賽"><img src="assets/dato-classroom-rhythm.jpg" alt="五線譜拔河賽預覽"><span>五線譜拔河賽</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/rhythm-ocean/" target="_blank" rel="noopener" data-code="004" data-kind="Rhythm / Playable" data-title="節奏海洋 Rhythm Ocean"><img src="assets/thumb-rhythmocean.jpg" alt="節奏海洋預覽"><span>節奏海洋</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/Wind-Blade/" target="_blank" rel="noopener" data-code="005" data-kind="Recorder / Playable" data-title="直笛水果忍者"><img src="assets/thumb-windblade.jpg" alt="直笛水果忍者預覽"><span>直笛水果忍者</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/espionage-telegraph/" target="_blank" rel="noopener" data-code="006" data-kind="Ear Training / Playable" data-title="諜報電報"><img src="assets/thumb-telegraph.jpg" alt="諜報電報預覽"><span>諜報電報</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/catchuper/" target="_blank" rel="noopener" data-code="007" data-kind="Rhythm / Playable" data-title="番茄醬節奏大師"><img src="assets/thumb-catchuper.jpg" alt="番茄醬節奏大師預覽"><span>番茄醬節奏大師</span></a>
+        <a class="orbit-card" href="https://datomusiclab.dpdns.org/dadabeard/" target="_blank" rel="noopener" data-code="008" data-kind="Imitation / Playable" data-title="節奏幫爸爸拔鬍子"><img src="assets/thumb-dadabeard.jpg" alt="節奏幫爸爸拔鬍子預覽"><span>幫爸爸拔鬍子</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/timesmath/" target="_blank" rel="noopener" data-code="009" data-kind="Motion / Playable" data-title="倍數守門員"><img src="assets/thumb-timesmath.jpg" alt="倍數守門員預覽"><span>倍數守門員</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/music3grade/" target="_blank" rel="noopener" data-code="010" data-kind="RPG Quiz / Playable" data-title="三年級音樂大進擊"><img src="assets/thumb-music3grade.jpg" alt="三年級音樂大進擊預覽"><span>音樂大進擊</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/xmasmission/" target="_blank" rel="noopener" data-code="011" data-kind="Seasonal / Playable" data-title="魔法聖誕樹"><img src="assets/thumb-xmasmission.jpg" alt="魔法聖誕樹預覽"><span>魔法聖誕樹</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/recorder-elf-village/" target="_blank" rel="noopener" data-code="012" data-kind="Class Tool / Open" data-title="直笛精靈村"><img src="assets/thumb-elfvillage.jpg" alt="直笛精靈村預覽"><span>直笛精靈村</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/linyubert-you-yu-yi-aquarium/" target="_blank" rel="noopener" data-code="013" data-kind="Class Tool / Open" data-title="游於藝學習水族館"><img src="assets/thumb-aquarium.jpg" alt="游於藝學習水族館預覽"><span>學習水族館</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/good-good-flower/" target="_blank" rel="noopener" data-code="014" data-kind="Class Tool / Open" data-title="種花趣"><img src="assets/thumb-flower.jpg" alt="種花趣預覽"><span>種花趣</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/sound-sampler/" target="_blank" rel="noopener" data-code="015" data-kind="Sound Tool / Open" data-title="聲音採樣機"><img src="assets/dato-instrument-collage.png" alt="聲音採樣機預覽"><span>聲音採樣機</span></a>
+        <a class="orbit-card" href="https://linyubert.github.io/irontrack/" target="_blank" rel="noopener" data-code="016" data-kind="Side Project / Open" data-title="IronTrack"><img src="assets/dato-field-notes-workbench.jpg" alt="IronTrack 預覽"><span>IronTrack</span></a>
+        <a class="orbit-card" href="https://datomusiclab.dpdns.org/picthmission/" target="_blank" rel="noopener" data-code="017" data-kind="Pitch / Ear Training" data-title="走音偵探 Pitch Detective"><img src="assets/thumb-pitch-detective.jpg" alt="走音偵探遊戲預覽"><span>走音偵探</span></a>
+        <a class="orbit-card" href="https://datomusiclab.dpdns.org/aorbins/" target="_blank" rel="noopener" data-code="018" data-kind="Listening / Instrument ID" data-title="什麼樂器在唱歌？"><img src="assets/thumb-aorbins.jpg" alt="什麼樂器在唱歌遊戲預覽"><span>聽聲音・找樂器</span></a>
+      </div>
+      <div class="orbit-controls" aria-label="作品軌道控制"><button class="orbit-control" id="orbitPrev" type="button" aria-label="上一個作品">←</button><button class="orbit-control" id="orbitNext" type="button" aria-label="下一個作品">→</button></div>
+      <div class="focus-panel" aria-live="polite"><span class="focus-code" id="focusCode">DAT—001 / 18</span><h1 id="focusTitle">聽見永順｜聲景島大冒險</h1><div class="focus-meta"><span id="focusKind">Soundscape / Featured</span><span>•</span><span>Front orbit selection</span></div><a class="focus-open" id="focusOpen" href="https://datomusiclab.dpdns.org/goldenyes/" target="_blank" rel="noopener">Open project ↗</a></div>
+      <div class="orbit-help">Drag · wheel · arrow keys<br>Auto orbit resumes after pause</div>
+    </section>
+    <section class="list-view" aria-label="Dato Playground 完整作品清單"><div class="list-intro"><div><span class="focus-code">Complete Archive / Direct Access</span><h1>DATO<br><span>CATALOGUE</span></h1></div><p>需要快速找到指定作品時，切換到清單模式。全部作品保留圖片、類型與直接連結。</p></div><div class="list-grid" id="listGrid"></div></section>
+  </main>
+  <script>
+    (() => {
+      const body = document.body;
+      const viewButtons = [...document.querySelectorAll('[data-view]')];
+      let currentView = 'orbit';
+      const setView = view => {
+        currentView = view;
+        body.classList.toggle('list-mode',view==='list');
+        viewButtons.forEach(button => button.setAttribute('aria-pressed',String(button.dataset.view===view)));
+      };
+      viewButtons.forEach(button => button.addEventListener('click',() => setView(button.dataset.view)));
+
+      const cards = [...document.querySelectorAll('.orbit-card')];
+      const listGrid = document.getElementById('listGrid');
+      cards.forEach(card => {
+        const row = document.createElement('a');
+        row.className = 'list-card';
+        row.href = card.href;
+        row.target = '_blank';
+        row.rel = 'noopener';
+        const thumb = document.createElement('div');
+        thumb.className = 'list-thumb';
+        const image = card.querySelector('img').cloneNode();
+        thumb.appendChild(image);
+        const copy = document.createElement('div');
+        copy.className = 'list-copy';
+        copy.innerHTML = `<span class="list-code">DAT—${card.dataset.code} / ${cards.length}</span><h2>${card.dataset.title}</h2><span class="list-kind">${card.dataset.kind}</span>`;
+        const arrow = document.createElement('span');
+        arrow.className = 'list-arrow';
+        arrow.textContent = '↗';
+        row.append(thumb,copy,arrow);
+        listGrid.appendChild(row);
+      });
+
+      const orbit = document.getElementById('orbitView');
+      const focusCode = document.getElementById('focusCode');
+      const focusTitle = document.getElementById('focusTitle');
+      const focusKind = document.getElementById('focusKind');
+      const focusOpen = document.getElementById('focusOpen');
+      const orbitPrev = document.getElementById('orbitPrev');
+      const orbitNext = document.getElementById('orbitNext');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let rotation = -.18;
+      let targetRotation = null;
+      let dragging = false;
+      let moved = false;
+      let suppressClick = false;
+      let autoPauseUntil = 0;
+      let startX = 0;
+      let startRotation = 0;
+      let lastTime = performance.now();
+      let frontIndex = -1;
+      const wrap = angle => Math.atan2(Math.sin(angle),Math.cos(angle));
+      const pauseAuto = (duration=3500) => autoPauseUntil=performance.now()+duration;
+      const rotateTo = index => {
+        const normalized=(index+cards.length)%cards.length;
+        const desired=-normalized*Math.PI*2/cards.length;
+        targetRotation=rotation+wrap(desired-rotation);
+        pauseAuto(4500);
+      };
+
+      const layout = now => {
+        const mobile = window.innerWidth <= 760;
+        if(!dragging && targetRotation!==null){
+          const distance=targetRotation-rotation;
+          rotation+=distance*.13;
+          if(Math.abs(distance)<.0015){rotation=targetRotation;targetRotation=null}
+        }else if(!dragging && !reduced && !document.hidden && currentView==='orbit' && now>autoPauseUntil){
+          rotation+=Math.min(now-lastTime,34)*.00006;
+        }
+        lastTime = now;
+        let nearest = 0;
+        let nearestDistance = Infinity;
+        cards.forEach((card,index) => {
+          const theta = rotation + index*Math.PI*2/cards.length;
+          const wrapped = wrap(theta);
+          const distance = Math.abs(wrapped);
+          if(distance<nearestDistance){nearestDistance=distance;nearest=index}
+          if(mobile){
+            const x = wrapped*96;
+            const y = -38+Math.min(distance,2.8)*31+Math.sin(now*.001+index)*5;
+            const z = 250-Math.min(distance,2.8)*142;
+            const facing = Math.max(0,1-distance/Math.PI);
+            card.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px) rotateY(${-wrapped*13}deg) rotateZ(${wrapped*1.3}deg)`;
+            card.style.opacity = (.12+facing*.88).toFixed(3);
+            card.style.zIndex = String(Math.round((z+420)*10));
+            card.style.pointerEvents = facing>.3?'auto':'none';
+          }else{
+            const radiusX = Math.min(510,window.innerWidth*.34);
+            const x = Math.sin(theta)*radiusX;
+            const y = Math.sin(theta*1.5)*185+Math.sin(now*.0009+index*.8)*10;
+            const z = Math.cos(theta)*470;
+            const facing = (Math.cos(theta)+1)/2;
+            card.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px) rotateY(${-Math.sin(theta)*18}deg) rotateZ(${Math.sin(theta*.72)*2.4}deg)`;
+            card.style.opacity = (.18+facing*.82).toFixed(3);
+            card.style.zIndex = String(Math.round((z+500)*10));
+            card.style.pointerEvents = facing>.11?'auto':'none';
+          }
+        });
+        if(nearest!==frontIndex){
+          frontIndex=nearest;
+          cards.forEach((card,index)=>card.classList.toggle('is-front',index===frontIndex));
+          const card=cards[frontIndex];
+          focusCode.textContent=`DAT—${card.dataset.code} / ${cards.length}`;
+          focusTitle.textContent=card.dataset.title;
+          focusKind.textContent=card.dataset.kind;
+          focusOpen.href=card.href;
+        }
+        requestAnimationFrame(layout);
+      };
+      orbit.addEventListener('pointerdown',event => {
+        if(event.target.closest('.focus-open,.orbit-control') || (event.button!==undefined && event.button!==0)) return;
+        event.preventDefault();
+        targetRotation=null;pauseAuto(5000);
+        dragging=true;moved=false;startX=event.clientX;startRotation=rotation;
+        orbit.classList.add('is-dragging');orbit.setPointerCapture(event.pointerId);
+      });
+      orbit.addEventListener('pointermove',event => {
+        if(!dragging) return;
+        const distance=event.clientX-startX;
+        if(Math.abs(distance)>6) moved=true;
+        rotation=startRotation+distance*(window.innerWidth<=760 ? .0043 : .0058);
+      });
+      const endDrag=event => {
+        if(!dragging) return;
+        dragging=false;suppressClick=moved;pauseAuto(3500);orbit.classList.remove('is-dragging');
+        if(orbit.hasPointerCapture(event.pointerId)) orbit.releasePointerCapture(event.pointerId);
+        setTimeout(()=>suppressClick=false,0);
+      };
+      cards.forEach(card=>card.addEventListener('click',event=>{if(suppressClick){event.preventDefault();event.stopPropagation()}}));
+      orbit.addEventListener('dragstart',event=>event.preventDefault());
+      orbit.addEventListener('wheel',event=>{
+        if(currentView!=='orbit') return;
+        event.preventDefault();targetRotation=null;pauseAuto(3000);
+        rotation+=(event.deltaY+event.deltaX)*.0012;
+      },{passive:false});
+      orbitPrev.addEventListener('click',()=>rotateTo(frontIndex-1));
+      orbitNext.addEventListener('click',()=>rotateTo(frontIndex+1));
+      window.addEventListener('keydown',event=>{
+        if(currentView!=='orbit' || event.target.matches('button,a,input,textarea,select')) return;
+        if(event.key==='ArrowLeft'){event.preventDefault();rotateTo(frontIndex-1)}
+        if(event.key==='ArrowRight'){event.preventDefault();rotateTo(frontIndex+1)}
+      });
+      orbit.addEventListener('pointerup',endDrag);orbit.addEventListener('pointercancel',endDrag);
+      requestAnimationFrame(layout);
+
+      const canvas=document.getElementById('starfield');
+      const ctx=canvas.getContext('2d');
+      let stars=[];let width=0;let height=0;let dpr=1;
+      const resetStars=()=>{
+        const rect=canvas.getBoundingClientRect();width=rect.width;height=rect.height;dpr=Math.min(window.devicePixelRatio||1,2);
+        canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+        stars=Array.from({length:42},(_,index)=>({x:Math.random()*width,y:Math.random()*height,r:index%11===0?2.1:Math.random()*1.15+.35,v:(Math.random()*.08+.025),c:index%9===0?'#f2c827':index%3===0?'#4f86d4':'#f3efe3'}));
+      };
+      const drawStars=()=>{
+        ctx.clearRect(0,0,width,height);
+        stars.forEach(star=>{if(!reduced){star.y-=star.v;if(star.y<0){star.y=height;star.x=Math.random()*width}}ctx.beginPath();ctx.arc(star.x,star.y,star.r,0,Math.PI*2);ctx.fillStyle=star.c;ctx.globalAlpha=.48;ctx.fill()});ctx.globalAlpha=1;
+        if(!reduced) requestAnimationFrame(drawStars);
+      };
+      new ResizeObserver(()=>{resetStars();if(reduced) drawStars()}).observe(canvas);resetStars();drawStars();
+    })();
+  </script>
+</body>
+</html>
