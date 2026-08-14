@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DATOE. — AI 兒童演員經紀公司｜Dato Music Lab</title>
+<meta name="description" content="DATOE. 是一間由一個人類的玩心加上 AI 算力組成的虛擬經紀公司，管理一支連戲、有靈魂的 AI 兒童演員軍團，為音樂教學影集演出。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Archivo+Black&family=Noto+Sans+TC:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#080808;
+  --ink2:#0e0e0e;
+  --paper:#f4f2ed;
+  --dim:#807b74;
+  --line:rgba(244,242,237,.14);
+  --acc:#ffe14d;
+  --rec:#e02020;
+  --max:1240px;
+  --blk:"Archivo Black","Archivo","Noto Sans TC",sans-serif;
+  --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--paper);overflow-x:hidden;
+  font-family:"Archivo","Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;
+}
+body.lock{overflow:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+.blk{font-family:var(--blk);font-weight:900}
+.mono{font-family:var(--mono)}
+
+/* ============ grain + scanlines ============ */
+.fx{position:fixed;inset:0;pointer-events:none;z-index:9000}
+.fx-grain{position:absolute;inset:-150%;opacity:.055;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+  animation:grain 700ms steps(3) infinite}
+@keyframes grain{
+  0%{transform:translate(0,0)}33%{transform:translate(-3%,2%)}66%{transform:translate(2%,-3%)}100%{transform:translate(0,0)}
+}
+.fx-scan{position:absolute;inset:0;opacity:.35;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.35) 2px 3px)}
+.fx-vig{position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.55) 100%)}
+
+/* ============ preloader ============ */
+#pre{position:fixed;inset:0;z-index:9500;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px}
+#pre .slate{font-family:var(--blk);font-weight:900;font-size:clamp(42px,10vw,110px);line-height:1;letter-spacing:-.02em;
+  overflow:hidden;display:flex}
+#pre .slate span{display:inline-block;transform:translateY(105%);animation:slateUp .55s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes slateUp{to{transform:none}}
+#pre .cnt{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--dim)}
+#pre .bar{width:min(320px,60vw);height:2px;background:rgba(244,242,237,.15);overflow:hidden}
+#pre .bar i{display:block;height:100%;width:0;background:var(--acc)}
+#pre.done{transform:translateY(-100%);transition:transform .8s cubic-bezier(.76,0,.24,1)}
+
+/* ============ cursor ============ */
+#cur{position:fixed;top:0;left:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid rgba(244,242,237,.55);
+  border-radius:50%;z-index:9200;pointer-events:none;mix-blend-mode:difference;
+  transition:width .25s,height .25s,margin .25s,background .25s,border-color .25s;opacity:0}
+#cur.on{opacity:1}
+#cur.hot{width:74px;height:74px;margin:-37px 0 0 -37px;background:var(--acc);border-color:var(--acc)}
+#cur .lbl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:#000;opacity:0;transition:opacity .2s}
+#cur.hot .lbl{opacity:1}
+@media (hover:none),(pointer:coarse){#cur{display:none}}
+
+/* ============ ticker ============ */
+.tick{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--ink2);
+  overflow:hidden;padding:10px 0;white-space:nowrap;position:relative}
+.tick .row{display:inline-flex;gap:0;animation:mv 34s linear infinite;will-change:transform}
+.tick.rev .row{animation-direction:reverse}
+.tick b{font-family:var(--blk);font-weight:900;font-size:13px;letter-spacing:.16em;padding:0 22px;color:var(--paper)}
+.tick i{color:var(--acc);font-style:normal;font-size:11px;align-self:center}
+.tick.yellow{background:var(--acc)}
+.tick.yellow b{color:#000}
+.tick.yellow i{color:#000;opacity:.5}
+@keyframes mv{to{transform:translateX(-50%)}}
+
+/* ============ topbar ============ */
+.bar{position:fixed;top:0;left:0;right:0;z-index:8000;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:16px 28px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);mix-blend-mode:difference}
+.bar .rec{display:inline-flex;align-items:center;gap:8px;color:var(--paper)}
+.bar .dot{width:8px;height:8px;border-radius:50%;background:var(--rec);animation:blink 1.4s steps(2,end) infinite}
+@keyframes blink{50%{opacity:.15}}
+.bar .mk{font-family:var(--blk);font-weight:900;font-size:14px;letter-spacing:.02em;color:var(--paper)}
+
+/* ============ hero ============ */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;display:flex;align-items:flex-end}
+.hero-media{position:absolute;inset:-8% 0;z-index:0}
+.hero-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.06)}
+.hero-media:after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,var(--ink) 2%,rgba(8,8,8,.62) 40%,rgba(8,8,8,.3) 72%,rgba(8,8,8,.7) 100%)}
+.hero-in{position:relative;z-index:2;width:100%;max-width:var(--max);margin:0 auto;padding:0 28px 54px}
+.hud{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:20px}
+.hud b{color:var(--acc);font-weight:500}
+h1.big{font-family:var(--blk);font-weight:900;margin:0;line-height:.82;letter-spacing:-.035em;
+  font-size:clamp(72px,20vw,290px);display:flex;overflow:hidden}
+h1.big span{display:inline-block;transform:translateY(110%);opacity:0}
+.go h1.big span{animation:up .8s cubic-bezier(.2,.85,.2,1) forwards}
+@keyframes up{to{transform:none;opacity:1}}
+.tagline{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+  border-top:1px solid var(--line);margin-top:22px;padding-top:16px}
+.tagline p{margin:0;font-size:14px;letter-spacing:.02em;color:#cfcac2;max-width:46ch}
+.scroll-cue{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--dim);
+  display:flex;align-items:center;gap:10px}
+.scroll-cue .ln{width:44px;height:1px;background:var(--dim);position:relative;overflow:hidden}
+.scroll-cue .ln:after{content:"";position:absolute;inset:0;background:var(--acc);animation:sweep 1.8s ease-in-out infinite}
+@keyframes sweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+
+/* ============ generic section ============ */
+section{position:relative;padding:110px 0}
+.sec-head{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:44px}
+.sec-head .n{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--acc)}
+h2{font-family:var(--blk);font-weight:900;font-size:clamp(32px,6.4vw,78px);line-height:.92;margin:0;letter-spacing:-.025em}
+h2 .ch{display:inline-block;transform:translateY(100%);opacity:0}
+h2.in .ch{animation:up .6s cubic-bezier(.2,.85,.2,1) forwards}
+.sec-head .sub{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-left:auto}
+.body-copy{max-width:62ch;font-size:17px;line-height:2;color:#d6d1c9}
+.body-copy + .body-copy{margin-top:20px}
+.body-copy strong{color:var(--paper)}
+.mark{background:linear-gradient(transparent 12%,rgba(255,225,77,.22) 12%,rgba(255,225,77,.22) 88%,transparent 88%);
+  padding:0 3px;color:#fff}
+
+/* ============ stats ============ */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border-block:1px solid var(--line)}
+.stat{background:var(--ink);padding:30px 24px}
+.stat .v{font-family:var(--blk);font-weight:900;font-size:clamp(34px,5vw,60px);line-height:1;letter-spacing:-.03em}
+.stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+
+/* ============ actor card ============ */
+.actor{position:relative;display:grid;grid-template-columns:1.05fr 1fr;border:1px solid var(--line);
+  background:var(--ink2);margin-top:46px;overflow:hidden}
+.actor:before,.actor:after{content:"";position:absolute;left:0;right:0;height:16px;z-index:3;pointer-events:none;
+  background-image:repeating-linear-gradient(to right,transparent 0 12px,rgba(244,242,237,.5) 12px 30px,transparent 30px 42px)}
+.actor:before{top:0}.actor:after{bottom:0}
+.actor-photo{position:relative;overflow:hidden}
+.actor-photo img{width:100%;height:100%;object-fit:cover;min-height:360px;transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.actor:hover .actor-photo img{transform:scale(1.05)}
+.actor-photo .scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);
+  opacity:.8;animation:scan 4.2s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes scan{0%{top:0}50%{top:100%}100%{top:0}}
+.actor-no{position:absolute;left:22px;bottom:26px;font-family:var(--blk);font-weight:900;font-size:40px;
+  color:#fff;text-shadow:0 2px 22px rgba(0,0,0,.8);letter-spacing:.01em;z-index:2}
+.actor-info{padding:44px 38px 40px}
+.actor-name{font-family:var(--blk);font-weight:900;font-size:clamp(34px,5vw,52px);line-height:1;margin:0}
+.actor-meta{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);margin:8px 0 26px}
+.traits{list-style:none;margin:0;padding:0}
+.traits li{padding:14px 0;border-top:1px solid var(--line);font-size:15px;line-height:1.85;color:#c8c3bb}
+.traits b{display:block;color:var(--paper);font-weight:700;margin-bottom:3px;font-size:15px}
+.quote{margin-top:26px;padding:18px 20px;background:var(--acc);color:#000;font-weight:700;font-size:18px;line-height:1.5;
+  position:relative;overflow:hidden}
+.quote:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);
+  transform:translateX(-120%);animation:shine 4.5s ease-in-out infinite}
+@keyframes shine{0%,55%{transform:translateX(-120%)}80%,100%{transform:translateX(120%)}}
+
+/* ============ full-bleed roster ============ */
+.bleed{margin:52px 0 60px;position:relative;width:100%;height:min(76vh,660px);overflow:hidden;background:#111}
+.bleed img{position:absolute;left:0;top:-8%;width:100%;height:116%;object-fit:cover;object-position:50% 26%;will-change:transform}
+.bleed:after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(8,8,8,.34) 0%,transparent 20%,transparent 62%,rgba(8,8,8,.8) 100%)}
+.bleed .cap{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;justify-content:space-between;
+  align-items:flex-end;gap:20px;flex-wrap:wrap;padding:0 28px 26px;max-width:var(--max);margin:0 auto}
+.bleed .cap .t{font-family:var(--blk);font-weight:900;font-size:clamp(20px,3.4vw,40px);line-height:1;letter-spacing:-.02em}
+.bleed .cap .m{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)}
+.bleed .crop{position:absolute;z-index:3;width:26px;height:26px;border:1px solid rgba(244,242,237,.6)}
+.bleed .crop.tl{top:22px;left:22px;border-right:0;border-bottom:0}
+.bleed .crop.tr{top:22px;right:22px;border-left:0;border-bottom:0}
+.bleed .tag{position:absolute;z-index:3;top:24px;left:62px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:#fff;opacity:.85}
+
+/* ============ casting grid ============ */
+.grid5{display:flex;gap:6px;margin-top:44px;height:min(52vh,440px)}
+.grid5 figure{margin:0;position:relative;overflow:hidden;background:#151515;flex:1 1 0;min-width:0;
+  transition:flex-grow .7s cubic-bezier(.76,0,.24,1)}
+.grid5:hover figure{flex-grow:.72}
+.grid5 figure:hover{flex-grow:3.6}
+.grid5 img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06);
+  transition:filter .6s cubic-bezier(.2,.8,.2,1)}
+.grid5 figure:hover img{filter:none}
+.grid5 figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 14px 13px;white-space:nowrap;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  background:linear-gradient(to top,rgba(0,0,0,.92),transparent);color:#fff;transition:color .3s}
+.grid5 figure:hover figcaption{color:var(--acc)}
+.grid5 figure:before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  box-shadow:inset 0 0 0 0 var(--acc);transition:box-shadow .4s}
+.grid5 figure:hover:before{box-shadow:inset 0 0 0 2px var(--acc)}
+
+/* ============ reel (productions) ============ */
+.reel{position:relative;margin-top:20px;border-top:1px solid var(--line)}
+.reel-row{position:relative;display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:24px;
+  padding:34px 4px;border-bottom:1px solid var(--line);isolation:isolate;transition:padding .35s ease}
+.reel-row:before{content:"";position:absolute;inset:0;z-index:-1;background:var(--acc);
+  transform:scaleY(0);transform-origin:bottom;transition:transform .45s cubic-bezier(.76,0,.24,1)}
+.reel-row .idx{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--dim);transition:color .3s}
+.reel-row h3{font-family:var(--blk);font-weight:900;font-size:clamp(26px,5.2vw,60px);line-height:1;margin:0;
+  letter-spacing:-.03em;transition:transform .45s cubic-bezier(.2,.8,.2,1),color .3s}
+.reel-row .desc{display:block;font-family:"Noto Sans TC",sans-serif;font-size:13.5px;font-weight:400;
+  letter-spacing:0;color:var(--dim);margin-top:10px;transition:color .3s}
+.reel-row .go{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--dim);white-space:nowrap;transition:color .3s,transform .4s}
+.reel-thumb{display:none}
+@media (hover:hover) and (min-width:901px){
+  .reel-row:hover:before{transform:scaleY(1)}
+  .reel-row:hover{padding-left:26px;padding-right:26px}
+  .reel-row:hover h3{transform:translateX(6px);color:#000}
+  .reel-row:hover .idx,.reel-row:hover .desc{color:rgba(0,0,0,.65)}
+  .reel-row:hover .go{color:#000;transform:translateX(6px)}
+}
+#peek{position:fixed;top:0;left:0;width:340px;height:191px;z-index:7000;pointer-events:none;
+  opacity:0;transform:translate(-50%,-50%) scale(.9);transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 24px 70px rgba(0,0,0,.6);overflow:hidden}
+#peek.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#peek img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s}
+#peek img.show{opacity:1}
+@media (hover:none),(max-width:900px){#peek{display:none}}
+
+/* ============ props ============ */
+.props{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);margin-top:44px;
+  border:1px solid var(--line)}
+.prop{background:var(--ink);padding:34px 32px 38px;position:relative;overflow:hidden;transition:background .4s}
+.prop:hover{background:var(--ink2)}
+.prop .idx{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--acc)}
+.prop h3{font-size:20px;margin:14px 0 10px;line-height:1.45}
+.prop p{margin:0;font-size:15px;color:#a9a49c;line-height:1.85}
+.prop:after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--acc);transition:width .5s cubic-bezier(.76,0,.24,1)}
+.prop:hover:after{width:100%}
+
+.bts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:44px}
+.bts figure{margin:0;overflow:hidden;position:relative}
+.bts img{width:100%;aspect-ratio:3/2;object-fit:cover;filter:grayscale(1);transition:filter .5s,transform .9s cubic-bezier(.2,.8,.2,1)}
+.bts figure:hover img{filter:none;transform:scale(1.05)}
+.bts figcaption{position:absolute;top:10px;left:12px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.9)}
+
+/* ============ cta ============ */
+.cta{padding:120px 0 130px;text-align:center;position:relative;overflow:hidden}
+.cta h2{margin-bottom:16px}
+.cta p{color:var(--dim);margin:0 auto 34px;max-width:50ch;font-size:15px}
+.btn{position:relative;display:inline-block;background:var(--acc);color:#000;font-family:var(--blk);font-weight:900;
+  font-size:14px;letter-spacing:.06em;padding:18px 34px;overflow:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.btn span{position:relative;z-index:2}
+.btn:before{content:"";position:absolute;inset:0;background:var(--paper);transform:scaleX(0);transform-origin:left;
+  transition:transform .45s cubic-bezier(.76,0,.24,1)}
+.btn:hover:before{transform:scaleX(1)}
+.btn.ghost{background:transparent;color:var(--paper);border:1px solid var(--line);margin-left:12px}
+.btn.ghost:before{background:var(--acc)}
+.btn.ghost:hover span{color:#000}
+
+footer{padding:30px 28px 56px;max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+footer a:hover{color:var(--acc)}
+
+/* ============ reveal ============ */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.curtain{position:absolute;inset:0;z-index:6;background:var(--ink);transform-origin:bottom;
+  transform:scaleY(1);transition:transform 1.15s cubic-bezier(.76,0,.24,1)}
+.in > .curtain{transform:scaleY(0)}
+
+@media (max-width:900px){
+  section{padding:74px 0}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .actor{grid-template-columns:1fr}
+  .bleed{height:min(58vh,420px);margin:36px 0 44px}
+  .bleed .cap{padding:0 20px 20px}
+  .grid5{display:grid;grid-template-columns:repeat(2,1fr);height:auto}
+  .grid5 img{aspect-ratio:3/2;height:auto}
+  .props{grid-template-columns:1fr}
+  .bts{grid-template-columns:1fr}
+  .reel-row{grid-template-columns:1fr;gap:14px;padding:26px 0}
+  .reel-row .go{justify-self:start}
+  .reel-thumb{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .btn.ghost{margin:12px 0 0}
+  .fx-scan{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}.curtain{transform:scaleY(0)}
+  h1.big span,h2 .ch{transform:none;opacity:1}
+  html{scroll-behavior:auto}
+  #pre{display:none}
+}
+</style>
+</head>
+<body class="lock">
+
+<div id="pre">
+  <div class="slate"><span style="animation-delay:.05s">D</span><span style="animation-delay:.1s">A</span><span style="animation-delay:.15s">T</span><span style="animation-delay:.2s">O</span><span style="animation-delay:.25s">E</span><span style="animation-delay:.3s">.</span></div>
+  <div class="bar"><i></i></div>
+  <div class="cnt" id="preCnt">LOADING 00</div>
+</div>
+
+<div class="fx"><div class="fx-grain"></div><div class="fx-scan"></div><div class="fx-vig"></div></div>
+<div id="cur"><span class="lbl">PLAY</span></div>
+
+<div class="bar">
+  <a href="../" class="rec"><span class="dot"></span>DATO MUSIC LAB</a>
+  <span class="mk">DATOE.</span>
+</div>
+
+<header class="hero" id="top">
+  <div class="hero-media" id="heroMedia">
+    <img src="assets/datoe/hero-cast.jpg" alt="DATOE. 旗下五組 AI 兒童演員合照">
+  </div>
+  <div class="hero-in">
+    <div class="hud">
+      <span>CH.01 <b>DATOE.</b></span>
+      <span>A VIRTUAL TALENT AGENCY</span>
+      <span>TC <b id="tc">00:00:00:00</b></span>
+      <span>TAIPEI</span>
+    </div>
+    <h1 class="big"><span style="animation-delay:.15s">D</span><span style="animation-delay:.21s">A</span><span style="animation-delay:.27s">T</span><span style="animation-delay:.33s">O</span><span style="animation-delay:.39s">E</span><span style="animation-delay:.45s">.</span></h1>
+    <div class="tagline">
+      <p>一間由「一個人類的玩心」加上「AI 算力」組成的虛擬經紀公司。旗下藝人：一支不會長大、永遠連戲的 AI 兒童演員軍團。</p>
+      <span class="scroll-cue">SCROLL <span class="ln"></span></span>
+    </div>
+  </div>
+</header>
+
+<div class="tick yellow"><div class="row" data-marquee>
+  <b>AI CHILD ACTOR AGENCY</b><i>&#9679;</i><b>ZERO PR CRISIS</b><i>&#9679;</i><b>24H NO BREAKS</b><i>&#9679;</i><b>FOREVER SIX YEARS OLD</b><i>&#9679;</i><b>ONE HUMAN, ONE ARMY</b><i>&#9679;</i>
+</div></div>
+
+<section id="origin">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="n">00</span>
+      <h2 data-split>ORIGIN</h2>
+      <span class="sub">起源</span>
+    </div>
+    <p class="body-copy rv">
+      DATOE. 的誕生，真的是把「愛玩」發揮到極致的結果。最初我只是想做些輔助教學的影音內容，
+      但總覺得中規中矩的教學太無聊，乾脆心一橫：<span class="mark">「不如直接弄一家娛樂經紀公司來玩吧！」</span>
+    </p>
+    <p class="body-copy rv">
+      但問題來了——經紀公司怎麼可以只有一個人？於是我把腦筋動到了 AI 身上。
+      從企劃、視覺、音樂到內容生成，各種 AI 工具成了我最死忠的「旗下藝人」與「幕後團隊」。
+      DATOE. 就這樣成了一間由<strong>一個人類的玩心</strong>加上 <strong>AI 算力</strong>組成的團隊。
+      在這裡，一個人就是一支軍隊，把事情弄得有趣好玩，是我們唯一的 KPI。
+    </p>
+  </div>
+</section>
+
+<div class="wrap"><div class="stats rv">
+  <div class="stat"><div class="v" data-count="5" data-pad="2">00</div><div class="k">影集 Series</div></div>
+  <div class="stat"><div class="v" data-count="20" data-suffix="+">0</div><div class="k">簽約演員 Cast</div></div>
+  <div class="stat"><div class="v" data-count="1" data-pad="2">00</div><div class="k">人類員工 Human</div></div>
+  <div class="stat"><div class="v">&#8734;</div><div class="k">重拍次數 Takes</div></div>
+</div></div>
+
+<section id="models">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="n">01</span>
+      <h2 data-split>MODELS</h2>
+      <span class="sub">AI 兒童演員軍團</span>
+    </div>
+  </div>
+
+  <figure class="bleed rv">
+    <span class="curtain"></span>
+    <img src="assets/datoe/cast-white.jpg" alt="DATOE. 全體簽約演員白衣攝影棚合照" data-plx>
+    <span class="crop tl"></span><span class="crop tr"></span>
+    <span class="tag">ROSTER &mdash; STUDIO A</span>
+    <figcaption class="cap">
+      <span class="t">THE FULL ROSTER</span>
+      <span class="m">全體簽約演員 &middot; 13 signed &middot; 2026</span>
+    </figcaption>
+  </figure>
+
+  <div class="wrap">
+    <p class="body-copy rv">
+      我們最核心的業務，是管理一個龐大的「AI 兒童演員軍團」。最初只是想做輔助教學影片，
+      但我發現用 AI「創造」角色，比找真人更有趣、也更有可塑性。
+    </p>
+    <p class="body-copy rv">
+      為了讓這群 AI 小朋友能在整個影音系列中<span class="mark">「連戲」、不跑格</span>，我運用了複雜的統合設定：
+      從每一位的五官特徵、穿衣風格，到他們的內在靈魂（角色設定），都在一開始就完全鎖定。
+    </p>
+
+    <article class="actor rv">
+      <div class="actor-photo">
+        <img src="assets/datoe/actor-001-aton.jpg" alt="演員 Aton 在化妝間的定裝照">
+        <span class="scanline"></span>
+        <span class="actor-no">NO.001</span>
+      </div>
+      <div class="actor-info">
+        <p class="actor-name">Aton</p>
+        <p class="actor-meta">6 歲 &middot; O 型 &middot; 獨生子 &middot; Signed</p>
+        <ul class="traits">
+          <li><b>天生的萬人迷</b>極度外向、不怕生。非常適應片場環境，把化妝師和攝影師都當成好朋友；因為是獨生子渴望同伴，到了 DATOE. 後會把其他 AI 小演員當成親兄弟姊妹黏著。</li>
+          <li><b>科學麵談判專家</b>科學麵是他的「行動燃料」與「專屬貨幣」。只要導演承諾收工給科學麵（絕對不能捏太碎），就能展現 200% 專業度配合困難指令。</li>
+          <li><b>直球對決的好奇寶寶</b>沒有大人包袱，遇到不懂的事情會直接問到底——非常適合用來帶出輔助教學的知識點。</li>
+        </ul>
+        <p class="quote">「為什麼呀？那可以吃嗎？」</p>
+      </div>
+    </article>
+
+    <div class="grid5 rv">
+      <figure><img src="assets/datoe/style-bw.jpg" alt="基本定裝"><figcaption>Base Cast</figcaption></figure>
+      <figure><img src="assets/datoe/style-animal.jpg" alt="動物造型測試"><figcaption>Animal</figcaption></figure>
+      <figure><img src="assets/datoe/style-paint.jpg" alt="美術教室造型"><figcaption>Art Room</figcaption></figure>
+      <figure><img src="assets/datoe/style-wizard.jpg" alt="魔法學院造型"><figcaption>Wizard</figcaption></figure>
+      <figure><img src="assets/datoe/style-back.jpg" alt="背面連戲測試"><figcaption>Continuity</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<div class="tick"><div class="row" data-marquee>
+  <b>MUSICAL TRACING MAP</b><i>&#10022;</i><b>RIGHT OR LEFT</b><i>&#10022;</i><b>CUP-ELLA</b><i>&#10022;</i><b>FRUIT BEATS</b><i>&#10022;</i><b>CLAP AND SAY IT</b><i>&#10022;</i>
+</div></div>
+
+<section id="productions">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="n">02</span>
+      <h2 data-split>PRODUCTIONS</h2>
+      <span class="sub">旗下影集 &mdash; 5 titles</span>
+    </div>
+
+    <div class="reel" id="reel">
+      <a class="reel-row rv" data-peek="0" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnc9LiiFtxY-F7fL5vLadV8S" target="_blank" rel="noopener">
+        <span class="idx">S01</span>
+        <h3>MUSICAL TRACING MAP<span class="desc">跟著旋律描出路徑，把聽見的結構變成視覺。</span></h3>
+        <img class="reel-thumb" src="assets/datoe/series-tracing-map.jpg" alt="">
+        <span class="go">YOUTUBE &#8599;</span>
+      </a>
+      <a class="reel-row rv" data-peek="1" href="https://www.youtube.com/playlist?list=PLJkiBlURUYncwm990sh00oEcSU4zs7TAJ" target="_blank" rel="noopener">
+        <span class="idx">S02</span>
+        <h3>RIGHT OR LEFT<span class="desc">讓耳朵、左右手與節拍一起工作的挑戰型影集。</span></h3>
+        <img class="reel-thumb" src="assets/datoe/series-right-or-left.jpg" alt="">
+        <span class="go">YOUTUBE &#8599;</span>
+      </a>
+      <a class="reel-row rv" data-peek="2" href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">
+        <span class="idx">S03</span>
+        <h3>CUP-ELLA<span class="desc">Tempo Game。用一只杯子，把速度感練成身體記憶。</span></h3>
+        <img class="reel-thumb" src="assets/datoe/series-cupella.jpg" alt="">
+        <span class="go">CHANNEL &#8599;</span>
+      </a>
+      <a class="reel-row rv" data-peek="3" href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener">
+        <span class="idx">S04</span>
+        <h3>FRUIT BEATS<span class="desc">水果名稱就是節奏型。像素關卡裡的節奏冒險。</span></h3>
+        <img class="reel-thumb" src="assets/datoe/series-fruit-beats.jpg" alt="">
+        <span class="go">CHANNEL &#8599;</span>
+      </a>
+      <a class="reel-row rv" data-peek="4" href="https://www.youtube.com/playlist?list=PLJkiBlURUYnfE75srwY2arqZLeWoqsPKQ" target="_blank" rel="noopener">
+        <span class="idx">S05</span>
+        <h3>CLAP AND SAY IT<span class="desc">一分鐘跟著拍、跟著說，從身體建立節奏語彙。</span></h3>
+        <img class="reel-thumb" src="assets/datoe/series-clap-say-it.jpg" alt="">
+        <span class="go">YOUTUBE &#8599;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div id="peek">
+  <img src="assets/datoe/series-tracing-map.jpg" alt="">
+  <img src="assets/datoe/series-right-or-left.jpg" alt="">
+  <img src="assets/datoe/series-cupella.jpg" alt="">
+  <img src="assets/datoe/series-fruit-beats.jpg" alt="">
+  <img src="assets/datoe/series-clap-say-it.jpg" alt="">
+</div>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="n">03</span>
+      <h2 data-split>WHY AI CAST</h2>
+      <span class="sub">虛擬演員的四個理由</span>
+    </div>
+    <div class="props rv">
+      <div class="prop"><span class="idx">01</span><h3>絕對零公關危機</h3><p>100% 完美人設與品牌安全保障。角色的一切都寫在設定檔裡，不會有意外。</p></div>
+      <div class="prop"><span class="idx">02</span><h3>掌握時間魔法的 IP</h3><p>凍齡黃金期與無縫連戲優勢。第一季到第十季，演員永遠是同一個樣子。</p></div>
+      <div class="prop"><span class="idx">03</span><h3>突破時空與勞基法</h3><p>24 小時無休的跨語系敬業童星。同一支影片，可以有任何語言的版本。</p></div>
+      <div class="prop"><span class="idx">04</span><h3>顛覆傳統的輕量化成本</h3><p>一人即大軍的高效產能。企劃、視覺、音樂、剪輯，全部收在一個人的工作流裡。</p></div>
+    </div>
+    <div class="bts rv">
+      <figure><img src="assets/datoe/bts-1.jpg" alt="片場排練"><figcaption>REHEARSAL</figcaption></figure>
+      <figure><img src="assets/datoe/bts-2.jpg" alt="棚拍現場"><figcaption>STUDIO A</figcaption></figure>
+      <figure><img src="assets/datoe/bts-3.jpg" alt="化妝間"><figcaption>MAKE-UP</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<div class="tick yellow rev"><div class="row" data-marquee>
+  <b>NOW CASTING</b><i>&#9679;</i><b>NOW SHOOTING</b><i>&#9679;</i><b>NOW STREAMING</b><i>&#9679;</i><b>DATOE.</b><i>&#9679;</i>
+</div></div>
+
+<div class="cta">
+  <div class="wrap">
+    <h2 data-split>開拍中</h2>
+    <p class="rv">新的演員、新的影集持續加入。訂閱頻道，或回到 Dato Music Lab 看看其他的教學工具。</p>
+    <div class="rv">
+      <a class="btn" href="https://www.youtube.com/@datoemusic" target="_blank" rel="noopener"><span>YOUTUBE 頻道</span></a>
+      <a class="btn ghost" href="../"><span>回到 DATO MUSIC LAB</span></a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>&#9654;&#9654;&#9654; yucheng720@gmail.com</span>
+  <span>DATOE. &mdash; A DATO MUSIC LAB PROJECT</span>
+  <a href="https://dtamusicnote.wordpress.com" target="_blank" rel="noopener">dtamusicnote.wordpress.com</a>
+</footer>
+
+<script>
+(function(){
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- preloader ---------- */
+  var pre = document.getElementById('pre');
+  function start(){ document.body.classList.remove('lock'); document.body.classList.add('go'); }
+  if(RM || !pre){ start(); if(pre) pre.remove(); }
+  else{
+    var n=0, cnt=document.getElementById('preCnt'), fill=pre.querySelector('.bar i');
+    var iv=setInterval(function(){
+      n=Math.min(100,n+Math.random()*16);
+      cnt.textContent='LOADING '+String(Math.floor(n)).padStart(3,'0');
+      fill.style.width=n+'%';
+      if(n>=100){
+        clearInterval(iv);
+        setTimeout(function(){ pre.classList.add('done'); start();
+          setTimeout(function(){pre.remove()},900); },320);
+      }
+    },110);
+  }
+
+  /* ---------- split headings ---------- */
+  document.querySelectorAll('[data-split]').forEach(function(h){
+    var txt=h.textContent, out='';
+    for(var i=0;i<txt.length;i++){
+      var c=txt[i]===' '?'&nbsp;':txt[i];
+      out+='<span class="ch" style="animation-delay:'+(i*0.035)+'s">'+c+'</span>';
+    }
+    h.innerHTML=out;
+  });
+
+  /* ---------- marquee duplicate ---------- */
+  document.querySelectorAll('[data-marquee]').forEach(function(r){ r.innerHTML+=r.innerHTML; });
+
+  /* ---------- reveal ---------- */
+  var targets=document.querySelectorAll('.rv,[data-split]');
+  if(!('IntersectionObserver' in window)||RM){
+    targets.forEach(function(e){e.classList.add('in')});
+  }else{
+    var io=new IntersectionObserver(function(en){
+      en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.14, rootMargin:'0px 0px -6% 0px'});
+    targets.forEach(function(e){io.observe(e)});
+  }
+
+  /* ---------- counters ---------- */
+  var stats=document.querySelectorAll('[data-count]');
+  if('IntersectionObserver' in window && !RM){
+    var io2=new IntersectionObserver(function(en){
+      en.forEach(function(e){
+        if(!e.isIntersecting) return;
+        io2.unobserve(e.target);
+        var el=e.target, to=+el.dataset.count, pad=+(el.dataset.pad||0), suf=el.dataset.suffix||'', t0=null;
+        function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/1100);
+          var v=Math.round(to*(1-Math.pow(1-p,3)));
+          el.textContent=(pad?String(v).padStart(pad,'0'):v)+suf;
+          if(p<1) requestAnimationFrame(step); }
+        requestAnimationFrame(step);
+      });
+    },{threshold:.5});
+    stats.forEach(function(e){io2.observe(e)});
+  }else{
+    stats.forEach(function(el){ var p=+(el.dataset.pad||0);
+      el.textContent=(p?String(el.dataset.count).padStart(p,'0'):el.dataset.count)+(el.dataset.suffix||''); });
+  }
+
+  /* ---------- timecode ---------- */
+  var tc=document.getElementById('tc'), f=0;
+  if(tc && !RM){
+    setInterval(function(){
+      f=(f+1)%(24*60*60*24);
+      var fr=f%24, s=Math.floor(f/24)%60, m=Math.floor(f/1440)%60, h=Math.floor(f/86400)%24;
+      tc.textContent=[h,m,s,fr].map(function(x){return String(x).padStart(2,'0')}).join(':');
+    },42);
+  }
+
+  /* ---------- hero parallax ---------- */
+  var hm=document.getElementById('heroMedia');
+  if(hm && !RM){
+    var ticking=false;
+    window.addEventListener('scroll',function(){
+      if(ticking) return; ticking=true;
+      requestAnimationFrame(function(){
+        var y=window.scrollY;
+        if(y<window.innerHeight*1.2) hm.style.transform='translateY('+(y*0.28)+'px)';
+        ticking=false;
+      });
+    },{passive:true});
+  }
+
+  /* ---------- bleed parallax ---------- */
+  var plx=[].slice.call(document.querySelectorAll('[data-plx]'));
+  if(plx.length && !RM){
+    var pt=false;
+    var run=function(){
+      var vh=window.innerHeight;
+      plx.forEach(function(im){
+        var r=im.parentNode.getBoundingClientRect();
+        if(r.bottom<-200||r.top>vh+200) return;
+        var p=(r.top+r.height/2-vh/2)/vh;      /* -1 .. 1 */
+        im.style.transform='translate3d(0,'+(p*-9)+'%,0)';
+      });
+      pt=false;
+    };
+    window.addEventListener('scroll',function(){ if(!pt){pt=true;requestAnimationFrame(run);} },{passive:true});
+    window.addEventListener('resize',run); run();
+  }
+
+  /* ---------- cursor ---------- */
+  var cur=document.getElementById('cur');
+  if(cur && window.matchMedia('(hover:hover) and (pointer:fine)').matches && !RM){
+    var cx=0,cy=0,tx=0,ty=0;
+    window.addEventListener('mousemove',function(e){ tx=e.clientX; ty=e.clientY; cur.classList.add('on'); });
+    (function loop(){ cx+=(tx-cx)*.18; cy+=(ty-cy)*.18;
+      cur.style.transform='translate('+cx+'px,'+cy+'px)'; requestAnimationFrame(loop); })();
+    document.querySelectorAll('a,.reel-row,.grid5 figure,.bts figure').forEach(function(el){
+      el.addEventListener('mouseenter',function(){cur.classList.add('hot')});
+      el.addEventListener('mouseleave',function(){cur.classList.remove('hot')});
+    });
+  }
+
+  /* ---------- reel peek ---------- */
+  var peek=document.getElementById('peek'), reel=document.getElementById('reel');
+  if(peek && reel && window.matchMedia('(hover:hover) and (min-width:901px)').matches && !RM){
+    var imgs=peek.querySelectorAll('img'), px=0,py=0,qx=0,qy=0,active=false;
+    reel.querySelectorAll('.reel-row').forEach(function(row){
+      row.addEventListener('mouseenter',function(){
+        active=true; peek.classList.add('on');
+        imgs.forEach(function(im,i){ im.classList.toggle('show', i===+row.dataset.peek); });
+      });
+      row.addEventListener('mouseleave',function(){ active=false; peek.classList.remove('on'); });
+    });
+    window.addEventListener('mousemove',function(e){ px=e.clientX; py=e.clientY; });
+    (function loop2(){ qx+=(px-qx)*.12; qy+=(py-qy)*.12;
+      if(active) peek.style.left=qx+'px', peek.style.top=qy+'px';
+      requestAnimationFrame(loop2); })();
+  }
+})();
+</script>
+</body>
+</html>
