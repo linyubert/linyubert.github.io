@@ -184,32 +184,33 @@ body.dato-unlocked .lock-ico{display:none!important}
 // ===== 上課鎖：要鎖的作品編號（改這裡即可增減）=====
 const DatoLock=(()=>{
   const LOCKED=new Set(['001','007','008','013','017','020']);
-  const HASH='15f0ac7d',KEY='dato-unlocked';
-  const fnv=s=>{let h=0x811c9dc5;for(const b of new TextEncoder().encode(s)){h=Math.imul(h^b,0x01000193)>>>0}return h.toString(16).padStart(8,'0')};
-  const ok=()=>{try{return sessionStorage.getItem(KEY)==='1'}catch(e){return false}};
   const bd=document.getElementById('lockBd'),form=document.getElementById('lockForm'),inp=document.getElementById('lockInput'),err=document.getElementById('lockErr');
-  let pending=null;
+  let pendingUrl=null, pendingCode=null;
   const isOpen=()=>bd.classList.contains('on');
-  function ask(url){pending=url;inp.value='';err.textContent='';bd.classList.add('on');bd.setAttribute('aria-hidden','false');setTimeout(()=>inp.focus(),60)}
-  function close(){bd.classList.remove('on');bd.setAttribute('aria-hidden','true');pending=null}
-  function markUnlocked(){document.body.classList.add('dato-unlocked');document.dispatchEvent(new Event('dato-unlock'))}
+  function ask(url, code){
+    pendingUrl=url; pendingCode=code;
+    inp.value=''; err.textContent='';
+    bd.classList.add('on'); bd.setAttribute('aria-hidden','false');
+    setTimeout(()=>inp.focus(),60);
+  }
+  function close(){bd.classList.remove('on');bd.setAttribute('aria-hidden','true');pendingUrl=null;pendingCode=null;}
   form.addEventListener('submit',e=>{
     e.preventDefault();
-    if(fnv(inp.value.trim())===HASH){
-      try{sessionStorage.setItem(KEY,'1')}catch(_){}
-      const u=pending;close();markUnlocked();
-      if(u)window.open(u,'_blank','noopener');
+    const c2 = String(pendingCode||'').padStart(2,'0').slice(-2);
+    const expected = 'dato2026' + c2;
+    if(inp.value.trim() === expected){
+      const u = pendingUrl; close();
+      if(u) window.open(u,'_blank','noopener');
     }else{
-      err.textContent='密碼不對喔，再試一次！';inp.select();
-      form.classList.remove('shake');void form.offsetWidth;form.classList.add('shake');
+      err.textContent='密碼不對喔，再試一次！'; inp.select();
+      form.classList.remove('shake'); void form.offsetWidth; form.classList.add('shake');
     }
   });
   document.getElementById('lockNo').onclick=close;
   bd.addEventListener('click',e=>{if(e.target===bd)close()});
   addEventListener('keydown',e=>{if(isOpen()&&e.key==='Escape'){e.stopImmediatePropagation();close()}},true);
   ['pointerdown','wheel'].forEach(t=>bd.addEventListener(t,e=>e.stopPropagation()));
-  if(ok())document.body.classList.add('dato-unlocked');
-  return {has:c=>LOCKED.has(c),isLocked:c=>LOCKED.has(c)&&!ok(),ask,isOpen};
+  return {has:c=>LOCKED.has(c),isLocked:c=>LOCKED.has(c),ask,isOpen};
 })();
 
 const DATA = [
@@ -570,7 +571,7 @@ function setPlayBtn(){
   modal.play.href=locked?'#':modal.play.dataset.url;
   modal.play.innerHTML=locked?`${LOCK_ICON}<span>上課解鎖</span>`:`${PLAY_ICON}<span>前往遊戲</span>`;
 }
-modal.play.addEventListener('click',e=>{const c=modal.play.dataset.code;if(DatoLock.isLocked(c)){e.preventDefault();DatoLock.ask(modal.play.dataset.url)}});
+modal.play.addEventListener('click',e=>{const c=modal.play.dataset.code;if(DatoLock.isLocked(c)){e.preventDefault();DatoLock.ask(modal.play.dataset.url, c)}});
 document.addEventListener('dato-unlock',()=>{if(modal.play.dataset.code)setPlayBtn()});
 function closeModal(){
   modal.bd.classList.remove('on');

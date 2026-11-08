@@ -392,9 +392,41 @@
     @media (prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}.marquee-track{animation:none}.status::before{animation:none}.feature-card img,.tab,.file-folder,.folder-sheet,.folder-panel{transition:none}
     }
-  </style>
+  /* ===== 上課鎖 Lock ===== */
+.lock-bd{position:fixed;inset:0;z-index:900;background:rgba(10,10,10,.6);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:5vw;opacity:0;pointer-events:none;transition:opacity .2s}
+.lock-bd.on{opacity:1;pointer-events:auto}
+.lock-card{width:min(400px,100%);background:#161616;color:#fff;border-radius:18px;padding:30px 28px 24px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);font-family:"Archivo","Noto Sans TC",sans-serif;transform:translateY(8px);transition:transform .2s}
+.lock-bd.on .lock-card{transform:none}
+.lock-card .lock-ring{width:56px;height:56px;margin:0 auto 16px;border-radius:50%;background:#e24b3b;display:grid;place-items:center}
+.lock-card .lock-ring svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.lock-card h3{margin:0 0 6px;font-size:20px;font-weight:900;line-height:1.35;letter-spacing:.01em}
+.lock-card p{margin:0 0 18px;font-size:12.5px;color:rgba(255,255,255,.55);letter-spacing:.04em}
+.lock-card input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:15px;text-align:center;letter-spacing:.12em;outline:none;transition:border-color .2s}
+.lock-card input:focus{border-color:#e24b3b}
+.lock-err{min-height:18px;margin:8px 0 4px;font-size:12px;color:#ff8a7a}
+.lock-btns{display:flex;gap:10px;margin-top:6px}
+.lock-btns button{flex:1;padding:12px;border-radius:10px;border:0;font:inherit;font-size:13px;font-weight:800;letter-spacing:.08em;cursor:pointer;transition:background .2s,color .2s}
+.lock-btns .lock-ok{background:#fff;color:#111}.lock-btns .lock-ok:hover{background:#e24b3b;color:#fff}
+.lock-btns .lock-no{background:rgba(255,255,255,.1);color:#fff}.lock-btns .lock-no:hover{background:rgba(255,255,255,.2)}
+.lock-card.shake{animation:lockShake .35s}
+@keyframes lockShake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.lock-ico{display:inline-grid;place-items:center}
+.lock-ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+body.dato-unlocked .lock-ico{display:none!important}
+</style>
 </head>
 <body>
+<div class="lock-bd" id="lockBd" aria-hidden="true">
+  <form class="lock-card" id="lockForm" autocomplete="off">
+    <div class="lock-ring"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <h3>別急，上課時老師帶你一起玩！</h3>
+    <p>老師請輸入密碼解鎖</p>
+    <input id="lockInput" type="password" placeholder="Password" aria-label="密碼">
+    <div class="lock-err" id="lockErr"></div>
+    <div class="lock-btns"><button type="button" class="lock-no" id="lockNo">取消</button><button type="submit" class="lock-ok">解鎖</button></div>
+  </form>
+</div>
+
   <a class="skip-link" href="#main">跳到主要內容</a>
   <div class="site-frame" id="top">
     <div class="top-rail">
@@ -693,5 +725,54 @@
       });
     })();
   </script>
+<script>
+// ===== 上課鎖（首頁）：攔截所有連到上鎖遊戲的連結 =====
+// 以遊戲資料夾名稱對應專案編號後兩碼：
+// 001 goldenyes -> '01' · 007 catchuper -> '07' · 008 dadabeard -> '08' · 013 picthmission -> '13' · 017 beattrain -> '17' · 020 paintinair -> '20'
+(()=>{
+  const SLUG_TO_CODE={
+    'goldenyes':'01',
+    'catchuper':'07',
+    'dadabeard':'08',
+    'picthmission':'13',
+    'beattrain':'17',
+    'paintinair':'20'
+  };
+  const slugOf=href=>{try{return new URL(href,location.href).pathname.split('/').filter(Boolean)[0]||''}catch(e){return ''}};
+  const bd=document.getElementById('lockBd'),form=document.getElementById('lockForm'),inp=document.getElementById('lockInput'),err=document.getElementById('lockErr');
+  let pendingUrl=null, pendingCode=null;
+  const isOpen=()=>bd.classList.contains('on');
+  function ask(url, code){
+    pendingUrl=url; pendingCode=code;
+    inp.value=''; err.textContent='';
+    bd.classList.add('on'); bd.setAttribute('aria-hidden','false');
+    setTimeout(()=>inp.focus(),60);
+  }
+  function close(){bd.classList.remove('on');bd.setAttribute('aria-hidden','true');pendingUrl=null;pendingCode=null;}
+  document.addEventListener('click',e=>{
+    const a=e.target.closest&&e.target.closest('a[href]');
+    if(!a)return;
+    const slug=slugOf(a.getAttribute('href'));
+    if(SLUG_TO_CODE[slug]){
+      e.preventDefault(); e.stopImmediatePropagation();
+      ask(a.href, SLUG_TO_CODE[slug]);
+    }
+  },true);
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const expected = 'dato2026' + String(pendingCode||'');
+    if(inp.value.trim() === expected){
+      const u=pendingUrl; close();
+      if(u) window.open(u,'_blank','noopener');
+    }else{
+      err.textContent='密碼不對喔，再試一次！'; inp.select();
+      form.classList.remove('shake'); void form.offsetWidth; form.classList.add('shake');
+    }
+  });
+  document.getElementById('lockNo').onclick=close;
+  bd.addEventListener('click',e=>{if(e.target===bd)close()});
+  addEventListener('keydown',e=>{if(isOpen()&&e.key==='Escape'){e.stopImmediatePropagation();close()}},true);
+})();
+</script>
 </body>
 </html>
