@@ -183,7 +183,7 @@ body.dato-unlocked .lock-ico{display:none!important}
 <script>
 // ===== 上課鎖：要鎖的作品編號（改這裡即可增減）=====
 const DatoLock=(()=>{
-  const LOCKED=new Set(['001','007','008','013','017','020']);
+  const LOCKED=new Set(['001','007','008','013','017','020','022','023']);
   const bd=document.getElementById('lockBd'),form=document.getElementById('lockForm'),inp=document.getElementById('lockInput'),err=document.getElementById('lockErr');
   let pendingUrl=null, pendingCode=null;
   const isOpen=()=>bd.classList.contains('on');
@@ -528,6 +528,36 @@ const DATA = [
     "desc": "和小紅帽、大野狼一起去果園摘蘋果！每顆蘋果上寫著一個音名，把它拖到五線譜上對應的線或間，摘滿 10 顆就過關。可以自選要練習的音與譜號，連續答對還有加倍分數。",
     "mode": "拖曳 / 點選（觸控大屏、平板、滑鼠皆可）",
     "tags": ["五線譜認譜", "音名定位", "自選練習音"]
+  },
+  // ==========================================
+  // 022 塗鴉音符劍豪
+  // ==========================================
+  {
+    "code": "022",
+    "short": "塗鴉音符劍豪",
+    "en": "Drawn Fight",
+    "title": "塗鴉音符劍豪 Drawn Fight",
+    "kind": "NOTATION / 3D ACTION",
+    "url": "https://datomusiclab.dpdns.org/drawnfight/",
+    "img": "assets/thumbs/022-drawnfight.jpg",
+    "desc": "在五線譜上親手畫出四分音符、休止符或譜號等音樂符號，批改及格就能鑄造成 3D 音符神劍！操控角色移動、精準格擋與揮劍進攻，一路闖關挑戰直笛小學生等 8 位對手，也支援雙人對戰。",
+    "mode": "觸控繪圖 / 鍵盤 WASD 移動與 J / K 格擋攻擊",
+    "tags": ["樂譜繪製", "3D動作對戰", "符號辨識"]
+  },
+  // ==========================================
+  // 023 馬拉松擊掌
+  // ==========================================
+  {
+    "code": "023",
+    "short": "馬拉松擊掌",
+    "en": "Give me five!",
+    "title": "馬拉松擊掌 Give me five!",
+    "kind": "RHYTHM / PLAYABLE",
+    "url": "https://datomusiclab.dpdns.org/giveme5/",
+    "img": "assets/thumbs/023-giveme5.jpg",
+    "desc": "奔跑在馬拉松賽道上，伴隨 Funky 鼓組貝斯節奏與左右圍欄探頭的觀眾擊掌！聽準立體聲提示「拍 1 呼喊 ➔ 拍 2 預備咔！➔ 拍 3 準時擊掌」，挑戰單拍直球、切分反拍與雙手連擊，支援手繪草圖與彩色街機雙畫風。",
+    "mode": "鍵盤（← / → / Space）或滑鼠、觸控左右點擊",
+    "tags": ["聽覺律動", "立體聲辨位", "切分節奏"]
   }
 ];
 (()=>{

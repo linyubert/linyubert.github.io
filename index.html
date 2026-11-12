@@ -728,7 +728,7 @@ body.dato-unlocked .lock-ico{display:none!important}
 <script>
 // ===== 上課鎖（首頁）：攔截所有連到上鎖遊戲的連結 =====
 // 以遊戲資料夾名稱對應專案編號後兩碼：
-// 001 goldenyes -> '01' · 007 catchuper -> '07' · 008 dadabeard -> '08' · 013 picthmission -> '13' · 017 beattrain -> '17' · 020 paintinair -> '20'
+// 001 goldenyes -> '01' · 007 catchuper -> '07' · 008 dadabeard -> '08' · 013 picthmission -> '13' · 017 beattrain -> '17' · 020 paintinair -> '20' · 022 drawnfight -> '22' · 023 giveme5 -> '23'
 (()=>{
   const SLUG_TO_CODE={
     'goldenyes':'01',
@@ -736,7 +736,9 @@ body.dato-unlocked .lock-ico{display:none!important}
     'dadabeard':'08',
     'picthmission':'13',
     'beattrain':'17',
-    'paintinair':'20'
+    'paintinair':'20',
+    'drawnfight':'22',
+    'giveme5':'23'
   };
   const slugOf=href=>{try{return new URL(href,location.href).pathname.split('/').filter(Boolean)[0]||''}catch(e){return ''}};
   const bd=document.getElementById('lockBd'),form=document.getElementById('lockForm'),inp=document.getElementById('lockInput'),err=document.getElementById('lockErr');

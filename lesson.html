@@ -105,7 +105,7 @@ body.dato-unlocked .lock-ico{display:none!important}
 <script>
 // ===== 上課鎖：要鎖的作品編號（改這裡即可增減）=====
 const DatoLock=(()=>{
-  const LOCKED=new Set(['001','007','008','013','017','020']);
+  const LOCKED=new Set(['001','007','008','013','017','020','022','023']);
   const bd=document.getElementById('lockBd'),form=document.getElementById('lockForm'),inp=document.getElementById('lockInput'),err=document.getElementById('lockErr');
   let pendingUrl=null, pendingCode=null;
   const isOpen=()=>bd.classList.contains('on');
@@ -557,6 +557,46 @@ const LESSONS = {
       "綜合活動（10 分鐘）：使用「聽旋律」功能回聽本局摘到的音，請學生指出譜上位置，總結認譜的參考音技巧。"
     ],
     "equip": "教室觸控大屏或電腦／平板、音響設備。"
+  },
+
+  // ==========================================
+  // 022 塗鴉音符劍豪
+  // ==========================================
+  "022": {
+    "grade": "國小中、高年級（三～六年級）",
+    "time": "1 節課（40 分鐘）",
+    "core": "樂譜繪製 · 符號辨識 · 3D動作對戰",
+    "goals": [
+      "能正確書寫常見音樂符號（四分音符、二分音符、全休止符、高音譜號等）的筆畫結構與位置。",
+      "能辨識不同音樂符號所代表的拍值與意義。",
+      "能在創意鑄劍與對戰的互動中，深化記譜規則的記憶與運用。"
+    ],
+    "steps": [
+      "引起動機（5 分鐘）：展示《塗鴉音符劍豪》3D 對戰畫面，說明「畫得越標準、神劍威力越強」的遊戲機制。",
+      "發展活動（25 分鐘）：先帶領學生複習各符號正確畫法（可開啟虛線描紅輔助），再分組輪流上台手繪鑄劍並操作對戰挑戰關卡或雙人 PK。",
+      "綜合活動（10 分鐘）：回顧本節課最容易畫錯或混淆的記譜符號（如全休止符與二分休止符的位置差異），進行紙筆或白板快問快答。"
+    ],
+    "equip": "教室觸控大屏或平板（支援觸控繪圖佳）、電腦鍵盤、音響設備。"
+  },
+
+  // ==========================================
+  // 023 馬拉松擊掌
+  // ==========================================
+  "023": {
+    "grade": "國小全學年（二～六年級皆宜）",
+    "time": "1 節課（40 分鐘）",
+    "core": "聽覺律動 · 立體聲辨位 · 切分節奏",
+    "goals": [
+      "能透過純聽覺線索（「嘿！」／「喲！」與木魚預備音「咔！」）掌握三拍子預備與擊掌時機。",
+      "能反應左右聲道辨位並做出對應的左手、右手或雙手同步擊掌動作。",
+      "能跟隨穩定節拍與切分樂句維持律動感，累積連擊表現。"
+    ],
+    "steps": [
+      "引起動機（5 分鐘）：不看螢幕先讓全班閉眼聽音，感受左耳「嘿」、右耳「喲」與木魚預備音「咔！」的節奏口訣。",
+      "發展活動（25 分鐘）：進行 5km 標準賽，鼓勵學生跟著音樂擺動身體，先練習單拍直球，再進階挑戰花式二連擊與切分反拍樂句。",
+      "綜合活動（10 分鐘）：分組挑戰無盡模式，並請學生實際用雙手互拍重現遊戲中的 Funky 切分節奏。"
+    ],
+    "equip": "教室大屏或電腦／平板、立體聲左右聲道音響（或耳機）。"
   }
 };
 
@@ -581,7 +621,9 @@ const DATA = [
   {"code":"018","short":"力度彈弓","en":"Dynamics Slingshot","kind":"DYNAMICS / PLAYABLE","url":"https://linyubert.github.io/fpbird/","img":"assets/thumbs/018-fpbird.jpg"},
   {"code":"019","short":"音符疊疊樂","en":"Note Jenga","kind":"SIGHT READING / PLAYABLE","url":"https://linyubert.github.io/notejenga/","img":"assets/thumbs/019-notejenga.jpg"},
   {"code":"020","short":"空中音畫","en":"Paint in Air","kind":"VISUAL / MUSIC TEACHING","url":"https://linyubert.github.io/paintinair/","img":"assets/thumbs/020-paintinair.jpg"},
-  {"code":"021","short":"蘋果五線譜","en":"Apple Picking","kind":"SIGHT READING / PLAYABLE","url":"https://datomusiclab.dpdns.org/applepick/","img":"assets/thumbs/021-applepick.jpg"}
+  {"code":"021","short":"蘋果五線譜","en":"Apple Picking","kind":"SIGHT READING / PLAYABLE","url":"https://datomusiclab.dpdns.org/applepick/","img":"assets/thumbs/021-applepick.jpg"},
+  {"code":"022","short":"塗鴉音符劍豪","en":"Drawn Fight","kind":"NOTATION / 3D ACTION","url":"https://datomusiclab.dpdns.org/drawnfight/","img":"assets/thumbs/022-drawnfight.jpg"},
+  {"code":"023","short":"馬拉松擊掌","en":"Give me five!","kind":"RHYTHM / PLAYABLE","url":"https://datomusiclab.dpdns.org/giveme5/","img":"assets/thumbs/023-giveme5.jpg"}
 ];
 const params=new URLSearchParams(location.search);
 const code=params.get('code')||'001';
