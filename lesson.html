@@ -3,7 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>課程教案 — Dato Playground</title>
+<title>課程教案 — Dato Playground | Dato Music Lab</title>
+<meta name="description" content="Dato Music Lab 音樂課程教案與課堂指引：將數位工具與互動遊戲融入音樂課堂。">
+<link rel="canonical" href="https://datomusiclab.dpdns.org/lesson.html">
+
+<!-- Open Graph / Facebook / LINE -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://datomusiclab.dpdns.org/lesson.html">
+<meta property="og:title" content="課程教案 — Dato Playground | Dato Music Lab">
+<meta property="og:description" content="Dato Music Lab 音樂課程教案與課堂指引：將數位工具與互動遊戲融入音樂課堂。">
+<meta property="og:image" content="https://datomusiclab.dpdns.org/assets/og-playground.png">
+<meta property="og:image:secure_url" content="https://datomusiclab.dpdns.org/assets/og-playground.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="課程教案 — Dato Playground | Dato Music Lab">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://datomusiclab.dpdns.org/lesson.html">
+<meta name="twitter:title" content="課程教案 — Dato Playground | Dato Music Lab">
+<meta name="twitter:description" content="Dato Music Lab 音樂課程教案與課堂指引：將數位工具與互動遊戲融入音樂課堂。">
+<meta name="twitter:image" content="https://datomusiclab.dpdns.org/assets/og-playground.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -597,6 +618,26 @@ const LESSONS = {
       "綜合活動（10 分鐘）：分組挑戰無盡模式，並請學生實際用雙手互拍重現遊戲中的 Funky 切分節奏。"
     ],
     "equip": "教室大屏或電腦／平板、立體聲左右聲道音響（或耳機）。"
+  },
+
+  // ==========================================
+  // 024 音符氣球大亂鬥
+  // ==========================================
+  "024": {
+    "grade": "國小全學年（二～六年級皆宜）",
+    "time": "1 節課（40 分鐘）",
+    "core": "五線譜視譜 · 唱名辨識 · 雙人同機競速",
+    "goals": [
+      "能迅速辨認高音五線譜上的音高位置，並正確對應唱名（Do Re Mi 或注音唱名）。",
+      "能在倒數計時與對戰情境中提高視譜專注度與直覺反應速度。",
+      "能透過同儕良性競速激發自主練習動機，熟練音域由線內逐步拓展至加線。"
+    ],
+    "steps": [
+      "引起動機（5 分鐘）：介紹《音符氣球大亂鬥》對戰模式，請兩位自願學生上台示範操作 P1（ASDF）與 P2（JKL;）鍵位快速搶答。",
+      "發展活動（25 分鐘）：全班分組進行「視譜擂台賽」，先以五線內基礎音域暖身，再開啟中高音域挑戰晉級賽；台下同學可用口令協助同組選手。",
+      "綜合活動（10 分鐘）：針對常失分或容易看錯的加線音（如高音 Do、Re）進行全班齊讀與視唱回顧。"
+    ],
+    "equip": "教室觸控大屏或電腦、實體鍵盤（雙人對戰最佳）。"
   }
 };
 
@@ -623,7 +664,8 @@ const DATA = [
   {"code":"020","short":"空中音畫","en":"Paint in Air","kind":"VISUAL / MUSIC TEACHING","url":"https://linyubert.github.io/paintinair/","img":"assets/thumbs/020-paintinair.jpg"},
   {"code":"021","short":"蘋果五線譜","en":"Apple Picking","kind":"SIGHT READING / PLAYABLE","url":"https://datomusiclab.dpdns.org/applepick/","img":"assets/thumbs/021-applepick.jpg"},
   {"code":"022","short":"塗鴉音符劍豪","en":"Drawn Fight","kind":"NOTATION / 3D ACTION","url":"https://datomusiclab.dpdns.org/drawnfight/","img":"assets/thumbs/022-drawnfight.jpg"},
-  {"code":"023","short":"馬拉松擊掌","en":"Give me five!","kind":"RHYTHM / PLAYABLE","url":"https://datomusiclab.dpdns.org/giveme5/","img":"assets/thumbs/023-giveme5.jpg"}
+  {"code":"023","short":"馬拉松擊掌","en":"Give me five!","kind":"RHYTHM / PLAYABLE","url":"https://datomusiclab.dpdns.org/giveme5/","img":"assets/thumbs/023-giveme5.jpg"},
+  {"code":"024","short":"音符氣球大亂鬥","en":"Note Shot","kind":"SIGHT READING / VERSUS","url":"https://datomusiclab.dpdns.org/noteshot/","img":"assets/thumbs/024-noteshot.jpg"}
 ];
 const params=new URLSearchParams(location.search);
 const code=params.get('code')||'001';
